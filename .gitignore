@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Secret Config ###
+application.yml
+
+##local docker volume##
+docker-mysql-gate
