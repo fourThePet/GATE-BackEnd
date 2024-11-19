@@ -117,4 +117,7 @@ Storybook을 사용하는 경우 컴포넌트의 시각적 테스트를 위한 �
 - 일정 경로 추천
 - 일정 생성/조회/수정/삭제
 
+## 프로젝트 아키텍처 
+![4조 아키택처](https://github.com/user-attachments/assets/0b3bb7d6-43b1-4dd3-a04e-ab93e65561f4)
+
 test
