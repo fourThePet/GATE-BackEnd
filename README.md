@@ -1,4 +1,4 @@
-# GATE - Frontend
+# GATE - BackEnd
 <div align="center">
 <h2>GATE : 강아지와의 데이트, 행복의 문을 여는 순간</h2>
 
