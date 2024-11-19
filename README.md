@@ -9,13 +9,13 @@
 
 
 # 목차
-- [개발환경](#개발환경) 
+- [개발환경](#개발환경)
 - [서버 실행 방법](#서버-실행-방법)
 - [디렉토리 구조](#디렉토리-구조)
 - [각 기능 소개](#각-기능-소개)
 
 ## 개발환경
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![Yarn](https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white)
+![Java]([[https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB](https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-square&logo=Spring&logoColor=white](https://img.shields.io/badge/Java-007396?style=flat-square&logo=Java&logoColor=white))) ![Spring Boot]([https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB](https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-square&logo=Spring&logoColor=white)) ![Spring Data JPA]([https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white](https://img.shields.io/badge/Spring_data_jpa-6DB33F?style=for-the-badge&logo=SpringSecurity&logoColor=white)) ![Lombok]([https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white](https://img.shields.io/badge/lombok-green)) ![MySQL]([https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white](https://shields.io/badge/MySQL-lightgrey?logo=mysql&style=plastic&logoColor=white&labelColor=blue)) ![Junit5]([[https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white](https://shields.io/badge/MySQL-lightgrey?logo=mysql&style=plastic&logoColor=white&labelColor=blue](https://img.shields.io/badge/junit5-none?logo=junit5)))
 
 ## 서버 실행 방법
 
@@ -117,7 +117,5 @@ Storybook을 사용하는 경우 컴포넌트의 시각적 테스트를 위한 �
 - 일정 경로 추천
 - 일정 생성/조회/수정/삭제
 
-## 프로젝트 아키텍처 
-![4조 아키택처](https://github.com/user-attachments/assets/0b3bb7d6-43b1-4dd3-a04e-ab93e65561f4)
-
-test
+## 인프라 구조
+![인프라 구조](https://github.com/user-attachments/assets/0b3bb7d6-43b1-4dd3-a04e-ab93e65561f4)
