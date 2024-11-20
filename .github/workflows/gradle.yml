@@ -85,8 +85,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
         run: |
           aws deploy create-deployment \
-          --application-name cd-test \
-          --deployment-group-name test-group \
+          --application-name gate-back-test \
+          --deployment-group-name gate-back-test-group \
           --file-exists-behavior OVERWRITE \
           --s3-location bucket=gate-back-test-bucket,bundleType=zip,key=back_end_test.zip \
           --region ap-northeast-2
