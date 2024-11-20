@@ -86,6 +86,17 @@ src/main/java/com/ureca/gate
 ## 인프라 구조
 ![인프라 구조](https://github.com/user-attachments/assets/0b3bb7d6-43b1-4dd3-a04e-ab93e65561f4)
 
+#### 백엔드 파이프라인
+github action - S3 - CodeDeploy - ec2
+github action으로 jar 파일을 S3에 저장한 후 CodeDeploy로 ec2에 배포합니다.
+
+#### 프론트엔드 파이프라인
+github action - S3 - CloudFront - Route53
+github action으로 react 프로젝트를 S3에 저장한 후에 CloudFront를 사용해 웹서버를 만듭니다. 그리고 route53을 이용해서 도메인을 인증하고 ssl인증서를 발급하고 ALB와 https 통신을 합니다.
+
+#### 전체 구조
+사용자는 웹서버로 접속하고 ALB를 통해서 spring boot가 올라가 있는 ec2와 통신합니다. 그리고 spring boot는 rds와 elasticache의 redis를 이용해 데이터를 저장하거나 가져옵니다.
+
 ## 팀 규칙
 - [깃허브 컨벤션](https://grand-distance-643.notion.site/Github-13fb3dd3958f80419252c23f66430deb?pvs=4)
 
