@@ -2,7 +2,9 @@ package com.ureca.gate.member.controller;
 
 import com.ureca.gate.global.dto.response.SuccessResponse;
 import com.ureca.gate.member.controller.inputport.AuthenticationService;
-import com.ureca.gate.member.controller.response.UserSignInResponse;
+import com.ureca.gate.member.controller.inputport.MemberService;
+import com.ureca.gate.member.controller.request.NicknameCheckRequest;
+import com.ureca.gate.member.controller.response.MemberSignInResponse;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +17,19 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final AuthenticationService authenticationService;
+    private final MemberService memberService;
 
     @GetMapping("/kakao")
-    public SuccessResponse<UserSignInResponse> kakaoLogin(@RequestParam final String code) {
+    public SuccessResponse<MemberSignInResponse> kakaoLogin(@RequestParam final String code) {
         // Step 2: idToken으로 로그인 처리
-        UserSignInResponse response = authenticationService.login(code);
+        MemberSignInResponse response = authenticationService.login(code);
         return SuccessResponse.success(response);
+    }
+
+    @GetMapping("/check-nickname")
+    public SuccessResponse<String> checkNickname(@RequestBody NicknameCheckRequest nicknameCheckRequest){
+        memberService.checkNickname(nicknameCheckRequest);
+        return SuccessResponse.success("사용 가능한 닉네임입니다.");
     }
 
 }

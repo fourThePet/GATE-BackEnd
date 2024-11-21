@@ -13,4 +13,6 @@ public interface MemberRepository {
 
     public Member forceJoin(OauthInfo oauthInfo);
 
+    public boolean existsByNickname(String nickName);
+
 }
