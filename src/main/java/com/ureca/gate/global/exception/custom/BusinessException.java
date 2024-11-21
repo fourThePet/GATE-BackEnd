@@ -1,4 +1,4 @@
-package com.ureca.gate.global.exception;
+package com.ureca.gate.global.exception.custom;
 
 import com.ureca.gate.global.exception.errorcode.ErrorCode;
 import lombok.Getter;
