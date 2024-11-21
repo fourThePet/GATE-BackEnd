@@ -1,10 +1,10 @@
 package com.ureca.gate.global.exception.handler;
 
 
-import com.ureca.gate.global.exception.BusinessException;
+import com.ureca.gate.global.exception.custom.BusinessException;
 import com.ureca.gate.global.exception.errorcode.CommonErrorCode;
 import com.ureca.gate.global.exception.errorcode.ErrorCode;
-import com.ureca.gate.global.response.ErrorResponse;
+import com.ureca.gate.global.dto.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpHeaders;

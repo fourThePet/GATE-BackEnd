@@ -1,4 +1,4 @@
-package com.ureca.gate.global.response;
+package com.ureca.gate.global.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
