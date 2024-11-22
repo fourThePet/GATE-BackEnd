@@ -10,6 +10,8 @@ import com.ureca.gate.member.domain.OauthInfo;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 public class MemberEntity extends BaseTimeEntity {
@@ -21,7 +23,7 @@ public class MemberEntity extends BaseTimeEntity {
 
     private String nickName;
 
-    private Integer age;
+    private LocalDate birthday;
 
     @Embedded
     private OauthInfo oauthInfo;
@@ -44,9 +46,10 @@ public class MemberEntity extends BaseTimeEntity {
     }
     public static MemberEntity from(Member member){
         MemberEntity memberEntity = new MemberEntity();
+        memberEntity.id = member.getId();
         memberEntity.oauthInfo = member.getOauthInfo();
         memberEntity.nickName = member.getNickName();
-        memberEntity.age = member.getAge();
+        memberEntity.birthday = member.getBirthday();
         memberEntity.gender = member.getGender();
         memberEntity.role = member.getRole();
         memberEntity.status = member.getStatus();
@@ -59,7 +62,7 @@ public class MemberEntity extends BaseTimeEntity {
                 .oauthInfo(oauthInfo)
                 .nickName(nickName)
                 .role(role)
-                .age(age)
+                .birthday(birthday)
                 .gender(gender)
                 .status(status)
                 .createAt(getCreateAt())  // BaseTimeEntity에서 상속받은 createAt
