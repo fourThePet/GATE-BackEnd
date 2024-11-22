@@ -41,8 +41,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String logout = redisCacheRepository.getData("LOGOUT:"+token);
 
                 if(logout != null){ //블랙리스트 처리 로직
-                    request.setAttribute(EXCEPTION, CommonErrorCode.LOGOUT_MEMBER.getMessage());
-                    setErrorResponse(response,CommonErrorCode.LOGOUT_MEMBER);
+                    request.setAttribute(EXCEPTION, CommonErrorCode.MEMBER_LOGOUT.getMessage());
+                    setErrorResponse(response,CommonErrorCode.MEMBER_LOGOUT);
                     return;
                 }
                 Authentication authentication = jwtUtil.getAuthentication(token); //토큰 파싱시 예외처리가 실행됨.

@@ -8,12 +8,14 @@ import com.ureca.gate.member.application.outputport.KakaoOauthService;
 import com.ureca.gate.member.application.outputport.MemberRepository;
 import com.ureca.gate.member.controller.inputport.AuthenticationService;
 import com.ureca.gate.member.controller.response.MemberSignInResponse;
+import com.ureca.gate.member.controller.response.TokenReissueResponse;
 import com.ureca.gate.member.domain.Member;
 import com.ureca.gate.member.domain.OauthInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.ureca.gate.global.exception.errorcode.CommonErrorCode.JWT_REFRESHTOKEN_NOT_MATCH;
 import static com.ureca.gate.global.exception.errorcode.CommonErrorCode.REFRESH_TOKEN_NOT_FOUND;
 
 @Service
@@ -42,21 +44,34 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public void logout(String accessToken){
         String resolveToken = jwtUtil.resolveToken(accessToken);
         Long userIdInToken = jwtUtil.getIdFromToken(resolveToken);
-        String refreshTokenInRedis = cacheRepository.getData(CacheKeyUtil.getRefreshTokenKey(userIdInToken));
+        String refreshTokenInRedis = cacheRepository.getData(CacheKeyUtil.getTokenKey(userIdInToken));
 
         if (refreshTokenInRedis == null) throw new BusinessException(REFRESH_TOKEN_NOT_FOUND);
 
-        cacheRepository.deleteData(CacheKeyUtil.getRefreshTokenKey(userIdInToken));
+        cacheRepository.deleteData(CacheKeyUtil.getTokenKey(userIdInToken));
         saveToCache(CacheKeyUtil.getLogoutKey(resolveToken),"", jwtUtil.getExpiration(resolveToken));
     }
+    @Override
+    public TokenReissueResponse reissue(String refreshToken){
+        String resolveToken = jwtUtil.resolveToken(refreshToken);
+        Long userIdInToken = jwtUtil.getIdFromToken(resolveToken);
+        String refreshTokenInRedis = cacheRepository.getData(CacheKeyUtil.getTokenKey(userIdInToken));
 
+        if(!resolveToken.equals(refreshTokenInRedis)){
+            throw new BusinessException(JWT_REFRESHTOKEN_NOT_MATCH);
+        }
+
+        String newAccessToken = jwtUtil.createAccessToken(userIdInToken, "ROLE_USER");
+
+        return TokenReissueResponse.from(newAccessToken);
+    }
 
     private String getOrGenerateRefreshToken(Member member){
-        String refreshToken = cacheRepository.getData(CacheKeyUtil.getRefreshTokenKey(member.getId()));
+        String refreshToken = cacheRepository.getData(CacheKeyUtil.getTokenKey(member.getId()));
 
         if (refreshToken == null) {
             refreshToken = jwtUtil.createRefreshToken(member.getId());
-            saveToCache(CacheKeyUtil.getRefreshTokenKey(member.getId()), refreshToken, jwtUtil.REFRESH_TOKEN_VALID_TIME);
+            saveToCache(CacheKeyUtil.getTokenKey(member.getId()), refreshToken, jwtUtil.REFRESH_TOKEN_VALID_TIME);
         }
         return refreshToken;
     }

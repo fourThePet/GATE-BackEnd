@@ -6,6 +6,7 @@ import com.ureca.gate.member.controller.inputport.MemberService;
 import com.ureca.gate.member.controller.request.NicknameCheckRequest;
 import com.ureca.gate.member.controller.request.SignUpAddInfoRequest;
 import com.ureca.gate.member.controller.response.MemberSignInResponse;
+import com.ureca.gate.member.controller.response.TokenReissueResponse;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,7 +29,7 @@ public class MemberController {
         return SuccessResponse.success(response);
     }
 
-    @GetMapping("/check-nickname")
+    @PatchMapping("/check-nickname")
     public SuccessResponse<String> checkNickname(@RequestBody NicknameCheckRequest nicknameCheckRequest){
         memberService.checkNickname(nicknameCheckRequest);
         return SuccessResponse.success("사용 가능한 닉네임입니다.");
@@ -44,6 +45,12 @@ public class MemberController {
     public SuccessResponse<String> logout(@RequestHeader("Authorization") String accessToken){
         authenticationService.logout(accessToken);
         return SuccessResponse.success("로그아웃 성공");
+    }
+
+    @PostMapping("/reissue")
+    public SuccessResponse<TokenReissueResponse> reissue(@RequestHeader("Authorization") String refreshToken){
+        TokenReissueResponse response = authenticationService.reissue(refreshToken);
+        return SuccessResponse.success(response);
     }
 
 
