@@ -61,23 +61,24 @@ src/main/java/com/ureca/gate
 ├── review
 └── schedule
     ├── controller
-    │   ├── port
+    │   ├── inputport
     │   │   └── ScheduleService.java
     │   ├── response
     │   │   └── ScheduleReseponse.java
     │   ├── request
     │   │   └── ScheduleRequest.java
     │   ├── ScheduleController.java
-    │   └── ScheduleCreateController.java
     ├── domain
     │   ├── Schedule.java
-    │   └── ScheduleCreate.java
     ├── infrastructure
-    │   ├── ScheduleEntity.java
-    │   ├── ScheduleJpaRepository.java
-    │   └── ScheduleRepositoryImpl.java
+    │   ├── jpaAdapter
+    │   │   └── Entity
+    │   │   │   └── ScheduleEntity.java
+    │   │   └── ScheduleJpaRepository.java
+    │   │   └── ScheduleRepositoryImpl.java
+    │   │
     └── service
-        ├── port
+        ├── outputport
         │   └── ScheduleRepository.java
         └── ScheduleServiceImpl.java
  
@@ -99,6 +100,3 @@ github action으로 react 프로젝트를 S3에 저장한 후에 CloudFront를 �
 
 ## 팀 규칙
 - [깃허브 컨벤션](https://grand-distance-643.notion.site/Github-13fb3dd3958f80419252c23f66430deb?pvs=4)
-
-## 고민한 이야기
-- [공공데이터 전처리](https://grand-distance-643.notion.site/142b3dd3958f8091985ec731eab65a40?pvs=4)
