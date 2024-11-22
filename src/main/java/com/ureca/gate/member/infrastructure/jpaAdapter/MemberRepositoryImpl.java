@@ -29,7 +29,6 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberJpaRepository.save(MemberEntity.from(member)).toModel();
     }
 
-
     @Override
     @Transactional
     public Member forceJoin(OauthInfo oauthInfo) {
@@ -41,7 +40,6 @@ public class MemberRepositoryImpl implements MemberRepository {
     public Optional<Member> findById(Long id) {
         return memberJpaRepository.findById(id).map(MemberEntity::toModel);
     }
-
 
     @Override
     public boolean existsByNickname(String nickName){
