@@ -7,6 +7,7 @@ import com.ureca.gate.member.controller.request.NicknameCheckRequest;
 import com.ureca.gate.member.controller.request.SignUpAddInfoRequest;
 import com.ureca.gate.member.controller.response.MemberSignInResponse;
 import com.ureca.gate.member.controller.response.TokenReissueResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
