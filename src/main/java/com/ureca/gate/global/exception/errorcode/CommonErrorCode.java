@@ -22,10 +22,9 @@ public enum CommonErrorCode implements ErrorCode{
     JWT_AUTHORIZATION_FAILED(HttpStatus.UNAUTHORIZED,"4106","권한이 없습니다."),
 
     //user error (4001~
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND,"4201","해당 유저를 찾을 수 없습니다."),
-    USER_DUPLICATE_NICKNAME(HttpStatus.CONFLICT,"4202", "중복된 닉네임이 존재합니다."),
-
-    LOGOUT_MEMBER(HttpStatus.FORBIDDEN, "3001", "로그아웃된 사용자입니다.(재 로그인 하세요."),
+    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND,"4201","해당 유저를 찾을 수 없습니다."),
+    MEMBER_DUPLICATE_NICKNAME(HttpStatus.CONFLICT,"4202", "중복된 닉네임이 존재합니다."),
+    MEMBER_LOGOUT(HttpStatus.FORBIDDEN, "4203", "로그아웃된 사용자입니다.(재 로그인 하세요.)"),
 
     TEST_NOT_FOUND(HttpStatus.UNAUTHORIZED,"8888","테스트 아이디가 없습니다."),
 
