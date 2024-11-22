@@ -40,6 +40,11 @@ public class MemberController {
         return SuccessResponse.success("완료되었습니다.");
     }
 
+    @PostMapping("/logout")
+    public SuccessResponse<String> logout(@RequestHeader("Authorization") String accessToken){
+        authenticationService.logout(accessToken);
+        return SuccessResponse.success("로그아웃 성공");
+    }
 
 
 }

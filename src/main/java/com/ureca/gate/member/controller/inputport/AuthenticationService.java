@@ -9,5 +9,5 @@ public interface AuthenticationService {
 
     MemberSignInResponse login(String code);  // 로그인 처리
 
-
+    void logout(String accessToken);
 }
