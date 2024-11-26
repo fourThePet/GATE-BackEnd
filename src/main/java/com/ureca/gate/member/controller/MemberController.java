@@ -9,10 +9,13 @@ import com.ureca.gate.member.controller.response.MemberSignInResponse;
 import com.ureca.gate.member.controller.response.TokenReissueResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 
 @Tag(name = "Member API", description = "회원 API")
@@ -27,9 +30,16 @@ public class MemberController {
 
     @Operation(summary = "해당코드는 사용 안해도 됨.")
     @GetMapping("/kakao")
-    public SuccessResponse<MemberSignInResponse> kakaoLogin(@RequestParam final String code) {
+    public SuccessResponse<MemberSignInResponse> kakaoLogin(@RequestParam final String code, HttpServletResponse res)throws IOException {
         // Step 2: idToken으로 로그인 처리
         MemberSignInResponse response = authenticationService.login(code);
+
+        String url = "http://localhost:5173/auth/kakao?"+
+                "accessToken="+response.getAccessToken()+
+                "&refreshToken="+response.getRefreshToken()+
+                "&status="+response.getStatus();
+        res.sendRedirect(url);
+
         return SuccessResponse.success(response);
     }
 
