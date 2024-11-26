@@ -1,4 +1,4 @@
-package com.ureca.gate.member.domain.Enum;
+package com.ureca.gate.member.domain.enumeration;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

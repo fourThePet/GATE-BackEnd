@@ -1,4 +1,4 @@
-package com.ureca.gate.member.infrastructure.oauthAdapter;
+package com.ureca.gate.member.infrastructure.oauthadapter;
 
 import com.ureca.gate.global.dto.security.OIDCPublicKeysResponse;
 import org.springframework.cloud.openfeign.FeignClient;

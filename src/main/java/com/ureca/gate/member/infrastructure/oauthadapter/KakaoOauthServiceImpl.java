@@ -1,10 +1,10 @@
-package com.ureca.gate.member.infrastructure.oauthAdapter;
+package com.ureca.gate.member.infrastructure.oauthadapter;
 
 import com.ureca.gate.global.config.security.OAuthOIDCHelper;
 import com.ureca.gate.global.dto.security.OIDCDecodePayload;
 import com.ureca.gate.global.dto.security.OIDCPublicKeysResponse;
 import com.ureca.gate.member.application.outputport.KakaoOauthService;
-import com.ureca.gate.member.domain.Enum.SocialType;
+import com.ureca.gate.member.domain.enumeration.SocialType;
 import com.ureca.gate.member.domain.OauthInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

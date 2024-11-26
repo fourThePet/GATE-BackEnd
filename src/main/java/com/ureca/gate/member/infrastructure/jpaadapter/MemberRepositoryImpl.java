@@ -1,10 +1,10 @@
-package com.ureca.gate.member.infrastructure.jpaAdapter;
+package com.ureca.gate.member.infrastructure.jpaadapter;
 
 
 import com.ureca.gate.member.application.outputport.MemberRepository;
 import com.ureca.gate.member.domain.Member;
 import com.ureca.gate.member.domain.OauthInfo;
-import com.ureca.gate.member.infrastructure.jpaAdapter.Entitiy.MemberEntity;
+import com.ureca.gate.member.infrastructure.jpaadapter.entity.MemberEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
