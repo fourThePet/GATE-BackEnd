@@ -44,7 +44,7 @@ public class ProfileController {
                         .build());
     }
 
-    @Operation(summary = "create dog profile", description = "반려견 프로필 생성")
+    @Operation(summary = "반려견 프로필 등록 API", description = "multipart/form-data 타입의 데이터의 소비를 설정하여, 1개의 이미지 파일과 반려견 프로필을 한번에 등록")
     @PostMapping(value = "/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public SuccessResponse<Object> create(@AuthenticationPrincipal Long userId,
                                           @RequestPart ProfileSaveRequest profileSaveRequest,
