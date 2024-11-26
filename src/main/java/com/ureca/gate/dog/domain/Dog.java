@@ -37,7 +37,7 @@ public class Dog {
                 .userId(userId)
                 .name(request.getName())
                 .size(request.getSize())
-                .birthday(LocalDate.of(request.getBirthYear(), request.getBirthMonth(), request.getBirthDay()))
+                .birthday(request.getBirthDay())
                 .gender(request.getGender())
                 .uploadFile(uploadFile)
                 .build();
