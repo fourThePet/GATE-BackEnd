@@ -1,6 +1,6 @@
 package com.ureca.gate.member.domain;
 
-import com.ureca.gate.member.domain.Enum.SocialType;
+import com.ureca.gate.member.domain.enumeration.SocialType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

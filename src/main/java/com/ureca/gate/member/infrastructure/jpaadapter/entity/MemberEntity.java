@@ -1,10 +1,10 @@
-package com.ureca.gate.member.infrastructure.jpaAdapter.Entitiy;
+package com.ureca.gate.member.infrastructure.jpaadapter.entity;
 
 
 import com.ureca.gate.global.entity.BaseTimeEntity;
-import com.ureca.gate.member.domain.Enum.Gender;
-import com.ureca.gate.member.domain.Enum.Role;
-import com.ureca.gate.member.domain.Enum.Status;
+import com.ureca.gate.member.domain.enumeration.Gender;
+import com.ureca.gate.member.domain.enumeration.Role;
+import com.ureca.gate.member.domain.enumeration.Status;
 import com.ureca.gate.member.domain.Member;
 import com.ureca.gate.member.domain.OauthInfo;
 import jakarta.persistence.*;

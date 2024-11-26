@@ -1,8 +1,8 @@
 package com.ureca.gate.member.domain;
 
-import com.ureca.gate.member.domain.Enum.Gender;
-import com.ureca.gate.member.domain.Enum.Role;
-import com.ureca.gate.member.domain.Enum.Status;
+import com.ureca.gate.member.domain.enumeration.Gender;
+import com.ureca.gate.member.domain.enumeration.Role;
+import com.ureca.gate.member.domain.enumeration.Status;
 import lombok.Builder;
 import lombok.Getter;
 

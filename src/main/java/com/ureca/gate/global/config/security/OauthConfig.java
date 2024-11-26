@@ -1,8 +1,8 @@
 package com.ureca.gate.global.config.security;
 
 
-import com.ureca.gate.member.infrastructure.oauthAdapter.KakaoOauthClient;
-import com.ureca.gate.member.infrastructure.oauthAdapter.KakaoOauthServiceImpl;
+import com.ureca.gate.member.infrastructure.oauthadapter.KakaoOauthClient;
+import com.ureca.gate.member.infrastructure.oauthadapter.KakaoOauthServiceImpl;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
