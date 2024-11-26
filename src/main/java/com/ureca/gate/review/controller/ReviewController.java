@@ -39,7 +39,7 @@ public class ReviewController {
     return SuccessResponse.success(
         ReviewResponse.builder()
             .id(id)
-            .starRating(5.0)
+            .starRating(4.0)
             .receipt(true)
             .nickName("뽀삐")
             .placeName("더왈츠 애견카페")
