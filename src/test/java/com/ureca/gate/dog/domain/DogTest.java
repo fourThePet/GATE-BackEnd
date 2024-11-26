@@ -16,7 +16,7 @@ class DogTest {
     @DisplayName("반려견 프로필 생성")
     void from() {
         Long userId = 1L;
-        Dog dog = Dog.from(userId, new ProfileSaveRequest("댕댕이", Size.SMALL, 2024, 1, 1, Gender.MALE), new UploadFile(null, null));
+        Dog dog = Dog.from(userId, new ProfileSaveRequest("댕댕이", Size.SMALL, LocalDate.of(2024, 1, 1), Gender.MALE), new UploadFile(null, null));
         assertThat(dog).isEqualTo(
                 Dog.builder()
                         .userId(userId)
