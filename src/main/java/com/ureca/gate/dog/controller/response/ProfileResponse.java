@@ -30,6 +30,15 @@ public class ProfileResponse {
     @Schema(description = "이미지 URL", example = "소형")
     private String imageUrl;
 
+    public static ProfileResponse from(Dog dog) {
+        return ProfileResponse.builder()
+                .id(dog.getId())
+                .name(dog.getName())
+                .birthDay(dog.getBirthday())
+                .gender(dog.getGender())
+                .size(dog.getSize())
+                .build();
+    }
     public static ProfileResponse from(Dog dog, String imageUrl) {
         return ProfileResponse.builder()
                 .id(dog.getId())

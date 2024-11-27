@@ -14,13 +14,16 @@ public class FileStorageService {
 
     private final S3FileManager s3FileManager;
 
-    public String generateFileUrl(Long userId, String storeFileName, String imageType) {
-        String filePath = createFilePath(userId, storeFileName, imageType);
+    public String generateFileUrl(Long userId, UploadFile uploadFile, String imageType) {
+        if (uploadFile == null) {
+            return null;
+        }
+        String filePath = createFilePath(userId, uploadFile.getStoreFileName(), imageType);
         return s3FileManager.generateFileUrl(filePath);
     }
 
     public UploadFile storeFile(Long userId, MultipartFile multipartFile, String imageType) throws IOException {
-        if (multipartFile.isEmpty()) {
+        if (multipartFile == null || multipartFile.isEmpty()) {
             return null;
         }
 

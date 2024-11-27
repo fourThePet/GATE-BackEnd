@@ -42,4 +42,15 @@ public class Dog {
                 .uploadFile(uploadFile)
                 .build();
     }
+
+    public Dog update(ProfileSaveRequest request, UploadFile uploadFile) {
+        return Dog.builder()
+                .id(id)
+                .name(request.getName())
+                .size(request.getSize())
+                .birthday(request.getBirthDay())
+                .gender(request.getGender())
+                .uploadFile(uploadFile)
+                .build();
+    }
 }
