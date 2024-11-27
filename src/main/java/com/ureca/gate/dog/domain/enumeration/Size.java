@@ -16,7 +16,7 @@ public enum Size {
 
     public static Size from(String text) {
         return Arrays.stream(Size.values())
-                .filter(size -> size.name().equalsIgnoreCase(text))
+                .filter(size -> size.description.equalsIgnoreCase(text))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("No enum constant with text " + text));
     }
