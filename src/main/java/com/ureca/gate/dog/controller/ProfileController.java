@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Tag(name = "Dog API", description = "반려견 API")
 @RequiredArgsConstructor
@@ -22,6 +24,16 @@ import java.io.IOException;
 public class ProfileController {
 
     private final ProfileService profileService;
+
+    @Operation(summary = "반려견 프로필 리스트 조회 API", description = "나의 반려견 프로필 리스트 조회")
+    @GetMapping("/profiles")
+    public SuccessResponse<List<ProfileResponse>> getAll(@AuthenticationPrincipal Long userId) {
+        List<Dog> dogs = profileService.getAll(userId);
+        List<ProfileResponse> result = dogs.stream()
+                .map(dog -> ProfileResponse.from(dog, profileService.imageUrl(userId, dog.getUploadFile())))
+                .collect(Collectors.toList());
+        return SuccessResponse.success(result);
+    }
 
     @Operation(summary = "반려견 프로필 조회 API", description = "반려견 프로필과 이미지 파일 url 조회")
     @GetMapping("/profile/{dogId}")

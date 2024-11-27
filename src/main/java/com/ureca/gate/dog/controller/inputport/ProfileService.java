@@ -6,8 +6,11 @@ import com.ureca.gate.global.util.file.UploadFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface ProfileService {
+    List<Dog> getAll(Long userId);
+
     Dog getById(Long dogId);
 
     Dog create(Long userId, ProfileSaveRequest profileSaveRequest, MultipartFile imageFile) throws IOException;

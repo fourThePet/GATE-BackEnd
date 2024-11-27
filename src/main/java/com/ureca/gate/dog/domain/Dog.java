@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 @Getter
 @EqualsAndHashCode
@@ -52,5 +53,9 @@ public class Dog {
                 .gender(request.getGender())
                 .uploadFile(uploadFile)
                 .build();
+    }
+
+    public int age(LocalDate date) {
+        return Period.between(this.birthday, date).getYears();
     }
 }

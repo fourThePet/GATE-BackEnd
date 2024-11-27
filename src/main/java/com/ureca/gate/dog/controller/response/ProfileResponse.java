@@ -27,8 +27,11 @@ public class ProfileResponse {
     @Schema(description = "크기", example = "소형")
     private Size size;
 
-    @Schema(description = "이미지 URL", example = "소형")
+    @Schema(description = "이미지 URL", example = "https://gate-bucket.s3.ap-northeast-2.amazonaws.com/user_2/dog_profile/97067429-a9ad-4c93-8ea3-d87e0434df28.png")
     private String imageUrl;
+
+    @Schema(description = "나이", example = "3")
+    private Integer age;
 
     public static ProfileResponse from(Dog dog) {
         return ProfileResponse.builder()
@@ -39,6 +42,7 @@ public class ProfileResponse {
                 .size(dog.getSize())
                 .build();
     }
+
     public static ProfileResponse from(Dog dog, String imageUrl) {
         return ProfileResponse.builder()
                 .id(dog.getId())
@@ -47,6 +51,7 @@ public class ProfileResponse {
                 .gender(dog.getGender())
                 .size(dog.getSize())
                 .imageUrl(imageUrl)
+                .age(dog.age(LocalDate.now()))
                 .build();
     }
 }

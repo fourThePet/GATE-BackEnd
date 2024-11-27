@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -24,6 +25,11 @@ public class ProfileServiceImpl implements ProfileService {
 
     private final DogRepository dogRepository;
     private final FileStorageService fileStorageService;
+
+    @Override
+    public List<Dog> getAll(Long userId) {
+        return dogRepository.findByUserId(userId);
+    }
 
     @Override
     public Dog getById(Long dogId) {
