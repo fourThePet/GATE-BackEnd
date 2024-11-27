@@ -15,7 +15,7 @@ public class FileStorageService {
     private final S3FileManager s3FileManager;
 
     public String generateFileUrl(Long userId, UploadFile uploadFile, String imageType) {
-        if (uploadFile == null) {
+        if (uploadFile == null || uploadFile.getStoreFileName() == null) {
             return null;
         }
         String filePath = createFilePath(userId, uploadFile.getStoreFileName(), imageType);
