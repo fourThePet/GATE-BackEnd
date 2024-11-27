@@ -13,6 +13,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "member")
 @Getter
 public class MemberEntity extends BaseTimeEntity {
 
