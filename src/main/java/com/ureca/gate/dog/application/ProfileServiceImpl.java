@@ -49,4 +49,10 @@ public class ProfileServiceImpl implements ProfileService {
     public String imageUrl(Long userId, UploadFile uploadFile) {
         return fileStorageService.generateFileUrl(userId, uploadFile, fileDir);
     }
+
+    @Override
+    public void delete(Long dogId) {
+        Dog dog = getById(dogId);
+        dogRepository.delete(dog);
+    }
 }

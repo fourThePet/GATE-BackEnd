@@ -51,4 +51,12 @@ public class ProfileController {
         Dog dog = profileService.update(userId, dogId, profileSaveRequest, imageFile);
         return SuccessResponse.success(ProfileResponse.from(dog));
     }
+
+    @Operation(summary = "반려견 프로필 삭제 API", description = "반려견 프로필 정보와 이미지 삭제")
+    @DeleteMapping("/profile/{dogId}")
+    public SuccessResponse<Object> delete(@AuthenticationPrincipal Long userId,
+                                          @PathVariable("dogId") Long dogId) {
+        profileService.delete(dogId);
+        return SuccessResponse.successWithoutResult(null);
+    }
 }

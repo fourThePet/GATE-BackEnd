@@ -23,4 +23,9 @@ public class DogRepositoryImpl implements DogRepository {
     public Optional<Dog> findById(Long id) {
         return dogJpaRepository.findById(id).map(DogEntity::toModel);
     }
+
+    @Override
+    public void delete(Dog dog) {
+        dogJpaRepository.delete(DogEntity.from(dog));
+    }
 }

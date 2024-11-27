@@ -5,11 +5,15 @@ import com.ureca.gate.dog.domain.enumeration.Gender;
 import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.global.util.file.UploadFile;
 import jakarta.persistence.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "dogs")
+@SQLDelete(sql = "UPDATE dogs SET delete_yn = 'Y' WHERE dog_id = ?")
+@Where(clause = "delete_yn = 'N'")
 public class DogEntity {
 
     @Id
@@ -30,6 +34,8 @@ public class DogEntity {
     private String uploadFileName;
 
     private String storeFileName;
+
+    private String deleteYn = "N";
 
     public static DogEntity from(Dog dog) {
         DogEntity dogEntity = new DogEntity();

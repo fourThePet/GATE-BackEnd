@@ -15,4 +15,6 @@ public interface ProfileService {
     Dog update(Long userId, Long dogId, ProfileSaveRequest profileSaveRequest, MultipartFile imageFile) throws IOException;
 
     String imageUrl(Long userId, UploadFile uploadFile);
+
+    void delete(Long dogId);
 }

@@ -8,4 +8,6 @@ public interface DogRepository {
     Dog save(Dog dog);
 
     Optional<Dog> findById(Long id);
+
+    void delete(Dog dog);
 }
