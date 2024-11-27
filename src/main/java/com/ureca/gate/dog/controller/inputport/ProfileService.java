@@ -6,4 +6,6 @@ import com.ureca.gate.global.util.file.UploadFile;
 
 public interface ProfileService {
     Dog create(Long userId, ProfileSaveRequest profileSaveRequest, UploadFile uploadFile);
+
+    Dog getById(Long dogId);
 }

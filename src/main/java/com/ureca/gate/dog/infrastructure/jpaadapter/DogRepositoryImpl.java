@@ -6,6 +6,8 @@ import com.ureca.gate.dog.infrastructure.jpaadapter.entity.DogEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Repository
 public class DogRepositoryImpl implements DogRepository {
@@ -15,5 +17,10 @@ public class DogRepositoryImpl implements DogRepository {
     @Override
     public Dog save(Dog dog) {
         return dogJpaRepository.save(DogEntity.from(dog)).toModel();
+    }
+
+    @Override
+    public Optional<Dog> findById(Long id) {
+        return dogJpaRepository.findById(id).map(DogEntity::toModel);
     }
 }

@@ -6,14 +6,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetUrlRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 @RequiredArgsConstructor
 @Component
-public class S3Uploader {
+public class S3FileManager {
 
     @Value("${spring.cloud.aws.s3.bucket}")
     private String bucket;
@@ -29,5 +31,15 @@ public class S3Uploader {
 
             s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(inputStream, multipartFile.getSize()));
         }
+    }
+
+    public String generateFileUrl(String filePath) {
+        GetUrlRequest getUrlRequest = GetUrlRequest.builder()
+                .bucket(bucket)
+                .key(filePath)
+                .build();
+
+        URL fileUrl = s3Client.utilities().getUrl(getUrlRequest);
+        return fileUrl.toString();
     }
 }

@@ -5,7 +5,7 @@ import com.ureca.gate.dog.controller.request.ProfileSaveRequest;
 import com.ureca.gate.dog.controller.response.ProfileResponse;
 import com.ureca.gate.dog.domain.Dog;
 import com.ureca.gate.global.dto.response.SuccessResponse;
-import com.ureca.gate.global.util.file.FileStore;
+import com.ureca.gate.global.util.file.FileStorageService;
 import com.ureca.gate.global.util.file.UploadFile;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,20 +28,16 @@ public class ProfileController {
     private String fileDir;
 
     private final ProfileService profileService;
-    private final FileStore fileStore;
+    private final FileStorageService fileStorageService;
 
-    @Operation(summary = "dog profile", description = "반려견 프로필")
-    @GetMapping("/profile/{id}")
-    public SuccessResponse<Object> dog(@PathVariable("id") Long id) {
-        return SuccessResponse.success(
-                ProfileResponse.builder()
-                        .id(id)
-                        .nickname("댕댕이")
-                        .birthYmd("2024-06-10")
-                        .age(0)
-                        .genderName("여아")
-                        .sizeName("소형")
-                        .build());
+    @Operation(summary = "반려견 프로필 조회 API", description = "반려견 프로필 조회")
+    @GetMapping("/profile/{dogId}")
+    public SuccessResponse<ProfileResponse> dog(@AuthenticationPrincipal Long userId,
+                                                @PathVariable("dogId") Long dogId) {
+        Dog dog = profileService.getById(dogId);
+        String imageUrl = fileStorageService.generateFileUrl(userId, dog.getUploadFile().getStoreFileName(), fileDir);
+        ProfileResponse response = ProfileResponse.from(dog, imageUrl);
+        return SuccessResponse.success(response);
     }
 
     @Operation(summary = "반려견 프로필 등록 API", description = "multipart/form-data 타입의 데이터의 소비를 설정하여, 1개의 이미지 파일과 반려견 프로필을 한번에 등록")
@@ -49,7 +45,7 @@ public class ProfileController {
     public SuccessResponse<Object> create(@AuthenticationPrincipal Long userId,
                                           @RequestPart ProfileSaveRequest profileSaveRequest,
                                           @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) throws IOException {
-        UploadFile uploadFile = fileStore.storeFile(userId, imageFile, fileDir);
+        UploadFile uploadFile = fileStorageService.storeFile(userId, imageFile, fileDir);
         Dog dog = profileService.create(userId, profileSaveRequest, uploadFile);
         return SuccessResponse.success(dog);
     }
