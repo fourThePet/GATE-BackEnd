@@ -33,6 +33,14 @@ public class FileStorageService {
         return new UploadFile(originalFilename, storeFileName);
     }
 
+    public void deleteFile(Long userId, UploadFile uploadFile, String imageType) {
+        if (uploadFile == null) {
+            return;
+        }
+        String filePath = createFilePath(userId, uploadFile.getStoreFileName(), imageType);
+        s3FileManager.deleteFile(filePath);
+    }
+
     private String createFilePath(Long userId, String fileName, String imageType) {
         return "user_" + userId + "/" + imageType + "/" + fileName;
     }
