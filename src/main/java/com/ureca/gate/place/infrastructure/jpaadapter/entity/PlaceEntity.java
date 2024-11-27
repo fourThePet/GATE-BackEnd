@@ -24,9 +24,9 @@ public class PlaceEntity extends BaseTimeEntity {
     @Column(name = "facility_name")
     private String name;
 
-    @JoinColumn(name ="subcategory_id")
+    @JoinColumn(name ="category_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private SubCategoryEntity subCategoryEntity;
+    private CategoryEntity categoryEntity;
 
     @Enumerated
     private Address address;
@@ -57,7 +57,7 @@ public class PlaceEntity extends BaseTimeEntity {
         return Place.builder()
                 .id(id)
                 .name(name)
-                .subCategory(subCategoryEntity.toModel())
+                .category(categoryEntity.toModel())
                 .latitude(address.getLatitude())
                 .longitude(address.getLongitude())
                 .postalCode(address.getPostalCode()) //우편번호

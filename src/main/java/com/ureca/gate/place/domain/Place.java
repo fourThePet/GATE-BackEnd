@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Place {
     private Long id;
     private String name;
-    private SubCategory subCategory;
+    private Category category;
     private Double latitude;
     private Double longitude;
     private String postalCode; //우편번호

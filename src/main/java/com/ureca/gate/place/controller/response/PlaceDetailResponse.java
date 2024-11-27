@@ -63,7 +63,7 @@ public class PlaceDetailResponse {
         return PlaceDetailResponse.builder()
                 .id(place.getId())
                 .name(place.getName())
-                .category(place.getSubCategory().getName())
+                .category(place.getCategory().getName())
                 .postalCode(place.getPostalCode())
                 .roadAddress(place.getRoadAddress())
                 .lotAddress(place.getLotAddress())
