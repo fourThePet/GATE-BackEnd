@@ -10,12 +10,12 @@ public class Review {
   private final Long id;
   private final Long userId;
   private final Long placeId;
-  private final Double starRate;
+  private final Integer starRate;
   private final Size size;
   private final String content;
 
   @Builder
-  public Review(Long id, Long userId, Long placeId, Double starRate, Size size, String content) {
+  public Review(Long id, Long userId, Long placeId, Integer starRate, Size size, String content) {
     this.id = id;
     this.userId = userId;
     this.placeId = placeId;

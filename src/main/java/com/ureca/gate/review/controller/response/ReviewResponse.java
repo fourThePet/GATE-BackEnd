@@ -14,7 +14,7 @@ public class ReviewResponse {
   private Long id;
 
   @Schema(description = "별점", example = "5.0")
-  private Double starRating;
+  private Integer starRating;
 
   @Schema(description = "영수증 인증", example = "true")
   private boolean receipt;
