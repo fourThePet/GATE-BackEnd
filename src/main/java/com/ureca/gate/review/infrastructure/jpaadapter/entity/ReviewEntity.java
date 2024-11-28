@@ -19,7 +19,7 @@ public class ReviewEntity extends BaseTimeEntity {
 
   private Long placeId;
 
-  private Double starRate;
+  private Integer starRate;
 
   private String size;
 
