@@ -16,7 +16,7 @@ public class PlaceCategoryRepositoryImpl implements PlaceCategoryRepository {
     private final PlaceCategoryJpaRepository placeCategoryJpaRepository;
     @Override
     public List<Category> findByAll() {
-        return placeCategoryJpaRepository.findAll().stream()
+        return placeCategoryJpaRepository.findByParentCategoryIsNull().stream()
                 .map(CategoryEntity::toModel)
                 .toList();
     }
