@@ -1,6 +1,5 @@
 package com.ureca.gate.place.domain.enumeration;
 
-import com.ureca.gate.dog.domain.enumeration.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

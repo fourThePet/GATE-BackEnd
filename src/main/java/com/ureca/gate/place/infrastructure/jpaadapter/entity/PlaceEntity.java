@@ -8,6 +8,7 @@ import com.ureca.gate.place.domain.enumeration.YesNo;
 import com.ureca.gate.place.infrastructure.jpaadapter.entity.vo.Address;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDate;
 
@@ -58,8 +59,7 @@ public class PlaceEntity extends BaseTimeEntity {
                 .id(id)
                 .name(name)
                 .category(categoryEntity.toModel())
-                .latitude(address.getLatitude())
-                .longitude(address.getLongitude())
+                .locationPoint(address.getLocationPoint())
                 .postalCode(address.getPostalCode()) //우편번호
                 .roadAddress(address.getRoadAddress())  //도로명
                 .lotAddress(address.getLotAddress())  //지번번호

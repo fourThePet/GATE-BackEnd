@@ -1,10 +1,12 @@
 package com.ureca.gate.place.infrastructure.jpaadapter.entity.vo;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
 @Getter
 @Embeddable
@@ -17,14 +19,14 @@ public class Address {
     private String lotNumber;
     private String road;
     private String buildingNumber;
-    private Double latitude;
-    private Double longitude;
+    @Column(nullable = false, columnDefinition = "POINT SRID 4326")
+    private Point locationPoint; // Point(경도, 위도)
     private String postalCode;
     private String roadAddress;
     private String lotAddress;
 
     @Builder
-    public Address(String city, String district, String town, String village, String lotNumber, String road, String buildingNumber, Double latitude, Double longitude, String postalCode, String roadAddress, String lotAddress) {
+    public Address(String city, String district, String town, String village, String lotNumber, String road, String buildingNumber, Point locationPoint, String postalCode, String roadAddress, String lotAddress) {
         this.city = city;
         this.district = district;
         this.town = town;
@@ -32,8 +34,7 @@ public class Address {
         this.lotNumber = lotNumber;
         this.road = road;
         this.buildingNumber = buildingNumber;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.locationPoint = locationPoint;
         this.postalCode = postalCode;
         this.roadAddress = roadAddress;
         this.lotAddress = lotAddress;
