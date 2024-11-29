@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PlaceCategoryRepository {
-
-    public List<Category> findByAll();
-
+    List<Category> findByAll();
 
 }

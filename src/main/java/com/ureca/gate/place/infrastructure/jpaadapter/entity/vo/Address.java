@@ -1,7 +1,7 @@
 package com.ureca.gate.place.infrastructure.jpaadapter.entity.vo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import com.ureca.gate.place.infrastructure.jpaadapter.entity.CityEntity;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +12,10 @@ import org.locationtech.jts.geom.Point;
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Address {
-    private String city;
+
+    @JoinColumn(name = "city_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private CityEntity cityEntity;
     private String district;
     private String town;
     private String village;
@@ -26,8 +29,8 @@ public class Address {
     private String lotAddress;
 
     @Builder
-    public Address(String city, String district, String town, String village, String lotNumber, String road, String buildingNumber, Point locationPoint, String postalCode, String roadAddress, String lotAddress) {
-        this.city = city;
+    public Address(CityEntity cityEntity, String district, String town, String village, String lotNumber, String road, String buildingNumber, Point locationPoint, String postalCode, String roadAddress, String lotAddress) {
+        this.cityEntity = cityEntity;
         this.district = district;
         this.town = town;
         this.village = village;
