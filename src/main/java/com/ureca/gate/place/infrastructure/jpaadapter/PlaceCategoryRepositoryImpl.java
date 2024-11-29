@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -17,6 +18,6 @@ public class PlaceCategoryRepositoryImpl implements PlaceCategoryRepository {
     public List<Category> findByAll() {
         return placeCategoryJpaRepository.findByParentCategoryIsNull().stream()
                 .map(CategoryEntity::toModel)
-                .toList();
+                .collect(Collectors.toList());
     }
 }
