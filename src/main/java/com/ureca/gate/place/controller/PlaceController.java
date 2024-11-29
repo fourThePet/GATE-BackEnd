@@ -2,9 +2,11 @@ package com.ureca.gate.place.controller;
 
 import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.global.dto.response.SuccessResponse;
+import com.ureca.gate.place.controller.inputport.CityListService;
 import com.ureca.gate.place.controller.inputport.PlaceCategoryService;
 import com.ureca.gate.place.controller.inputport.PlaceDetailService;
 import com.ureca.gate.place.controller.inputport.PlaceListService;
+import com.ureca.gate.place.controller.response.CityResponse;
 import com.ureca.gate.place.controller.response.PlaceCategoryResponse;
 import com.ureca.gate.place.controller.response.PlaceDetailResponse;
 import com.ureca.gate.place.controller.response.PlaceResponse;
@@ -24,6 +26,7 @@ public class PlaceController {
     private final PlaceCategoryService placeCategoryService;
     private final PlaceDetailService placeDetailService;
     private final PlaceListService placeListService;
+    private final CityListService cityListService;
 
     @Operation(summary = "카테고리 리스트 조회 API", description = "장소 카테고리 리스트 조회 API")
     @GetMapping("/categories")
@@ -59,4 +62,11 @@ public class PlaceController {
         return SuccessResponse.success(response);
     }
 
+    @Operation(summary = "지역 리스트 조회 API", description = "지역 리스트 조회 API")
+    @GetMapping("/cities")
+    public SuccessResponse<List<CityResponse>> searchCities() {
+
+        List<CityResponse> response = cityListService.getCityList();
+        return SuccessResponse.success(response);
+    }
 }
