@@ -28,11 +28,14 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public void signUpAddInfo(Long userId, SignUpAddInfoRequest signUpAddInfoRequest){
-        Member member = memberRepository.findById(userId).orElseThrow(()->new BusinessException(MEMBER_NOT_FOUND));
+        Member member = getById(userId);
         member.AdditionalInfo(signUpAddInfoRequest.getNickName(), signUpAddInfoRequest.getBirthday(), signUpAddInfoRequest.getGender());
 
         memberRepository.save(member);
     }
 
-
+    @Override
+    public Member getById(Long userId) {
+        return memberRepository.findById(userId).orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND));
+    }
 }
