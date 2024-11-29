@@ -5,8 +5,10 @@ import com.ureca.gate.member.controller.inputport.AuthenticationService;
 import com.ureca.gate.member.controller.inputport.MemberService;
 import com.ureca.gate.member.controller.request.NicknameCheckRequest;
 import com.ureca.gate.member.controller.request.SignUpAddInfoRequest;
+import com.ureca.gate.member.controller.response.MemberInfoResponse;
 import com.ureca.gate.member.controller.response.MemberSignInResponse;
 import com.ureca.gate.member.controller.response.TokenReissueResponse;
+import com.ureca.gate.member.domain.Member;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,6 +29,14 @@ public class MemberController {
 
     private final AuthenticationService authenticationService;
     private final MemberService memberService;
+
+    @Operation(summary = "회원정보 조회 API", description = "로그인된 회원의 정보 조회")
+    @GetMapping("/info")
+    public SuccessResponse<MemberInfoResponse> getById(@AuthenticationPrincipal Long userId) {
+        Member member = memberService.getById(userId);
+        MemberInfoResponse response = MemberInfoResponse.from(member);
+        return SuccessResponse.success(response);
+    }
 
     @Operation(summary = "해당코드는 사용 안해도 됨.")
     @GetMapping("/kakao")
