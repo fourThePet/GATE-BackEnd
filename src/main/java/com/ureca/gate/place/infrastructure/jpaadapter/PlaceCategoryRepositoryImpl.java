@@ -1,6 +1,5 @@
 package com.ureca.gate.place.infrastructure.jpaadapter;
 
-import com.ureca.gate.member.infrastructure.jpaadapter.entity.MemberEntity;
 import com.ureca.gate.place.application.outputport.PlaceCategoryRepository;
 import com.ureca.gate.place.domain.Category;
 import com.ureca.gate.place.infrastructure.jpaadapter.entity.CategoryEntity;

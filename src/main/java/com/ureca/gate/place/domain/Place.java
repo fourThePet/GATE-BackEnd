@@ -5,6 +5,7 @@ import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.place.domain.enumeration.YesNo;
 import lombok.Builder;
 import lombok.Getter;
+import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,8 +16,7 @@ public class Place {
     private Long id;
     private String name;
     private Category category;
-    private Double latitude;
-    private Double longitude;
+    private Point locationPoint;
     private String postalCode; //우편번호
     private String roadAddress; //도로명
     private String lotAddress; //지번번호

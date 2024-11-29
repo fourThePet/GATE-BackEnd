@@ -1,16 +1,13 @@
-package com.ureca.gate.place.application.outputport;
+package com.ureca.gate.place.infrastructure.jpaadapter;
 
 import com.ureca.gate.dog.domain.enumeration.Size;
-import com.ureca.gate.place.domain.Category;
-import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.place.infrastructure.dto.PlaceResponse;
 import org.locationtech.jts.geom.Point;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface PlaceRepository {
-    Optional<Place> findById(Long placeId);
 
+public interface PlaceRepositoryCustom {
     List<PlaceResponse> findByQueryDsl(Point userLocation, String category, Size size, List<String> entryConditions, List<String> types);
+
 }
