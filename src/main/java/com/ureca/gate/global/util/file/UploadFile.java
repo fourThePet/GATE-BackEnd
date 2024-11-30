@@ -1,7 +1,9 @@
 package com.ureca.gate.global.util.file;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 @Data
 public class UploadFile {
 

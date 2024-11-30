@@ -47,6 +47,7 @@ public class Dog {
     public Dog update(ProfileSaveRequest request, UploadFile uploadFile) {
         return Dog.builder()
                 .id(id)
+                .memberId(memberId)
                 .name(request.getName())
                 .size(request.getSize())
                 .birthday(request.getBirthDay())

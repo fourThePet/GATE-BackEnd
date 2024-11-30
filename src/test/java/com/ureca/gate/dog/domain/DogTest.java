@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class DogTest {
+
     private Dog dog;
 
     @BeforeEach
@@ -40,5 +41,22 @@ class DogTest {
                         .gender(Gender.MALE)
                         .uploadFile(new UploadFile(null, null))
                         .build());
+    }
+
+    @Test
+    @DisplayName("반려견 프로필 수정")
+    void update() {
+        Long memberId = 1L;
+        LocalDate birthDay = LocalDate.of(2023, 12, 31);
+        ProfileSaveRequest profileSaveRequest = new ProfileSaveRequest("멍멍이", Size.MEDIUM, birthDay, Gender.FEMALE);
+        UploadFile uploadFile = new UploadFile("test.img", "asdf12344-gqgq-12445ast.img");
+        assertThat(dog.update(profileSaveRequest, uploadFile)).isEqualTo(Dog.builder()
+                .memberId(memberId)
+                .name("멍멍이")
+                .size(Size.MEDIUM)
+                .birthday(birthDay)
+                .gender(Gender.FEMALE)
+                .uploadFile(new UploadFile("test.img", "asdf12344-gqgq-12445ast.img"))
+                .build());
     }
 }
