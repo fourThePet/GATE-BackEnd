@@ -29,7 +29,6 @@ public enum CommonErrorCode implements ErrorCode{
     //place error (4301~
     PLACE_NOT_FOUND(HttpStatus.NOT_FOUND,"4301","해당 장소를 찾을 수 없습니다."),
 
-
     TEST_NOT_FOUND(HttpStatus.UNAUTHORIZED,"8888","테스트 아이디가 없습니다."),
 
 

@@ -9,15 +9,15 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ProfileService {
-    List<Dog> getAll(Long userId);
+    List<Dog> getAll(Long memberId);
 
     Dog getById(Long dogId);
 
-    Dog create(Long userId, ProfileSaveRequest profileSaveRequest, MultipartFile imageFile) throws IOException;
+    Dog create(Long memberId, ProfileSaveRequest profileSaveRequest, MultipartFile imageFile) throws IOException;
 
-    Dog update(Long userId, Long dogId, ProfileSaveRequest profileSaveRequest, MultipartFile imageFile) throws IOException;
+    Dog update(Long memberId, Long dogId, ProfileSaveRequest profileSaveRequest, MultipartFile imageFile) throws IOException;
 
-    String imageUrl(Long userId, UploadFile uploadFile);
+    String imageUrl(Long memberId, UploadFile uploadFile);
 
     void delete(Long dogId);
 }

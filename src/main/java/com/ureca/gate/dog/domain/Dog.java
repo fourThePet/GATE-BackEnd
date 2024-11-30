@@ -15,7 +15,7 @@ import java.time.Period;
 @EqualsAndHashCode
 public class Dog {
     private final Long id;
-    private final Long userId;
+    private final Long memberId;
     private final String name;
     private final Size size;
     private final LocalDate birthday;
@@ -23,9 +23,9 @@ public class Dog {
     private final UploadFile uploadFile;
 
     @Builder
-    public Dog(Long id, Long userId, String name, Size size, LocalDate birthday, Gender gender, UploadFile uploadFile) {
+    public Dog(Long id, Long memberId, String name, Size size, LocalDate birthday, Gender gender, UploadFile uploadFile) {
         this.id = id;
-        this.userId = userId;
+        this.memberId = memberId;
         this.name = name;
         this.size = size;
         this.birthday = birthday;
@@ -33,9 +33,9 @@ public class Dog {
         this.uploadFile = uploadFile;
     }
 
-    public static Dog from(Long userId, ProfileSaveRequest request, UploadFile uploadFile) {
+    public static Dog from(Long memberId, ProfileSaveRequest request, UploadFile uploadFile) {
         return Dog.builder()
-                .userId(userId)
+                .memberId(memberId)
                 .name(request.getName())
                 .size(request.getSize())
                 .birthday(request.getBirthDay())

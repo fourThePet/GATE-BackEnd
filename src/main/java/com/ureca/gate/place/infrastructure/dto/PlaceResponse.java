@@ -32,8 +32,8 @@ public class PlaceResponse {
                 .id(placeEntity.getId())
                 .name(placeEntity.getName())
                 .category(placeEntity.getCategoryEntity().getName())
-                .roadAddress(placeEntity.getAddress().getRoadAddress())
-                .postalCode(placeEntity.getAddress().getPostalCode())
+                .roadAddress(placeEntity.getAddressEntity().getRoadAddress())
+                .postalCode(placeEntity.getAddressEntity().getPostalCode())
                 .build();
     }
 }
