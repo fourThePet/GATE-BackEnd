@@ -21,10 +21,10 @@ public class ProfileResponse {
     @Schema(description = "생년월일", example = "2024-06-10")
     private LocalDate birthDay;
 
-    @Schema(description = "성별", example = "여아")
+    @Schema(description = "성별", example = "FEMALE")
     private Gender gender;
 
-    @Schema(description = "크기", example = "소형")
+    @Schema(description = "크기", example = "SMALL")
     private Size size;
 
     @Schema(description = "이미지 URL", example = "https://gate-bucket.s3.ap-northeast-2.amazonaws.com/user_2/dog_profile/97067429-a9ad-4c93-8ea3-d87e0434df28.png")
