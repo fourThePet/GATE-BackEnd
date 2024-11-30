@@ -31,8 +31,8 @@ public class DogRepositoryImpl implements DogRepository {
     }
 
     @Override
-    public List<Dog> findByUserId(Long userId) {
-        return dogJpaRepository.findByUserId(userId)
+    public List<Dog> findByMemberId(Long memberId) {
+        return dogJpaRepository.findByMemberId(memberId)
                 .stream()
                 .map(DogEntity::toModel)
                 .toList();

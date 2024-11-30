@@ -20,8 +20,7 @@ public class DogEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dog_id")
     private Long id;
-
-    private Long userId;
+    private Long memberId;
 
     private String name;
 
@@ -40,7 +39,7 @@ public class DogEntity {
     public static DogEntity from(Dog dog) {
         DogEntity dogEntity = new DogEntity();
         dogEntity.id = dog.getId();
-        dogEntity.userId = dog.getUserId();
+        dogEntity.memberId = dog.getMemberId();
         dogEntity.name = dog.getName();
         dogEntity.size = dog.getSize().name();
         dogEntity.birthday = dog.getBirthday();
@@ -53,7 +52,7 @@ public class DogEntity {
     public Dog toModel() {
         return Dog.builder()
                 .id(id)
-                .userId(userId)
+                .memberId(memberId)
                 .name(name)
                 .size(Size.from(size))
                 .birthday(birthday)

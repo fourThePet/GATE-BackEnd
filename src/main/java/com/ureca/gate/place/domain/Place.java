@@ -3,6 +3,7 @@ package com.ureca.gate.place.domain;
 
 import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.place.domain.enumeration.YesNo;
+import com.ureca.gate.place.domain.vo.Address;
 import lombok.Builder;
 import lombok.Getter;
 import org.locationtech.jts.geom.Point;
@@ -17,9 +18,7 @@ public class Place {
     private String name;
     private Category category;
     private Point locationPoint;
-    private String postalCode; //우편번호
-    private String roadAddress; //도로명
-    private String lotAddress; //지번번호
+    private Address address;
     private String phoneNumber;
     private String photoUrl;
     private String websiteUrl;

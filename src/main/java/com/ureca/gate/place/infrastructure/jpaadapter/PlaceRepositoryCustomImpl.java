@@ -30,8 +30,8 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                         placeEntity.id,
                         placeEntity.name,
                         placeEntity.categoryEntity.name,
-                        placeEntity.address.roadAddress,
-                        placeEntity.address.postalCode)
+                        placeEntity.addressEntity.roadAddress,
+                        placeEntity.addressEntity.postalCode)
                 )
                 .from(placeEntity)
                 .leftJoin(placeEntity.categoryEntity,categoryEntity)
@@ -51,7 +51,7 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                 "ST_Contains(ST_Buffer(ST_GeomFromText({0}, 4326), {1}), {2})",
                 "POINT(" + userLocation.getY() + " " + userLocation.getX() + ")", // 사용자 위치
                 radiusMeters,                                                    // 반경
-                placeEntity.address.locationPoint                                                   // 장소 위치
+                placeEntity.addressEntity.locationPoint                                                   // 장소 위치
         );
     }
     // 카테고리 조건

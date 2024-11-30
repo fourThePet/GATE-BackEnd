@@ -17,7 +17,7 @@ public class CityEntity {
 
     private String name;
 
-    public CityEntity from(City city){
+    public static CityEntity from(City city){
         CityEntity cityEntity = new CityEntity();
         cityEntity.id = city.getId();
         cityEntity.name = city.getName();

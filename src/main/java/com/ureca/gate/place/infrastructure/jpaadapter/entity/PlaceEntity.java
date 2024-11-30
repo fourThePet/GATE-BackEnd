@@ -5,10 +5,9 @@ import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.global.entity.BaseTimeEntity;
 import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.place.domain.enumeration.YesNo;
-import com.ureca.gate.place.infrastructure.jpaadapter.entity.vo.Address;
+import com.ureca.gate.place.infrastructure.jpaadapter.entity.vo.AddressEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
-import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDate;
 
@@ -30,7 +29,7 @@ public class PlaceEntity extends BaseTimeEntity {
     private CategoryEntity categoryEntity;
 
     @Enumerated
-    private Address address;
+    private AddressEntity addressEntity;
     private String phoneNumber;
     private String photoUrl;
     private String website;
@@ -49,20 +48,39 @@ public class PlaceEntity extends BaseTimeEntity {
     private String outdoorAvailable; //실외이용여부
     private LocalDate lastUpdated; //데이터 마지막 수정일
 
-//    public static PlaceEntity from(Place place){
-//        PlaceEntity placeEntity = new PlaceEntity();
-//        placeEntity.id = place.getId();
-//    }
+    public static PlaceEntity from(Place place){
+        PlaceEntity placeEntity = new PlaceEntity();
+        placeEntity.categoryEntity = CategoryEntity.from(place.getCategory());
+        placeEntity.id = place.getId();
+        placeEntity.name = place.getName();
+        placeEntity.categoryEntity = CategoryEntity.from(place.getCategory());
+        placeEntity.addressEntity = AddressEntity.from(place.getAddress());
+        placeEntity.phoneNumber =place.getPhoneNumber();
+        placeEntity.photoUrl= place.getPhotoUrl();
+        placeEntity.website= place.getWebsiteUrl();
+        placeEntity.holiday= place.getHoliday();
+        placeEntity.operatingHours= place.getOperatingHours();
+        placeEntity.addPetFee= place.getAddPetFee();
+        placeEntity.admissionFee= place.getAdmissionFee();
+        placeEntity.restriction= place.getRestriction();
+        placeEntity.size= place.getSize().name();
+        placeEntity.isLeashRequired = place.getIsLeashRequired().name();
+        placeEntity.isMuzzleRequired= place.getIsMuzzleRequired().name();
+        placeEntity.isCageRequired= place.getIsCageRequired().name();
+        placeEntity.isVaccinationComplete= place.getIsVaccinationComplete().name();
+        placeEntity.parkingAvailable= place.getParkingAvailable().name();
+        placeEntity.indoorAvailable= place.getIndoorAvailable().name();
+        placeEntity.outdoorAvailable= place.getOutdoorAvailable().name();
+        placeEntity.lastUpdated= place.getLastUpdated();
+        return placeEntity;
+    }
 
     public Place toModel(){
         return Place.builder()
                 .id(id)
                 .name(name)
                 .category(categoryEntity.toModel())
-                .locationPoint(address.getLocationPoint())
-                .postalCode(address.getPostalCode()) //우편번호
-                .roadAddress(address.getRoadAddress())  //도로명
-                .lotAddress(address.getLotAddress())  //지번번호
+                .address(addressEntity.toModel())
                 .phoneNumber(phoneNumber)
                 .photoUrl(photoUrl)
                 .websiteUrl(website)

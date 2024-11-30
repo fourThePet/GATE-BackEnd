@@ -12,5 +12,5 @@ public interface DogRepository {
 
     void delete(Dog dog);
 
-    List<Dog> findByUserId(Long userId);
+    List<Dog> findByMemberId(Long userId);
 }

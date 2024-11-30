@@ -40,7 +40,7 @@ public class SecurityConfig{
                         .requestMatchers("/api/v1/members/social-login/kakao").permitAll()
                         .requestMatchers("/api/v1/members/kakao").permitAll()
                         .requestMatchers("/api/v1/members/**").hasAnyRole("USER")
-
+                        .requestMatchers("/api/v1/favorites/**").hasAnyRole("USER")
                         .requestMatchers("**").permitAll()
                         .anyRequest().authenticated())
 

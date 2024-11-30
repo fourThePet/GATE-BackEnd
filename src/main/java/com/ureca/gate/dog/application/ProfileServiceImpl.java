@@ -27,8 +27,8 @@ public class ProfileServiceImpl implements ProfileService {
     private final FileStorageService fileStorageService;
 
     @Override
-    public List<Dog> getAll(Long userId) {
-        return dogRepository.findByUserId(userId);
+    public List<Dog> getAll(Long memberId) {
+        return dogRepository.findByMemberId(memberId);
     }
 
     @Override
@@ -37,23 +37,23 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Dog create(Long userId, ProfileSaveRequest request, MultipartFile imageFile) throws IOException {
-        UploadFile uploadFile = fileStorageService.storeFile(userId, imageFile, fileDir);
-        Dog dog = Dog.from(userId, request, uploadFile);
+    public Dog create(Long memberId, ProfileSaveRequest request, MultipartFile imageFile) throws IOException {
+        UploadFile uploadFile = fileStorageService.storeFile(memberId, imageFile, fileDir);
+        Dog dog = Dog.from(memberId, request, uploadFile);
         return dogRepository.save(dog);
     }
 
     @Override
-    public Dog update(Long userId, Long dogId, ProfileSaveRequest profileSaveRequest, MultipartFile imageFile) throws IOException {
+    public Dog update(Long memberId, Long dogId, ProfileSaveRequest profileSaveRequest, MultipartFile imageFile) throws IOException {
         Dog dog = getById(dogId);
-        fileStorageService.deleteFile(userId, dog.getUploadFile(), fileDir);
-        UploadFile uploadFile = fileStorageService.storeFile(userId, imageFile, fileDir);
+        fileStorageService.deleteFile(memberId, dog.getUploadFile(), fileDir);
+        UploadFile uploadFile = fileStorageService.storeFile(memberId, imageFile, fileDir);
         return dogRepository.save(dog.update(profileSaveRequest, uploadFile));
     }
 
     @Override
-    public String imageUrl(Long userId, UploadFile uploadFile) {
-        return fileStorageService.generateFileUrl(userId, uploadFile, fileDir);
+    public String imageUrl(Long memberId, UploadFile uploadFile) {
+        return fileStorageService.generateFileUrl(memberId, uploadFile, fileDir);
     }
 
     @Override
