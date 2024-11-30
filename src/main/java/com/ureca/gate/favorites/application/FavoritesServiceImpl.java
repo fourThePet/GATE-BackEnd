@@ -13,8 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.ureca.gate.global.exception.errorcode.CommonErrorCode.MEMBER_NOT_FOUND;
-import static com.ureca.gate.global.exception.errorcode.CommonErrorCode.PLACE_NOT_FOUND;
+import static com.ureca.gate.global.exception.errorcode.CommonErrorCode.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -32,6 +31,13 @@ public class FavoritesServiceImpl implements FavoritesService {
         Place place = placeRepository.findById(placeId).orElseThrow(()->new BusinessException(PLACE_NOT_FOUND));
         Favorites favorites = Favorites.from(member,place);
         return FavoritesResponse.from(favoritesRepository.save(favorites));
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long placeId) {
+        Favorites favorites = favoritesRepository.findByPlaceId(placeId).orElseThrow(()->new BusinessException(FAVORITES_NOT_FOUND));
+        favoritesRepository.delete(favorites);
     }
 
 }

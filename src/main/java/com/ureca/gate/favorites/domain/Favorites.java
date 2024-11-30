@@ -1,9 +1,6 @@
 package com.ureca.gate.favorites.domain;
 
 
-import com.ureca.gate.dog.controller.request.ProfileSaveRequest;
-import com.ureca.gate.dog.domain.Dog;
-import com.ureca.gate.global.util.file.UploadFile;
 import com.ureca.gate.member.domain.Member;
 import com.ureca.gate.place.domain.Place;
 import lombok.Builder;
@@ -33,6 +30,10 @@ public class Favorites {
                 .member(member)
                 .place(place)
                 .build();
+    }
+
+    public void delete(){
+
     }
 
 }

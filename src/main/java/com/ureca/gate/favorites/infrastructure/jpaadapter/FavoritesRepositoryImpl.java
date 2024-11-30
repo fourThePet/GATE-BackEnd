@@ -6,6 +6,8 @@ import com.ureca.gate.favorites.infrastructure.jpaadapter.entitiy.FavoritesEntit
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 @Repository
 @RequiredArgsConstructor
@@ -16,4 +18,15 @@ public class FavoritesRepositoryImpl implements FavoritesRepository {
     public Favorites save(Favorites favorites){
         return favoritesJpaRepository.save(FavoritesEntity.from(favorites)).toModel();
     }
+
+    @Override
+    public Optional<Favorites> findByPlaceId(Long placeId) {
+        return favoritesJpaRepository.findByPlaceEntityId(placeId).map(FavoritesEntity::toModel);
+    }
+
+    @Override
+    public void delete(Favorites favorites) {
+        favoritesJpaRepository.delete(FavoritesEntity.from(favorites));
+    }
+
 }
