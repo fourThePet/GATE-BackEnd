@@ -30,10 +30,10 @@ class DogTest {
     @Test
     @DisplayName("반려견 프로필 생성")
     void from() {
-        Long userId = 1L;
+        Long memberId = 1L;
         assertThat(dog).isEqualTo(
                 Dog.builder()
-                        .userId(userId)
+                        .memberId(memberId)
                         .name("댕댕이")
                         .size(Size.SMALL)
                         .birthday(LocalDate.of(2024, 1, 1))
