@@ -4,6 +4,7 @@ import com.querydsl.core.annotations.QueryProjection;
 import com.ureca.gate.place.infrastructure.jpaadapter.entity.PlaceEntity;
 import lombok.Builder;
 import lombok.Getter;
+import org.locationtech.jts.geom.Point;
 
 @Getter
 @Builder
@@ -11,16 +12,18 @@ public class PlaceResponse {
     private Long id;
     private String name;
     private String category;
+    private Point locationPoint;
     private String roadAddress; //도로명 주소
     private String postalCode; //우편주소
 //    private float star;
 //    private Integer reviewNum;
 
     @QueryProjection
-    public PlaceResponse(Long id, String name, String category, String roadAddress, String postalCode) {
+    public PlaceResponse(Long id, String name, String category, Point locationPoint,String roadAddress, String postalCode) {
         this.id = id;
         this.name = name;
         this.category = category;
+        this.locationPoint = locationPoint;
         this.roadAddress = roadAddress;
         this.postalCode = postalCode;
 //        this.star = star;
@@ -32,6 +35,7 @@ public class PlaceResponse {
                 .id(placeEntity.getId())
                 .name(placeEntity.getName())
                 .category(placeEntity.getCategoryEntity().getName())
+                .locationPoint(placeEntity.getAddressEntity().getLocationPoint())
                 .roadAddress(placeEntity.getAddressEntity().getRoadAddress())
                 .postalCode(placeEntity.getAddressEntity().getPostalCode())
                 .build();

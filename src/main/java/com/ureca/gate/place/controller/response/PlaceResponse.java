@@ -13,6 +13,8 @@ public class PlaceResponse {
     private String name;
     @Schema(description = "장소 카테고리", example = "카페")
     private String category;
+    private double latitude;
+    private double longitude;
     @Schema(description = "도로명주소", example = "경기도 고양시 덕양구 동세로 19")
     private String roadAddress; //도로명 주소
     @Schema(description = "우편주소", example = "12465")
@@ -28,6 +30,8 @@ public class PlaceResponse {
                 .id(place.getId())
                 .name(place.getName())
                 .category(place.getCategory())
+                .latitude(place.getLocationPoint().getY())
+                .longitude(place.getLocationPoint().getX())
                 .roadAddress(place.getRoadAddress())
                 .postalCode(place.getPostalCode())
                 .build();
