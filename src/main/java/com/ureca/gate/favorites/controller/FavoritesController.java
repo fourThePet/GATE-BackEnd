@@ -34,7 +34,7 @@ public class FavoritesController {
         return SuccessResponse.successWithoutResult(null);
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     @Operation(summary = "즐겨찾기 리스트 조회 API", description = "나의 즐겨찾기 리스트 조회 API")
     public SuccessResponse<List<FavoritesResponse>> search(@AuthenticationPrincipal Long memberId){
         List<FavoritesResponse> responses = favoritesService.getAll(memberId);
