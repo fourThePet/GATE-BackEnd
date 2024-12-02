@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FavoritesJpaRepository extends JpaRepository<FavoritesEntity,Long> {
-    Optional<FavoritesEntity> findByPlaceEntityId(Long placeId);
+    Optional<FavoritesEntity> findByMemberEntityIdAndPlaceEntityId(Long memberId, Long placeId);
 
     @Query("SELECT f FROM FavoritesEntity f JOIN FETCH f.placeEntity WHERE f.memberEntity.id = :memberId")
     List<FavoritesEntity> findByMemberEntityIdWithPlace(@Param("memberId") Long memberId);

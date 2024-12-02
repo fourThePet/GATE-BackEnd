@@ -24,8 +24,8 @@ public class FavoritesRepositoryImpl implements FavoritesRepository {
     }
 
     @Override
-    public Optional<Favorites> findByPlaceId(Long placeId) {
-        return favoritesJpaRepository.findByPlaceEntityId(placeId).map(FavoritesEntity::toModel);
+    public Optional<Favorites> findByMemberIdAndPlaceId(Long memberId, Long placeId) {
+        return favoritesJpaRepository.findByMemberEntityIdAndPlaceEntityId(memberId,placeId).map(FavoritesEntity::toModel);
     }
 
     @Override

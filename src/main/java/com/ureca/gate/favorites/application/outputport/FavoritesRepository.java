@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface FavoritesRepository {
     Favorites save(Favorites favorites);
-    Optional<Favorites> findByPlaceId(Long placeId);
+    Optional<Favorites> findByMemberIdAndPlaceId(Long memberId,Long placeId);
 
     void delete(Favorites favorites);
 
