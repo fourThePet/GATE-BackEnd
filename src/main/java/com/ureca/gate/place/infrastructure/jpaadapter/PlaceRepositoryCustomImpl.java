@@ -30,6 +30,7 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                         placeEntity.id,
                         placeEntity.name,
                         placeEntity.categoryEntity.name,
+                        placeEntity.photoUrl,
                         placeEntity.addressEntity.locationPoint,
                         placeEntity.addressEntity.roadAddress,
                         placeEntity.addressEntity.postalCode)

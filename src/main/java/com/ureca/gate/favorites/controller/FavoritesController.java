@@ -29,8 +29,8 @@ public class FavoritesController {
 
     @PatchMapping("/{favoriteId}")
     @Operation(summary = "즐겨찾기 삭제 API", description = "즐겨찾기 삭제 API")
-    public SuccessResponse<Object> delete(@PathVariable Long favoriteId){
-        favoritesService.delete(favoriteId);
+    public SuccessResponse<Object> delete(@AuthenticationPrincipal Long memberId, @PathVariable Long favoriteId){
+        favoritesService.delete(memberId,favoriteId);
         return SuccessResponse.successWithoutResult(null);
     }
 

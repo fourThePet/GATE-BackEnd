@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface PlaceListService {
 
-    public List<PlaceResponse> getPlaceList(Double latitude, Double longitude, String category, Size size, List<String> entryConditions, List<String> types);
+    public List<PlaceResponse> getPlaceList(Long memberId,Double latitude, Double longitude, String category, Size size, List<String> entryConditions, List<String> types);
 }

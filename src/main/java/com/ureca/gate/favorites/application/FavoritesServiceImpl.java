@@ -10,6 +10,7 @@ import com.ureca.gate.member.application.outputport.MemberRepository;
 import com.ureca.gate.member.domain.Member;
 import com.ureca.gate.place.application.outputport.PlaceRepository;
 import com.ureca.gate.place.domain.Place;
+import com.ureca.gate.place.domain.enumeration.YesNo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,9 @@ public class FavoritesServiceImpl implements FavoritesService {
     @Override
     @Transactional
     public FavoritesEnrollResponse create(Long memberId, Long placeId) {
+        if(favoritesRepository.existsByMemberIdAndPlaceId(memberId,placeId)){
+            throw new BusinessException(FAVORITES_ALREADY_EXISTS);
+        }
         Member member = memberRepository.findById(memberId).orElseThrow(()->new BusinessException(MEMBER_NOT_FOUND));
         Place place = placeRepository.findById(placeId).orElseThrow(()->new BusinessException(PLACE_NOT_FOUND));
         Favorites favorites = Favorites.from(member,place);
@@ -39,8 +43,8 @@ public class FavoritesServiceImpl implements FavoritesService {
 
     @Override
     @Transactional
-    public void delete(Long placeId) {
-        Favorites favorites = favoritesRepository.findByPlaceId(placeId).orElseThrow(()->new BusinessException(FAVORITES_NOT_FOUND));
+    public void delete(Long memberId, Long placeId) {
+        Favorites favorites = favoritesRepository.findByMemberIdAndPlaceId(memberId,placeId).orElseThrow(()->new BusinessException(FAVORITES_NOT_FOUND));
         favoritesRepository.delete(favorites);
     }
 
@@ -49,6 +53,14 @@ public class FavoritesServiceImpl implements FavoritesService {
         return favoritesRepository.findByMemberIdWithPlace(memberId).stream()
                 .map(FavoritesResponse::from)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public YesNo checkIfFavorite(Long memberId, Long placeId) {
+        if (memberId != null && favoritesRepository.existsByMemberIdAndPlaceId(memberId, placeId)) {
+            return YesNo.Y;
+        }
+        return YesNo.N;
     }
 
 }
