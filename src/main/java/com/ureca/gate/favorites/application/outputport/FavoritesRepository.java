@@ -13,4 +13,6 @@ public interface FavoritesRepository {
     void delete(Favorites favorites);
 
     List<Place> findByMemberIdWithPlace(Long memberId);
+
+    boolean existsByMemberIdAndPlaceId(Long memberId, Long placeId);
 }

@@ -41,4 +41,9 @@ public class FavoritesRepositoryImpl implements FavoritesRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public boolean existsByMemberIdAndPlaceId(Long memberId, Long placeId) {
+        return favoritesJpaRepository.existsByMemberEntityIdAndPlaceEntityId(memberId,placeId);
+    }
+
 }
