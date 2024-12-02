@@ -14,4 +14,6 @@ public interface FavoritesJpaRepository extends JpaRepository<FavoritesEntity,Lo
 
     @Query("SELECT f FROM FavoritesEntity f JOIN FETCH f.placeEntity WHERE f.memberEntity.id = :memberId")
     List<FavoritesEntity> findByMemberEntityIdWithPlace(@Param("memberId") Long memberId);
+
+    Boolean existsByMemberEntityIdAndPlaceEntityId(Long memberId,Long placeId);
 }

@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,8 +38,9 @@ public class PlaceController {
 
     @Operation(summary = "시설 정보 조회 API", description = "해당 장소의 상세정보 조회 API")
     @GetMapping("/{placeId}")
-    public SuccessResponse<PlaceDetailResponse> getPlaceDetail(@PathVariable("placeId")Long placeId) {
-        PlaceDetailResponse response = placeDetailService.getPlaceDetail(placeId);
+    public SuccessResponse<PlaceDetailResponse> getPlaceDetail(@AuthenticationPrincipal Long memberId,
+                                                               @PathVariable("placeId")Long placeId) {
+        PlaceDetailResponse response = placeDetailService.getPlaceDetail(memberId,placeId);
         return SuccessResponse.success(response);
     }
     @Operation(summary = "시설 리스트 조회 API", description = "시설(장소) 리스트 조회 API")

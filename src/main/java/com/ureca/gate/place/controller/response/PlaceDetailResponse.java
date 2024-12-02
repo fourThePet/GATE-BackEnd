@@ -3,6 +3,7 @@ package com.ureca.gate.place.controller.response;
 
 import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.place.domain.Place;
+import com.ureca.gate.place.domain.enumeration.YesNo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,23 +44,25 @@ public class PlaceDetailResponse {
     @Schema(description = "입장가능 크기[SMALL/MEDIUM/LARGE]", example = "LARGE")
     private Size sizeAvailable; //입장가능 크기
     @Schema(description = "목줄 필수여부[Y/N]", example = "Y")
-    private String isLeashRequired; // 목줄 필수 여부
+    private YesNo isLeashRequired; // 목줄 필수 여부
     @Schema(description = "입마개 필수여부[Y/N]", example = "Y")
-    private String isMuzzleRequired; // 입마개 필수 여부
+    private YesNo isMuzzleRequired; // 입마개 필수 여부
     @Schema(description = "케이지 필수여부[Y/N]", example = "Y")
-    private String isCageRequired; // 케이지 필수 여부
+    private YesNo isCageRequired; // 케이지 필수 여부
     @Schema(description = "접종 완료여부[Y/N]", example = "Y")
-    private String isVaccinationComplete; // 접종 완료 여부
+    private YesNo isVaccinationComplete; // 접종 완료 여부
     @Schema(description = "주차 가능여부[Y/N]", example = "Y")
-    private String parkingAvailable; //주차여부
+    private YesNo parkingAvailable; //주차여부
     @Schema(description = "실내 이용여부[Y/N]", example = "Y")
-    private String indoorAvailable; //실내이용여부
+    private YesNo indoorAvailable; //실내이용여부
     @Schema(description = "실외 이용여부[Y/N]", example = "Y")
-    private String outdoorAvailable; //실외이용여부
+    private YesNo outdoorAvailable; //실외이용여부
+    @Schema(description = "즐겨찾기 여부[Y/N]", example = "N")
+    private YesNo favorites;
     @Schema(description = "데이터 마지막 수정일", example = "2022-02-10")
     private LocalDate lastUpdated; //데이터 마지막 수정일
 
-    public static PlaceDetailResponse from(Place place){
+    public static PlaceDetailResponse from(Place place,YesNo isFavorite){
         return PlaceDetailResponse.builder()
                 .id(place.getId())
                 .name(place.getName())
@@ -76,13 +79,14 @@ public class PlaceDetailResponse {
                 .admissionFee(place.getAdmissionFee())
                 .restriction(place.getRestriction())
                 .sizeAvailable(place.getSize())
-                .isLeashRequired(place.getIsLeashRequired().getRequirementMessage("목줄"))
-                .isMuzzleRequired(place.getIsMuzzleRequired().getRequirementMessage("입마개"))
-                .isCageRequired(place.getIsCageRequired().getRequirementMessage("케이지"))
-                .isVaccinationComplete(place.getIsVaccinationComplete().getRequirementMessage("접종 완료"))
-                .indoorAvailable(place.getIndoorAvailable().getAvailabilityMessage("실내 이용"))
-                .outdoorAvailable(place.getOutdoorAvailable().getAvailabilityMessage("실외 이용"))
-                .parkingAvailable(place.getParkingAvailable().getAvailabilityMessage("주차"))
+                .isLeashRequired(place.getIsLeashRequired())
+                .isMuzzleRequired(place.getIsMuzzleRequired())
+                .isCageRequired(place.getIsCageRequired())
+                .isVaccinationComplete(place.getIsVaccinationComplete())
+                .indoorAvailable(place.getIndoorAvailable())
+                .outdoorAvailable(place.getOutdoorAvailable())
+                .parkingAvailable(place.getParkingAvailable())
+                .favorites(isFavorite)
                 .lastUpdated(place.getLastUpdated())
                 .lastUpdated(place.getLastUpdated())
                 .build();
