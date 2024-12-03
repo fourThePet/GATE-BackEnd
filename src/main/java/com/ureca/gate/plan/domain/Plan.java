@@ -1,5 +1,7 @@
 package com.ureca.gate.plan.domain;
 
+import com.ureca.gate.place.domain.City;
+import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.plan.application.command.PlanCreateCommand;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -16,7 +18,7 @@ public class Plan {
 
     private final Long id;
     private final Long memberId;
-    private final Long cityId;
+    private final City city;
     private final LocalDate date;
     private final List<PlanDog> planDogs;
     private final List<PlanPlace> planPlaces;
@@ -24,24 +26,24 @@ public class Plan {
     @Builder
     public Plan(Long id,
                 Long memberId,
-                Long cityId,
+                City city,
                 LocalDate date,
                 List<PlanDog> planDogs,
                 List<PlanPlace> planPlaces) {
         this.id = id;
         this.memberId = memberId;
-        this.cityId = cityId;
+        this.city = city;
         this.date = date;
         this.planDogs = Optional.ofNullable(planDogs).orElseGet(ArrayList::new);
         this.planPlaces = Optional.ofNullable(planPlaces).orElseGet(ArrayList::new);
     }
 
-    public static Plan from(PlanCreateCommand planCreateCommand) {
+    public static Plan from(PlanCreateCommand planCreateCommand, City city, List<Place> places) {
         List<PlanDog> planDogs = PlanDog.of(planCreateCommand.getDogIds());
-        List<PlanPlace> planPlaces = PlanPlace.of(planCreateCommand.getPlaceIds());
+        List<PlanPlace> planPlaces = PlanPlace.of(places);
         return Plan.builder()
                 .memberId(planCreateCommand.getMemberId())
-                .cityId(planCreateCommand.getCityId())
+                .city(city)
                 .date(planCreateCommand.getDate())
                 .planDogs(planDogs)
                 .planPlaces(planPlaces)

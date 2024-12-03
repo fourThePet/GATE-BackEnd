@@ -13,4 +13,6 @@ public interface PlaceRepository {
     Optional<Place> findById(Long placeId);
 
     List<PlaceResponse> findByQueryDsl(Point userLocation, String category, Size size, List<String> entryConditions, List<String> types);
+
+    Place getById(Long placeId);
 }

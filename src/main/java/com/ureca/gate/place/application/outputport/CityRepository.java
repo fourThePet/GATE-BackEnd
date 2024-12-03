@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface CityRepository {
     List<City> findAll();
+
+    City getById(Long cityId);
 }

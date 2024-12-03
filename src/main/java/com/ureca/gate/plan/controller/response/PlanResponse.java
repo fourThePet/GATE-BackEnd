@@ -1,5 +1,6 @@
 package com.ureca.gate.plan.controller.response;
 
+import com.ureca.gate.place.controller.response.CityResponse;
 import com.ureca.gate.plan.domain.Plan;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -17,14 +18,14 @@ public class PlanResponse {
     @Schema(description = "날짜", example = "2024-11-28")
     private LocalDate date;
 
-    @Schema(description = "도시 아이디", example = "1")
-    private Long cityId;
+    @Schema(description = "도시")
+    private CityResponse city;
 
     public static PlanResponse from(Plan plan) {
         return PlanResponse.builder()
                 .planId(plan.getId())
                 .date(plan.getDate())
-                .cityId(plan.getCityId())
+                .city(CityResponse.from(plan.getCity()))
                 .build();
     }
 }
