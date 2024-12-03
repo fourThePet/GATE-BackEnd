@@ -20,6 +20,15 @@ public class PlanController {
 
     private final PlanService planService;
 
+    @Operation(summary = "일정 조회 API", description = "생성된 일정의 세부 정보 조회")
+    @GetMapping("/{planId}")
+    public SuccessResponse<PlanResponse> getById(@AuthenticationPrincipal Long memberId,
+                                                 @PathVariable("planId") Long planId) {
+        Plan plan = planService.getById(planId);
+        PlanResponse planResponse = PlanResponse.from(plan);
+        return SuccessResponse.success(planResponse);
+    }
+
     @Operation(summary = "일정 생성 API", description = "장소 아이디 리스트의 순서대로 일정 생성")
     @PostMapping
     public SuccessResponse<PlanResponse> create(@AuthenticationPrincipal Long memberId,

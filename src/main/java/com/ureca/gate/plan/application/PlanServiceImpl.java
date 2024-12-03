@@ -22,6 +22,11 @@ public class PlanServiceImpl implements PlanService {
     private final CityRepository cityRepository;
     private final PlaceRepository placeRepository;
 
+    @Transactional(readOnly = true)
+    public Plan getById(Long planId) {
+        return planRepository.getById(planId);
+    }
+
     @Transactional
     public Plan create(PlanCreateCommand planCreateCommand) {
         City city = cityRepository.getById(planCreateCommand.getCityId());
