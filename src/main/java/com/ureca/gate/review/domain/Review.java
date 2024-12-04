@@ -5,7 +5,9 @@ import com.ureca.gate.member.domain.Member;
 import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.review.controller.request.ReviewSaveRequest;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -29,7 +31,7 @@ public class Review {
     this.id = id;
     this.member = member;
     this.place = place;
-    this.reviewFiles = reviewFiles;
+    this.reviewFiles = Optional.ofNullable(reviewFiles).orElseGet(ArrayList::new);
     this.receiptCertificate = receiptCertificate;
     this.starRate = starRate;
     this.size = size;
@@ -40,6 +42,18 @@ public class Review {
 
   public static Review from(Member member, Place place, ReviewSaveRequest request) {
     return Review.builder()
+        .member(member)
+        .place(place)
+        .receiptCertificate(request.getReceiptCertificate())
+        .starRate(request.getStarRate())
+        .size(request.getSize())
+        .content(request.getContent())
+        .build();
+  }
+
+  public Review update(ReviewSaveRequest request) {
+    return Review.builder()
+        .id(id)
         .member(member)
         .place(place)
         .receiptCertificate(request.getReceiptCertificate())

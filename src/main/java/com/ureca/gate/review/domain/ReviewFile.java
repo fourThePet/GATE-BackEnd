@@ -7,23 +7,21 @@ import lombok.Getter;
 @Getter
 public class ReviewFile {
   private final Long id;
-  private final Review review;
+  private final Long reviewId;
   private final UploadFile uploadFile;
 
   @Builder
-  public ReviewFile(Long id, Review review, UploadFile uploadFile) {
+  public ReviewFile(Long id, Long reviewId, UploadFile uploadFile) {
     this.id = id;
-    this.review = review;
+    this.reviewId = reviewId;
     this.uploadFile = uploadFile;
   }
 
-  public static ReviewFile from(Review review, UploadFile uploadFile) {
+  public static ReviewFile from(Long reviewId, UploadFile uploadFile) {
     ReviewFile reviewFile = ReviewFile.builder()
-        .review(review)
+        .reviewId(reviewId)
         .uploadFile(uploadFile)
         .build();
-    review.getReviewFiles().add(reviewFile);
-
     return reviewFile;
   }
 }

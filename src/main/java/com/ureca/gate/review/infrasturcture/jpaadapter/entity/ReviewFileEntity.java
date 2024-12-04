@@ -1,6 +1,7 @@
 package com.ureca.gate.review.infrasturcture.jpaadapter.entity;
 
 import com.ureca.gate.global.util.file.UploadFile;
+import com.ureca.gate.review.domain.Review;
 import com.ureca.gate.review.domain.ReviewFile;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,9 +17,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "review_files")
+@Table(name = "review_file")
 @Getter
-@SQLDelete(sql = "UPDATE review_files SET delete_yn = 'Y' WHERE review_file_id = ?")
+@SQLDelete(sql = "UPDATE review_file SET delete_yn = 'Y' WHERE review_file_id = ?")
 @Where(clause = "delete_yn = 'N'")
 public class ReviewFileEntity {
 
@@ -37,9 +38,10 @@ public class ReviewFileEntity {
 
   private String deleteYn = "N";
 
-  public static ReviewFileEntity from(ReviewFile reviewFile) {
+  public static ReviewFileEntity from(ReviewFile reviewFile, Review review) {
     ReviewFileEntity reviewFileEntity = new ReviewFileEntity();
     reviewFileEntity.id = reviewFile.getId();
+    reviewFileEntity.reviewEntity = ReviewEntity.from(review);
     reviewFileEntity.uploadFileName = reviewFile.getUploadFile() != null ? reviewFile.getUploadFile().getUploadFileName() : null;
     reviewFileEntity.storeFileName = reviewFile.getUploadFile() != null ? reviewFile.getUploadFile().getStoreFileName() : null;
     return reviewFileEntity;
@@ -48,7 +50,7 @@ public class ReviewFileEntity {
   public ReviewFile toModel() {
     return ReviewFile.builder()
         .id(id)
-        .review(reviewEntity.toModel())
+        .reviewId(reviewEntity.getId())
         .uploadFile(new UploadFile(uploadFileName, storeFileName))
         .build();
   }

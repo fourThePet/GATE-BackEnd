@@ -4,4 +4,6 @@ import com.ureca.gate.review.domain.ReviewFile;
 
 public interface ReviewFileRepository {
   ReviewFile save(ReviewFile reviewFile);
+
+  void delete(ReviewFile reviewFile);
 }

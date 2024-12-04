@@ -5,6 +5,7 @@ import com.ureca.gate.global.entity.BaseTimeEntity;
 import com.ureca.gate.member.infrastructure.jpaadapter.entity.MemberEntity;
 import com.ureca.gate.place.infrastructure.jpaadapter.entity.PlaceEntity;
 import com.ureca.gate.review.domain.Review;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,9 +23,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "reviews")
+@Table(name = "review")
 @Getter
-@SQLDelete(sql = "UPDATE reviews SET delete_yn = 'Y' WHERE review_id = ?")
+@SQLDelete(sql = "UPDATE review SET delete_yn = 'Y' WHERE review_id = ?")
 @Where(clause = "delete_yn = 'N'")
 public class ReviewEntity extends BaseTimeEntity {
 
@@ -75,6 +76,7 @@ public class ReviewEntity extends BaseTimeEntity {
         .starRate(starRate)
         .size(Size.from(size))
         .content(content)
+        .reviewFiles(reviewFiles.stream().map(ReviewFileEntity::toModel).toList())
         .createAt(getCreateAt())
         .updateAt(getUpdateAt())
         .build();
