@@ -1,23 +1,22 @@
 package com.ureca.gate.favorites.controller.response;
 
-import com.ureca.gate.favorites.domain.Favorites;
-import com.ureca.gate.place.domain.Place;
+import com.ureca.gate.favorites.infrastructure.dto.FavoritesIdWithPlaceDto;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class FavoritesResponse {
-    private Long placeid;
+public class FavoritesResponse{
+    private Long favoritesId;
+    private Long placeId;
     private String placeName;
     private String roadAddress;
-    private String profileUrl;
 
-    public static FavoritesResponse from(Place place){
+    public static FavoritesResponse from(FavoritesIdWithPlaceDto favoritesIdWithPlaceDto){
         return FavoritesResponse.builder()
-                .placeid(place.getId())
-                .placeName(place.getName())
-                .roadAddress(place.getAddress().getRoadAddress())
-                .profileUrl(place.getPhotoUrl())
+                .favoritesId(favoritesIdWithPlaceDto.getFavoritesId())
+                .placeId(favoritesIdWithPlaceDto.getPlace().getId())
+                .placeName(favoritesIdWithPlaceDto.getPlace().getName())
+                .roadAddress(favoritesIdWithPlaceDto.getPlace().getAddress().getRoadAddress())
                 .build();}
 }
