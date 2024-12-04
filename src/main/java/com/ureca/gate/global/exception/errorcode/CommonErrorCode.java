@@ -28,6 +28,7 @@ public enum CommonErrorCode implements ErrorCode{
 
     //place error (4301~
     PLACE_NOT_FOUND(HttpStatus.NOT_FOUND,"4301","해당 장소를 찾을 수 없습니다."),
+    CITY_NOT_FOUND(HttpStatus.NOT_FOUND,"4302","해당 도시를 찾을 수 없습니다."),
 
     //favorites error (4401~
     FAVORITES_NOT_FOUND(HttpStatus.NOT_FOUND,"4401","해당 즐겨찾기를 찾을 수 없습니다."),

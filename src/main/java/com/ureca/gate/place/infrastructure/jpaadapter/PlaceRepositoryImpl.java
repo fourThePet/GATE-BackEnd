@@ -1,6 +1,7 @@
 package com.ureca.gate.place.infrastructure.jpaadapter;
 
 import com.ureca.gate.dog.domain.enumeration.Size;
+import com.ureca.gate.global.exception.custom.BusinessException;
 import com.ureca.gate.place.application.outputport.PlaceRepository;
 import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.place.infrastructure.dto.PlaceResponse;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.ureca.gate.global.exception.errorcode.CommonErrorCode.PLACE_NOT_FOUND;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,6 +32,12 @@ public class PlaceRepositoryImpl implements PlaceRepository {
 
     }
 
+    @Override
+    public Place getById(Long placeId) {
+        return placeJpaRepository.findById(placeId)
+                .map(PlaceEntity::toModel)
+                .orElseThrow(() -> new BusinessException(PLACE_NOT_FOUND));
+    }
 
 
 }
