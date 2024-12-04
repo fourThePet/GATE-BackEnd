@@ -27,10 +27,10 @@ public class FavoritesController {
         return SuccessResponse.success(response);
     }
 
-    @PatchMapping("/{favoriteId}")
+    @PatchMapping("/{placeId}")
     @Operation(summary = "즐겨찾기 삭제 API", description = "즐겨찾기 삭제 API")
-    public SuccessResponse<Object> delete(@AuthenticationPrincipal Long memberId, @PathVariable Long favoriteId){
-        favoritesService.delete(memberId,favoriteId);
+    public SuccessResponse<Object> delete(@AuthenticationPrincipal Long memberId, @PathVariable Long placeId){
+        favoritesService.delete(memberId,placeId);
         return SuccessResponse.successWithoutResult(null);
     }
 
@@ -40,7 +40,4 @@ public class FavoritesController {
         List<FavoritesResponse> responses = favoritesService.getAll(memberId);
         return SuccessResponse.success(responses);
     }
-
-
-
 }
