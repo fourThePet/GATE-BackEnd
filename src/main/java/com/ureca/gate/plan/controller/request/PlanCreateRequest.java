@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Getter
-public class PlanSaveRequest {
+public class PlanCreateRequest {
 
     @Schema(description = "여행 날짜", example = "2024-11-28")
     private final LocalDate date;
@@ -24,7 +24,7 @@ public class PlanSaveRequest {
     private final List<Long> placeIds;
 
     @Builder
-    public PlanSaveRequest(
+    public PlanCreateRequest(
             @JsonProperty("date") LocalDate date,
             @JsonProperty("cityId") Long cityId,
             @JsonProperty("dogIds") List<Long> dogIds,
