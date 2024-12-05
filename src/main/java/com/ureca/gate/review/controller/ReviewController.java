@@ -39,8 +39,8 @@ public class ReviewController {
 
   @GetMapping("/category")
   @Operation(summary = "리뷰 태그 조회 API", description = "장소 카테고리에 맞는 리뷰 태그 조회")
-  public SuccessResponse<List<KeywordResponse>> keyword(@RequestParam Long categoryId) {
-    List<KeywordResponse> response = keywordService.getKeywords(categoryId).stream().map(KeywordResponse::from).toList();
+  public SuccessResponse<List<KeywordResponse>> keyword(@RequestParam Long placeId) {
+    List<KeywordResponse> response = keywordService.getKeywords(placeId).stream().map(KeywordResponse::from).toList();
     return SuccessResponse.success(response);
   }
 

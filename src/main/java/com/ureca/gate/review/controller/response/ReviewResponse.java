@@ -14,6 +14,12 @@ public class ReviewResponse {
   @Schema(description = "리뷰 아이디", example = "1")
   private Long id;
 
+  @Schema(description = "장소명", example = "더왈츠 애견카페")
+  private String placeName;
+
+  @Schema(description = "도로명주소", example = "서울특별시 강남구 역삼로 134")
+  private String roadAddress;
+
   @Schema(description = "사용자 닉네임", example = "kys")
   private String nickName;
 
@@ -47,6 +53,8 @@ public class ReviewResponse {
   public static ReviewResponse from(Review review, List<String> fileUrlList, List<String> keywordList) {
     return ReviewResponse.builder()
         .id(review.getId())
+        .placeName(review.getPlace().getName())
+        .roadAddress(review.getPlace().getAddress().getRoadAddress())
         .nickName(review.getMember().getNickName())
         .profileUrl(review.getMember().getOauthInfo().getProfileUrl())
         .starRate(review.getStarRate())

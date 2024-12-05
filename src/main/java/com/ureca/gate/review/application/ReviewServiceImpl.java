@@ -85,7 +85,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
     Integer reviewCount = reviewRepository.CountByPlace(place);
     Double BeforeStarRateAvg = reviewRepository.findAverageStarRateByPlaceId(placeId);
-    Double starRateAvg = Math.round(BeforeStarRateAvg * 10) / 10.0;
+    Double AfterStarRateAvg = Math.round(BeforeStarRateAvg * 10) / 10.0;
+    String starRateAvg = String.format("%.1f", AfterStarRateAvg);
     List<ReviewKeywordResponse> reviewKeywordResponseList = keywordJpaRepository.findKeywordStatsByPlaceId(placeId);
     return PlaceReviewResponse.from(starRateAvg, reviewCount, reviewResponseList, reviewKeywordResponseList);
   }
