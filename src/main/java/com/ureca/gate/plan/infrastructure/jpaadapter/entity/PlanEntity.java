@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @NoArgsConstructor
 @DynamicUpdate
+@SQLDelete(sql = "UPDATE plans SET delete_yn = 'Y' WHERE plan_id = ?")
+@Where(clause = "delete_yn = 'N'")
 @Entity(name = "plans")
 public class PlanEntity extends BaseTimeEntity {
 
@@ -35,6 +39,8 @@ public class PlanEntity extends BaseTimeEntity {
     private CityEntity city;
 
     private LocalDate date;
+
+    private String deleteYn = "N";
 
     @OneToMany(mappedBy = "plan", cascade = ALL)
     private List<PlanDogEntity> planDogs = new ArrayList<>();

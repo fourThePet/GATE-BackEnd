@@ -12,4 +12,6 @@ public interface PlanRepository {
     Plan getById(Long planId);
 
     Plan save(Plan plan);
+
+    void delete(Plan plan);
 }

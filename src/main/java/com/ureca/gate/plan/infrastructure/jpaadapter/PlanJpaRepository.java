@@ -12,6 +12,7 @@ public interface PlanJpaRepository extends JpaRepository<PlanEntity, Long>, Plan
             "JOIN FETCH p.planPlaces pp " +
             "JOIN FETCH pp.place pl " +
             "JOIN FETCH pl.addressEntity.cityEntity " +
+            "JOIN FETCH pl.categoryEntity " +
             "WHERE p.id = :planId")
     Optional<PlanEntity> findById(Long planId);
 }
