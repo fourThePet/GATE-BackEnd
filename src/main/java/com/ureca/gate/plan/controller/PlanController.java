@@ -4,6 +4,7 @@ import com.ureca.gate.global.domain.CustomPage;
 import com.ureca.gate.global.dto.response.PageResponse;
 import com.ureca.gate.global.dto.response.SuccessResponse;
 import com.ureca.gate.plan.application.command.PlanCreateCommand;
+import com.ureca.gate.plan.application.command.PlanDeleteCommand;
 import com.ureca.gate.plan.application.command.PlanListCommand;
 import com.ureca.gate.plan.application.command.PlanUpdateCommand;
 import com.ureca.gate.plan.controller.inputport.PlanService;
@@ -68,5 +69,14 @@ public class PlanController {
         Plan plan = planService.update(planUpdateCommand);
         PlanResponse planResponse = PlanResponse.from(plan);
         return SuccessResponse.success(planResponse);
+    }
+
+    @Operation(summary = "일정 삭제 API")
+    @DeleteMapping("/{planId}")
+    public SuccessResponse<PlanResponse> delete(@AuthenticationPrincipal Long memberId,
+                                                @PathVariable Long planId) {
+        PlanDeleteCommand planDeleteCommand = PlanDeleteCommand.from(memberId, planId);
+        planService.delete(planDeleteCommand);
+        return SuccessResponse.successWithoutResult(null);
     }
 }

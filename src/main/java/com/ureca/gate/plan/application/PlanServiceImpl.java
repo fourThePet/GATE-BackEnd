@@ -6,8 +6,10 @@ import com.ureca.gate.place.application.outputport.PlaceRepository;
 import com.ureca.gate.place.domain.City;
 import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.plan.application.command.PlanCreateCommand;
+import com.ureca.gate.plan.application.command.PlanDeleteCommand;
 import com.ureca.gate.plan.application.command.PlanListCommand;
 import com.ureca.gate.plan.application.command.PlanUpdateCommand;
+import com.ureca.gate.plan.application.outputport.PlanDogRepository;
 import com.ureca.gate.plan.application.outputport.PlanPlaceRepository;
 import com.ureca.gate.plan.application.outputport.PlanRepository;
 import com.ureca.gate.plan.controller.inputport.PlanService;
@@ -31,6 +33,7 @@ public class PlanServiceImpl implements PlanService {
     private final CityRepository cityRepository;
     private final PlaceRepository placeRepository;
     private final PlanPlaceRepository planPlaceRepository;
+    private final PlanDogRepository planDogRepository;
 
     @Transactional(readOnly = true)
     public CustomPage<PlanInfo> searchPage(PlanListCommand planListCommand) {
@@ -68,5 +71,13 @@ public class PlanServiceImpl implements PlanService {
                 .toList();
         plan = plan.update(places);
         return planRepository.save(plan);
+    }
+
+    @Transactional
+    public void delete(PlanDeleteCommand planDeleteCommand) {
+        Plan plan = planRepository.getById(planDeleteCommand.getPlanId());
+        planRepository.delete(plan);
+        planDogRepository.deleteAll(plan.getPlanDogs());
+        planPlaceRepository.deleteAll(plan.getPlanPlaces());
     }
 }

@@ -36,4 +36,9 @@ public class PlanRepositoryImpl implements PlanRepository {
     public Plan save(Plan plan) {
         return planJpaRepository.save(PlanEntity.from(plan)).toModel();
     }
+
+    @Override
+    public void delete(Plan plan) {
+        planJpaRepository.delete(PlanEntity.from(plan));
+    }
 }

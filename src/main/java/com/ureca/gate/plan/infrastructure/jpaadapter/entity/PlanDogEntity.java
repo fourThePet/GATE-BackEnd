@@ -5,8 +5,12 @@ import com.ureca.gate.plan.domain.Plan;
 import com.ureca.gate.plan.domain.PlanDog;
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @DynamicUpdate
+@SQLDelete(sql = "UPDATE plan_dogs SET delete_yn = 'Y' WHERE plan_dog_id = ?")
+@Where(clause = "delete_yn = 'N'")
 @Entity(name = "plan_dogs")
 public class PlanDogEntity extends BaseTimeEntity {
 
@@ -20,6 +24,8 @@ public class PlanDogEntity extends BaseTimeEntity {
     private PlanEntity plan;
 
     private Long dogId;
+
+    private String deleteYn = "N";
 
     public void setPlan(PlanEntity planEntity) {
         this.plan = planEntity;
