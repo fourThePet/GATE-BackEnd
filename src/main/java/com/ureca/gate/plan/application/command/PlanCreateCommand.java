@@ -1,6 +1,6 @@
 package com.ureca.gate.plan.application.command;
 
-import com.ureca.gate.plan.controller.request.PlanSaveRequest;
+import com.ureca.gate.plan.controller.request.PlanCreateRequest;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -29,13 +29,13 @@ public class PlanCreateCommand {
         this.placeIds = placeIds;
     }
 
-    public static PlanCreateCommand from(Long memberId, PlanSaveRequest planSaveRequest) {
+    public static PlanCreateCommand from(Long memberId, PlanCreateRequest planCreateRequest) {
         return PlanCreateCommand.builder()
                 .memberId(memberId)
-                .date(planSaveRequest.getDate())
-                .cityId(planSaveRequest.getCityId())
-                .dogIds(planSaveRequest.getDogIds())
-                .placeIds(planSaveRequest.getPlaceIds())
+                .date(planCreateRequest.getDate())
+                .cityId(planCreateRequest.getCityId())
+                .dogIds(planCreateRequest.getDogIds())
+                .placeIds(planCreateRequest.getPlaceIds())
                 .build();
     }
 }

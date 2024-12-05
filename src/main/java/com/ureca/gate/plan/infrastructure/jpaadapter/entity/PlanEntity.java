@@ -6,6 +6,7 @@ import com.ureca.gate.plan.domain.Plan;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Getter
 @NoArgsConstructor
+@DynamicUpdate
 @Entity(name = "plans")
 public class PlanEntity extends BaseTimeEntity {
 

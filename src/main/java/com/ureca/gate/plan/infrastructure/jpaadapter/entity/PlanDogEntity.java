@@ -4,7 +4,9 @@ import com.ureca.gate.global.entity.BaseTimeEntity;
 import com.ureca.gate.plan.domain.Plan;
 import com.ureca.gate.plan.domain.PlanDog;
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicUpdate;
 
+@DynamicUpdate
 @Entity(name = "plan_dogs")
 public class PlanDogEntity extends BaseTimeEntity {
 

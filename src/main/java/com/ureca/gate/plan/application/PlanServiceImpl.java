@@ -7,6 +7,8 @@ import com.ureca.gate.place.domain.City;
 import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.plan.application.command.PlanCreateCommand;
 import com.ureca.gate.plan.application.command.PlanListCommand;
+import com.ureca.gate.plan.application.command.PlanUpdateCommand;
+import com.ureca.gate.plan.application.outputport.PlanPlaceRepository;
 import com.ureca.gate.plan.application.outputport.PlanRepository;
 import com.ureca.gate.plan.controller.inputport.PlanService;
 import com.ureca.gate.plan.domain.Plan;
@@ -28,6 +30,7 @@ public class PlanServiceImpl implements PlanService {
     private final PlanRepository planRepository;
     private final CityRepository cityRepository;
     private final PlaceRepository placeRepository;
+    private final PlanPlaceRepository planPlaceRepository;
 
     @Transactional(readOnly = true)
     public CustomPage<PlanInfo> searchPage(PlanListCommand planListCommand) {
@@ -50,6 +53,20 @@ public class PlanServiceImpl implements PlanService {
                 .map(placeRepository::getById)
                 .toList();
         Plan plan = Plan.from(planCreateCommand, city, places);
+        return planRepository.save(plan);
+    }
+
+    @Transactional
+    public Plan update(PlanUpdateCommand planUpdateCommand) {
+        Plan plan = planRepository.getById(planUpdateCommand.getPlanId());
+
+        planPlaceRepository.deleteAll(plan.getPlanPlaces());
+
+        List<Place> places = planUpdateCommand.getPlaceIds()
+                .stream()
+                .map(placeRepository::getById)
+                .toList();
+        plan = plan.update(places);
         return planRepository.save(plan);
     }
 }
