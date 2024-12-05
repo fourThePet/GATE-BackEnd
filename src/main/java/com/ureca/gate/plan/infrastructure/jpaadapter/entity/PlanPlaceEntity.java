@@ -5,12 +5,16 @@ import com.ureca.gate.place.infrastructure.jpaadapter.entity.PlaceEntity;
 import com.ureca.gate.plan.domain.Plan;
 import com.ureca.gate.plan.domain.PlanPlace;
 import jakarta.persistence.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "plan_places")
+@SQLDelete(sql = "UPDATE plan_places SET delete_yn = 'Y' WHERE plan_place_id = ?")
+@Where(clause = "delete_yn = 'N'")
 public class PlanPlaceEntity extends BaseTimeEntity {
 
     @Id
@@ -27,6 +31,8 @@ public class PlanPlaceEntity extends BaseTimeEntity {
     private PlaceEntity place;
 
     private Integer sequence;
+
+    private String deleteYn = "N";
 
     public void setPlan(PlanEntity planEntity) {
         this.plan = planEntity;

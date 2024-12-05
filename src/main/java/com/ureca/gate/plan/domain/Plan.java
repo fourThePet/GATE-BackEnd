@@ -49,4 +49,16 @@ public class Plan {
                 .planPlaces(planPlaces)
                 .build();
     }
+
+    public Plan update(List<Place> places) {
+        List<PlanPlace> planPlaces = PlanPlace.of(places);
+        return Plan.builder()
+                .id(id)
+                .memberId(memberId)
+                .city(city)
+                .date(date)
+                .planDogs(planDogs)
+                .planPlaces(planPlaces)
+                .build();
+    }
 }

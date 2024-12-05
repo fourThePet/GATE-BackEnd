@@ -18,16 +18,31 @@ class PlanTest {
     public static final LocalDate DATE = LocalDate.of(2024, 1, 1);
     public static final City CITY = City.builder().id(1L).build();
     public static final PlanCreateCommand PLAN_CREATE_COMMAND = new PlanCreateCommand(MEMBER_ID, DATE, 1L, DOG_IDS, List.of(1L, 2L));
+    public static final Plan PLAN = Plan.from(PLAN_CREATE_COMMAND, CITY, PLACES);
 
     @Test
     @DisplayName("일정 생성")
     void from() {
-        assertThat(Plan.from(PLAN_CREATE_COMMAND, CITY, PLACES)).isEqualTo(Plan.builder()
-                .memberId(MEMBER_ID)
-                .city(CITY)
-                .date(DATE)
-                .planDogs(PLAN_DOGS)
-                .planPlaces(PLAN_PLACES)
-                .build());
+        assertThat(PLAN)
+                .isEqualTo(Plan.builder()
+                        .memberId(MEMBER_ID)
+                        .city(CITY)
+                        .date(DATE)
+                        .planDogs(PLAN_DOGS)
+                        .planPlaces(PLAN_PLACES)
+                        .build());
+    }
+
+    @Test
+    @DisplayName("일정 수정")
+    void update() {
+        assertThat(PLAN.update(OTHER_PLACES))
+                .isEqualTo(Plan.builder()
+                        .memberId(MEMBER_ID)
+                        .city(CITY)
+                        .date(DATE)
+                        .planDogs(PLAN_DOGS)
+                        .planPlaces(OTHER_PLAN_PLACES)
+                        .build());
     }
 }

@@ -5,9 +5,11 @@ import com.ureca.gate.global.dto.response.PageResponse;
 import com.ureca.gate.global.dto.response.SuccessResponse;
 import com.ureca.gate.plan.application.command.PlanCreateCommand;
 import com.ureca.gate.plan.application.command.PlanListCommand;
+import com.ureca.gate.plan.application.command.PlanUpdateCommand;
 import com.ureca.gate.plan.controller.inputport.PlanService;
 import com.ureca.gate.plan.controller.request.PlanListRequest;
-import com.ureca.gate.plan.controller.request.PlanSaveRequest;
+import com.ureca.gate.plan.controller.request.PlanCreateRequest;
+import com.ureca.gate.plan.controller.request.PlanUpdateRequest;
 import com.ureca.gate.plan.controller.response.PlanInfoResponse;
 import com.ureca.gate.plan.controller.response.PlanResponse;
 import com.ureca.gate.plan.domain.Plan;
@@ -50,9 +52,20 @@ public class PlanController {
     @Operation(summary = "일정 생성 API", description = "장소 아이디 리스트의 순서대로 일정 생성")
     @PostMapping
     public SuccessResponse<PlanResponse> create(@AuthenticationPrincipal Long memberId,
-                                                @RequestBody PlanSaveRequest planSaveRequest) {
-        PlanCreateCommand planCreateCommand = PlanCreateCommand.from(memberId, planSaveRequest);
+                                                @RequestBody PlanCreateRequest planCreateRequest) {
+        PlanCreateCommand planCreateCommand = PlanCreateCommand.from(memberId, planCreateRequest);
         Plan plan = planService.create(planCreateCommand);
+        PlanResponse planResponse = PlanResponse.from(plan);
+        return SuccessResponse.success(planResponse);
+    }
+
+    @Operation(summary = "일정 수정 API")
+    @PutMapping("/{planId}")
+    public SuccessResponse<PlanResponse> update(@AuthenticationPrincipal Long memberId,
+                                                @PathVariable Long planId,
+                                                @RequestBody PlanUpdateRequest planSaveRequest) {
+        PlanUpdateCommand planUpdateCommand = PlanUpdateCommand.from(memberId, planId, planSaveRequest);
+        Plan plan = planService.update(planUpdateCommand);
         PlanResponse planResponse = PlanResponse.from(plan);
         return SuccessResponse.success(planResponse);
     }

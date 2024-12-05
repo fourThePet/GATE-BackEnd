@@ -15,6 +15,11 @@ class PlanPlaceTest {
     public static final List<Place> PLACES = List.of(PLACE_1, PLACE_2);
     public static final List<PlanPlace> PLAN_PLACES = List.of(planPlace(PLACE_1, 1), planPlace(PLACE_2, 2));
 
+    public static final Place PLACE_3 = Place.builder().id(3L).build();
+    public static final Place PLACE_4 = Place.builder().id(4L).build();
+    public static final List<Place> OTHER_PLACES = List.of(PLACE_3, PLACE_4);
+    public static final List<PlanPlace> OTHER_PLAN_PLACES = List.of(planPlace(PLACE_3, 1), planPlace(PLACE_4, 2));
+
     @Test
     @DisplayName("일정 장소 생성 - 순서 자동 발번")
     void of() {
