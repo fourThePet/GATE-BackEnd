@@ -16,9 +16,6 @@ public class GptServiceImpl implements GptService {
         // 입력 데이터를 요구된 형식으로 변환
         String formattedInput = "**도메인**: " + domain + "\n" +
                 "**리뷰 데이터**: " + reviews;
-        System.out.println((formattedInput));
-
-
         String atom = chatClient.prompt()
                 .system("너는 반려동물 동반 가능 시설의 리뷰를 분석하는 전문가이다. \n" +
                         "리뷰 데이터에서 도메인별로 주요 특징(‘원자’)을 추출하고, 이를 기반으로 장점, 단점, 종합 의견을 작성해야 한다. \n" +
