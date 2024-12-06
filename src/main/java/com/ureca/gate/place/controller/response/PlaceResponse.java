@@ -24,6 +24,8 @@ public class PlaceResponse {
     private String roadAddress; //도로명 주소
     @Schema(description = "우편주소", example = "12465")
     private String postalCode; //우편주소
+    @Schema(description = "거리(Km)", example = "0.24")
+    private Double distance;
     @Schema(description = "즐겨찾기 여부[Y/N]", example = "N")
     private YesNo favorites;
 
@@ -43,6 +45,7 @@ public class PlaceResponse {
                 .longitude(place.getLocationPoint().getX())
                 .roadAddress(place.getRoadAddress())
                 .postalCode(place.getPostalCode())
+                .distance(Math.round((place.getDistance() / 1000.0) * 1000) / 1000.0)
                 .favorites(favorites)
                 .build();
     }

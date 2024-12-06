@@ -4,11 +4,16 @@ import com.ureca.gate.global.dto.response.SuccessResponse;
 import com.ureca.gate.review.controller.inputport.ReviewService;
 import com.ureca.gate.review.controller.inputport.ReviewKeywordService;
 import com.ureca.gate.review.controller.inputport.KeywordService;
+import com.ureca.gate.review.controller.inputport.ReviewSummaryService;
 import com.ureca.gate.review.controller.request.ReviewSaveRequest;
+import com.ureca.gate.review.controller.request.ReviewSummaryRequest;
+import com.ureca.gate.review.controller.request.ReviewSummarySearchRequest;
 import com.ureca.gate.review.controller.response.KeywordResponse;
 import com.ureca.gate.review.controller.response.PlaceReviewResponse;
 import com.ureca.gate.review.controller.response.ReviewResponse;
+import com.ureca.gate.review.controller.response.ReviewSummaryResponse;
 import com.ureca.gate.review.domain.Review;
+import com.ureca.gate.review.domain.enumeration.ReviewSummaryType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.io.IOException;
@@ -16,15 +21,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "Review API", description = "리뷰 API")
@@ -36,6 +33,7 @@ public class ReviewController {
   private final ReviewService reviewService;
   private final KeywordService keywordService;
   private final ReviewKeywordService reviewKeywordService;
+  private final ReviewSummaryService reviewSummaryService;
 
   @GetMapping("/category")
   @Operation(summary = "리뷰 태그 조회 API", description = "장소 카테고리에 맞는 리뷰 태그 조회")
@@ -92,5 +90,20 @@ public class ReviewController {
   public SuccessResponse<Object> delete(@AuthenticationPrincipal Long memberId, @PathVariable Long reviewId) {
     reviewService.delete(reviewId);
     return SuccessResponse.successWithoutResult(null);
+  }
+
+  @PostMapping(value = "/summary")
+  @Operation(summary = "리뷰 요약 API", description = "리뷰 요약")
+  public SuccessResponse<ReviewSummaryResponse> createReviewSummary(@RequestBody ReviewSummaryRequest request){
+    ReviewSummaryResponse response = reviewSummaryService.createReviewSummary(request.getDomain(),request.getReviews(),request.getPlaceId());
+    return SuccessResponse.success(response);
+  }
+
+  @GetMapping(value = "/summary")
+  @Operation(summary = "리뷰 요약 조회 API", description = "리뷰 요약 조회 ")
+  public SuccessResponse<ReviewSummaryResponse> getReviewSummary(@RequestParam("type") ReviewSummaryType type,
+                                                                 @RequestBody ReviewSummarySearchRequest request){
+    ReviewSummaryResponse response = reviewSummaryService.getReviewSummary(request.getPlaceId(),type);
+    return SuccessResponse.success(response);
   }
 }

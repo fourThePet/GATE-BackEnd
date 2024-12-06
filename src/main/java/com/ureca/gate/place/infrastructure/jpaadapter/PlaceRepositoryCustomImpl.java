@@ -33,7 +33,15 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                         placeEntity.photoUrl,
                         placeEntity.addressEntity.locationPoint,
                         placeEntity.addressEntity.roadAddress,
-                        placeEntity.addressEntity.postalCode)
+                        placeEntity.addressEntity.postalCode,
+                        Expressions.numberTemplate(
+                                        Double.class,
+                                "function('ST_Distance', {0}, function('ST_SetSRID', function('ST_Point', {1}, {2}), 4326))",
+                                        placeEntity.addressEntity.locationPoint,
+                                        userLocation.getX(),
+                                        userLocation.getY()
+                                )
+                        )// 거리 계산 추가)
                 )
                 .from(placeEntity)
                 .leftJoin(placeEntity.categoryEntity,categoryEntity)
@@ -44,18 +52,31 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                         matchesEntryConditionsAnd(entryConditions), //제한사항
                         matchesTypes(types) // 타입 조건 추가
                 )
+                .orderBy(
+                        Expressions.numberTemplate(
+                                Double.class,
+                                "function('ST_Distance', {0}, function('ST_SetSRID', function('ST_Point', {1}, {2}), 4326))",
+                                placeEntity.addressEntity.locationPoint,
+                                userLocation.getX(),
+                                userLocation.getY()
+                        ).asc() // 거리 기준 오름차순 정렬
+                )
                 .fetch();
     }
 
     // 반경 조건 (ST_Buffer + ST_Contains 활용)
     private BooleanExpression isWithinBuffer(Point userLocation, double radiusMeters) {
         return Expressions.booleanTemplate(
-                "ST_Contains(ST_Buffer(ST_GeomFromText({0}, 4326), {1}), {2})",
-                "POINT(" + userLocation.getY() + " " + userLocation.getX() + ")", // 사용자 위치
-                radiusMeters,                                                    // 반경
-                placeEntity.addressEntity.locationPoint                                                   // 장소 위치
+                "function('ST_DWithin', {0}, function('ST_SetSRID', function('ST_Point', {1}, {2}), 4326), {3}) = true",
+                placeEntity.addressEntity.locationPoint, // 장소 위치
+                userLocation.getX(), // 경도
+                userLocation.getY(), // 위도
+                radiusMeters // 반경
         );
     }
+
+
+
     // 카테고리 조건
     private BooleanExpression matchesCategory(String category) {
         if (category == null) {

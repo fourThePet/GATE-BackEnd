@@ -23,7 +23,8 @@ public class AddressEntity {
     private String lotNumber;
     private String road;
     private String buildingNumber;
-    @Column(nullable = false, columnDefinition = "POINT SRID 4326")
+//    @Column(nullable = false, columnDefinition = "POINT SRID 4326")
+    @Column(nullable = false, columnDefinition = "geography(Point, 4326)")
     private Point locationPoint; // Point(경도, 위도)
     private String postalCode;
     private String roadAddress;
