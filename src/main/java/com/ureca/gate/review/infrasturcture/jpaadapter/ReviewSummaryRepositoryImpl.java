@@ -12,7 +12,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Repository
 public class ReviewSummaryRepositoryImpl implements ReviewSummaryRepository {
-    private final ReviewSummaryJapRepository reviewSummaryJapRepository;
+    private final ReviewSummaryJpaRepository reviewSummaryJapRepository;
 
     @Override
     public ReviewSummary save(ReviewSummary reviewSummary) {

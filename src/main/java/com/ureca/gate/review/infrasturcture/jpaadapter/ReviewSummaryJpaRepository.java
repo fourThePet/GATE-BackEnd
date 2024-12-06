@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface ReviewSummaryJapRepository extends JpaRepository<ReviewSummaryEntity,Long> {
+public interface ReviewSummaryJpaRepository extends JpaRepository<ReviewSummaryEntity,Long> {
     Optional<ReviewSummaryEntity> findByPlaceEntityIdAndType(Long placeId, String type);
 }
