@@ -96,9 +96,6 @@ public class ReviewServiceImpl implements ReviewService {
       throws IOException {
     Member member = memberRepository.findById(memberId).orElseThrow(()->new BusinessException(MEMBER_NOT_FOUND));
     Place place = placeRepository.findById(request.getPlaceId()).orElseThrow(()->new BusinessException(PLACE_NOT_FOUND));
-    if (reviewRepository.existsByMemberAndPlace(member, place)) {
-      throw new BusinessException(REVIEW_ALREADY_EXISTS);
-    }
     Review savedReview = reviewRepository.save(Review.from(member, place, request));
     if(files != null) {
       for(MultipartFile file : files){
