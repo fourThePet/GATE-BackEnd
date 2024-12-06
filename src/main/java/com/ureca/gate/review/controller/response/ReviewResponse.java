@@ -14,6 +14,9 @@ public class ReviewResponse {
   @Schema(description = "리뷰 아이디", example = "1")
   private Long id;
 
+  @Schema(description = "장소 아이디", example = "1")
+  private Long placeId;
+
   @Schema(description = "장소명", example = "더왈츠 애견카페")
   private String placeName;
 
@@ -53,6 +56,7 @@ public class ReviewResponse {
   public static ReviewResponse from(Review review, List<String> fileUrlList, List<String> keywordList) {
     return ReviewResponse.builder()
         .id(review.getId())
+        .placeId(review.getPlace().getId())
         .placeName(review.getPlace().getName())
         .roadAddress(review.getPlace().getAddress().getRoadAddress())
         .nickName(review.getMember().getNickName())
