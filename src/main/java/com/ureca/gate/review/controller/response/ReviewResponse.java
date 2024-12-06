@@ -65,6 +65,7 @@ public class ReviewResponse {
         .receiptCertificate(review.getReceiptCertificate())
         .content(review.getContent())
         .fileUrlList(fileUrlList)
+        .size(review.getSize())
         .keywordList(keywordList)
         .createAt(review.getCreateAt())
         .updateAt(review.getUpdateAt())
