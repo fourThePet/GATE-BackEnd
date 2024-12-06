@@ -40,6 +40,10 @@ public enum CommonErrorCode implements ErrorCode{
     //review error(4601~
     REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "4601", "해당 리뷰를 찾을 수 없습니다"),
     REVIEW_ALREADY_EXISTS(HttpStatus.CONFLICT, "4602", "해당 장소는 이미 리뷰를 작성하였습니다"),
+    REVIEW_SUMMARY_NOT_FOUND(HttpStatus.NOT_FOUND, "4603", "해당 장소의 리뷰 요약을 찾을 수 없습니다."),
+
+
+
 
 
     TEST_NOT_FOUND(HttpStatus.UNAUTHORIZED,"8888","테스트 아이디가 없습니다."),
