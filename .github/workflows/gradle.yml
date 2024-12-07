@@ -9,10 +9,10 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "deploy/4" ]
 
 env:
-  S3_BUCKET_NAME: gate-back-test-bucket
+  S3_BUCKET_NAME: gate-bucket-back
 
 jobs:
   build:
@@ -29,7 +29,7 @@ jobs:
           mkdir -p ./src/main/resources
           cd ./src/main/resources
           touch ./application.yml
-          echo "${{ secrets.APPLICATION }}" > ./application.yml
+          echo "${{ secrets.APPLICATION2 }}" > ./application.yml
 
       - name: Grant execute permission for Gradle Wrapper
         run: chmod +x gradlew
@@ -71,8 +71,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY}}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY}}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY2}}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY2}}
           aws-region: ap-northeast-2
 
       - name: Upload to S3
@@ -81,12 +81,12 @@ jobs:
         # Deploy
       - name: Deploy
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY2 }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY2 }}
         run: |
           aws deploy create-deployment \
-          --application-name gate-back-test \
-          --deployment-group-name gate-back-test-group \
+          --application-name gate-deploy \
+          --deployment-group-name gate-deploy-group \
           --file-exists-behavior OVERWRITE \
-          --s3-location bucket=gate-back-test-bucket,bundleType=zip,key=back_end_test.zip \
+          --s3-location bucket=gate-bucket-back,bundleType=zip,key=back_end_test.zip \
           --region ap-northeast-2
