@@ -28,7 +28,7 @@ public class PlaceEntity extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private CategoryEntity categoryEntity;
 
-    @Enumerated
+    @Embedded
     private AddressEntity addressEntity;
     private String phoneNumber;
     private String photoUrl;
