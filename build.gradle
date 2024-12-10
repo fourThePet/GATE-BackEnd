@@ -58,6 +58,8 @@ dependencies {
 
 	//공간 인덱스 사용
 	implementation 'org.hibernate.orm:hibernate-spatial:6.5.3.Final'
+	//vector
+	implementation 'org.hibernate:hibernate-vector:6.4.0.Final'
 
 	//spring AI
 	implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter:1.0.0-SNAPSHOT'
