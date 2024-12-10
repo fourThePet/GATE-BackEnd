@@ -3,7 +3,7 @@ name: Java CI with Gradle-TEST
 
 on:
   push:
-    branches: [ "develop/3" ]
+    branches: [ "develop" ]
 
 env:
   S3_BUCKET_NAME: gate-back-test
