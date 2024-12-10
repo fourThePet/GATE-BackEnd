@@ -1,6 +1,7 @@
 package com.ureca.gate.place.controller.response;
 
 import com.ureca.gate.place.domain.enumeration.YesNo;
+import com.ureca.gate.place.infrastructure.command.PlaceCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,7 +36,7 @@ public class PlaceResponse {
 //    private Integer reviewNum;
 
 
-    public static PlaceResponse from(com.ureca.gate.place.infrastructure.dto.PlaceResponse place,YesNo favorites){
+    public static PlaceResponse from(PlaceCommand place, YesNo favorites){
         return PlaceResponse.builder()
                 .id(place.getId())
                 .name(place.getName())

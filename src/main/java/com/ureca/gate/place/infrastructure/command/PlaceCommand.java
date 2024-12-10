@@ -1,4 +1,4 @@
-package com.ureca.gate.place.infrastructure.dto;
+package com.ureca.gate.place.infrastructure.command;
 
 import com.querydsl.core.annotations.QueryProjection;
 import com.ureca.gate.place.infrastructure.jpaadapter.entity.PlaceEntity;
@@ -8,7 +8,7 @@ import org.locationtech.jts.geom.Point;
 
 @Getter
 @Builder
-public class PlaceResponse {
+public class PlaceCommand {
     private Long id;
     private String name;
     private String category;
@@ -21,7 +21,7 @@ public class PlaceResponse {
 //    private Integer reviewNum;
 
     @QueryProjection
-    public PlaceResponse(Long id, String name, String category, String profileUrl, Point locationPoint,String roadAddress, String postalCode, Double distance) {
+    public PlaceCommand(Long id, String name, String category, String profileUrl, Point locationPoint, String roadAddress, String postalCode, Double distance) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -34,8 +34,8 @@ public class PlaceResponse {
 //        this.reviewNum = reviewNum;
     }
 
-    public static PlaceResponse from(PlaceEntity placeEntity){
-        return PlaceResponse.builder()
+    public static PlaceCommand from(PlaceEntity placeEntity){
+        return PlaceCommand.builder()
                 .id(placeEntity.getId())
                 .name(placeEntity.getName())
                 .category(placeEntity.getCategoryEntity().getName())

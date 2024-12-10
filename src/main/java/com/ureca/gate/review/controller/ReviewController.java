@@ -102,7 +102,7 @@ public class ReviewController {
   @GetMapping(value = "/summary")
   @Operation(summary = "리뷰 요약 조회 API", description = "리뷰 요약 조회 ")
   public SuccessResponse<ReviewSummaryResponse> getReviewSummary(@RequestParam("type") ReviewSummaryType type,
-                                                                 @RequestBody ReviewSummarySearchRequest request){
+                                                                 ReviewSummarySearchRequest request){
     ReviewSummaryResponse response = reviewSummaryService.getReviewSummary(request.getPlaceId(),type);
     return SuccessResponse.success(response);
   }
