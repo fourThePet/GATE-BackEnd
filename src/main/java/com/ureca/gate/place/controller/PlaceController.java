@@ -46,6 +46,7 @@ public class PlaceController {
     @Operation(summary = "시설 리스트 조회 API", description = "시설(장소) 리스트 조회 API")
     @GetMapping("")
     public SuccessResponse<List<PlaceResponse>> searchCities(@AuthenticationPrincipal Long memberId,
+                                                             @RequestParam(value = "query", required = false) String query,
                                                              @RequestParam("latitude") Double latitude,
                                                              @RequestParam("longitude") Double longitude,
                                                              @Parameter(description = "카테고리. 가능한 값: [의료,미용,반려동물용품,식당,카페,숙소,문화시설,여행지]",
@@ -61,7 +62,7 @@ public class PlaceController {
                                                                      example = "parkingAvailable,indoorAvailable")
                                                              @RequestParam(value = "types", required = false) List<String> types) {
 
-        List<PlaceResponse> response = placeListService.getPlaceList(memberId,latitude, longitude, category, size, entryConditions, types);
+        List<PlaceResponse> response = placeListService.getPlaceList(memberId,latitude, longitude, query, category, size, entryConditions, types);
         return SuccessResponse.success(response);
     }
 
