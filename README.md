@@ -85,7 +85,7 @@ src/main/java/com/ureca/gate
 ```
 
 ## 인프라 구조
-![인프라 구조](https://github.com/user-attachments/assets/0b3bb7d6-43b1-4dd3-a04e-ab93e65561f4)
+![인프라 구조](https://github.com/user-attachments/assets/de9e851a-ddc3-4faa-af26-7a63fd33848e)
 
 #### 백엔드 파이프라인
 github action - S3 - CodeDeploy - ec2
