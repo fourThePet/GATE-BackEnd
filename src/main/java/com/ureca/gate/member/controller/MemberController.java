@@ -44,7 +44,7 @@ public class MemberController {
         // Step 2: idToken으로 로그인 처리
         MemberSignInResponse response = authenticationService.login(code);
 
-        String url = "http://localhost:5173/auth/kakao?"+
+        String url = "https://www.gatepet.kro.kr/auth/kakao?"+
                 "accessToken="+response.getAccessToken()+
                 "&refreshToken="+response.getRefreshToken()+
                 "&status="+response.getStatus();
