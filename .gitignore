@@ -41,5 +41,3 @@ application.yml
 
 ##local docker volume##
 docker-mysql-gate
-
-.github/workflows/gradle.yml
