@@ -2,14 +2,9 @@ package com.ureca.gate.place.controller;
 
 import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.global.dto.response.SuccessResponse;
-import com.ureca.gate.place.controller.inputport.CityListService;
-import com.ureca.gate.place.controller.inputport.PlaceCategoryService;
-import com.ureca.gate.place.controller.inputport.PlaceDetailService;
-import com.ureca.gate.place.controller.inputport.PlaceListService;
-import com.ureca.gate.place.controller.response.CityResponse;
-import com.ureca.gate.place.controller.response.PlaceCategoryResponse;
-import com.ureca.gate.place.controller.response.PlaceDetailResponse;
-import com.ureca.gate.place.controller.response.PlaceResponse;
+import com.ureca.gate.place.controller.inputport.*;
+import com.ureca.gate.place.controller.response.*;
+import com.ureca.gate.place.domain.PopularPlace;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,6 +23,7 @@ public class PlaceController {
     private final PlaceDetailService placeDetailService;
     private final PlaceListService placeListService;
     private final CityListService cityListService;
+    private final ViewsService viewsService;
 
     @Operation(summary = "카테고리 리스트 조회 API", description = "장소 카테고리 리스트 조회 API")
     @GetMapping("/categories")
@@ -70,6 +66,23 @@ public class PlaceController {
     public SuccessResponse<List<CityResponse>> searchCities() {
 
         List<CityResponse> response = cityListService.getCityList();
+        return SuccessResponse.success(response);
+    }
+
+    @Operation(summary = "조회수 증가 API", description = "사용자가 특정 장소의 상세 페이지를 조회했을 때, 해당 장소의 조회수를 증가")
+    @PostMapping("/{placeId}/views")
+    public SuccessResponse<Object> increaseViews(@AuthenticationPrincipal Long memberId,
+                                                 @PathVariable Long placeId) {
+        viewsService.increaseViews(memberId, placeId);
+        return SuccessResponse.successWithoutResult(null);
+    }
+
+    @Operation(summary = "인기 장소 리스트 API", description = "조회수 높은 장소 리스트 조회, 로그인 불필요")
+    @GetMapping("/popular")
+    public SuccessResponse<List<PopularPlaceResponse>> getPopularPlaces(@Parameter(description = "인기 순위 제한 (10 입력시, 조회수 상위 1위부터 10위까지 출력)", example = "10")
+                                                    @RequestParam int limit) {
+        List<PopularPlace> popularPlaces = viewsService.getPopularPlaces(limit);
+        List<PopularPlaceResponse> response = PopularPlaceResponse.from(popularPlaces);
         return SuccessResponse.success(response);
     }
 }
