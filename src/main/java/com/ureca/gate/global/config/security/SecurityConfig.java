@@ -39,6 +39,7 @@ public class SecurityConfig{
                         .requestMatchers("/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()  // swagger 토큰 발급
                         .requestMatchers("/api/v1/members/social-login/kakao").permitAll()
                         .requestMatchers("/api/v1/members/kakao").permitAll()
+                        .requestMatchers("/api/v1/members/reissue").permitAll()
                         .requestMatchers("/api/v1/members/**").hasAnyRole("USER")
                         .requestMatchers("/api/v1/favorites/**").hasAnyRole("USER")
                         .requestMatchers("**").permitAll()
