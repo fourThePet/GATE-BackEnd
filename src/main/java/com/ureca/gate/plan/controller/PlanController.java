@@ -7,6 +7,7 @@ import com.ureca.gate.plan.application.command.PlanCreateCommand;
 import com.ureca.gate.plan.application.command.PlanDeleteCommand;
 import com.ureca.gate.plan.application.command.PlanListCommand;
 import com.ureca.gate.plan.application.command.PlanUpdateCommand;
+import com.ureca.gate.plan.controller.inputport.PlanRouteService;
 import com.ureca.gate.plan.controller.inputport.PlanService;
 import com.ureca.gate.plan.controller.request.PlanListRequest;
 import com.ureca.gate.plan.controller.request.PlanCreateRequest;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 public class PlanController {
 
     private final PlanService planService;
+    private final PlanRouteService planRouteService;
 
     @Operation(summary = "일정 리스트 조회 API", description = "현재 날짜를 기준으로 지난 여행, 다가오는 여행 리스트를 정렬조건에 따라 페이징")
     @GetMapping
@@ -78,5 +80,14 @@ public class PlanController {
         PlanDeleteCommand planDeleteCommand = PlanDeleteCommand.from(memberId, planId);
         planService.delete(planDeleteCommand);
         return SuccessResponse.successWithoutResult(null);
+    }
+
+    @Operation(summary = "일정 추천 경로 API", description = "일정 내 장소 간 최단경로 계산")
+    @PostMapping("/route")
+    public SuccessResponse<PlanResponse> createRoute(@AuthenticationPrincipal Long memberId, @RequestBody PlanCreateRequest planCreateRequest) {
+        PlanCreateCommand planCreateCommand = PlanCreateCommand.from(memberId, planCreateRequest);
+        Plan plan = planRouteService.createRoute(planCreateCommand);
+        PlanResponse planResponse = PlanResponse.from(plan);
+        return SuccessResponse.success(planResponse);
     }
 }
