@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Getter
@@ -22,6 +23,7 @@ public class PlanPlaceResponse {
 
     public static List<PlanPlaceResponse> from(List<PlanPlace> planPlaces) {
         return planPlaces.stream()
+                .sorted(Comparator.comparingInt(PlanPlace::getSequence))
                 .map(PlanPlaceResponse::from)
                 .toList();
     }
