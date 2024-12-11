@@ -73,7 +73,7 @@ public class PlaceController {
     @Operation(summary = "인기 장소 리스트 API", description = "조회수 높은 장소 리스트 조회, 로그인 불필요")
     @GetMapping("/popular")
     public SuccessResponse<List<PopularPlaceResponse>> getPopularPlaces(@Parameter(description = "인기 순위 제한 (10 입력시, 조회수 상위 1위부터 10위까지 출력)", example = "10")
-                                                    @RequestParam int limit) {
+                                                                        @RequestParam int limit) {
         List<PopularPlace> popularPlaces = viewsService.getPopularPlaces(limit);
         List<PopularPlaceResponse> response = PopularPlaceResponse.from(popularPlaces);
         return SuccessResponse.success(response);
