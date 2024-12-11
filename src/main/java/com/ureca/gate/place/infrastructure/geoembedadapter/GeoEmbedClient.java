@@ -8,7 +8,7 @@ import java.util.Map;
 
 @FeignClient(
         name = "GeoEmbedClient",
-        url = "http://localhost:5008")
+        url = "http://43.201.31.245:5000")
 public interface GeoEmbedClient {
     @PostMapping(value = "/embed")
     Map<String, Object> extractEmbeddingAndRegion(@RequestParam("query") String query);

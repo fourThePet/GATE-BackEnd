@@ -2,14 +2,13 @@ package com.ureca.gate.favorites.infrastructure.jpaadapter;
 
 import com.ureca.gate.favorites.application.outputport.FavoritesRepository;
 import com.ureca.gate.favorites.domain.Favorites;
+import com.ureca.gate.favorites.infrastructure.command.PlaceReviewInfo;
 import com.ureca.gate.favorites.infrastructure.jpaadapter.entitiy.FavoritesEntity;
-import com.ureca.gate.place.domain.Place;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Repository
@@ -34,10 +33,8 @@ public class FavoritesRepositoryImpl implements FavoritesRepository {
 
 
     @Override
-    public List<Place> findByMemberIdWithPlace(Long memberId) {
-        return favoritesJpaRepository.findByMemberEntityIdWithPlace(memberId).stream()
-                .map(favoritesEntity -> favoritesEntity.getPlaceEntity().toModel())
-                .collect(Collectors.toList());
+    public List<PlaceReviewInfo> getFavoritePlacesByMemberId(Long memberId) {
+        return favoritesJpaRepository.getAllFavorites(memberId);
     }
 
     @Override

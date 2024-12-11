@@ -6,10 +6,13 @@ import com.ureca.gate.global.entity.BaseTimeEntity;
 import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.place.domain.enumeration.YesNo;
 import com.ureca.gate.place.infrastructure.jpaadapter.entity.vo.AddressEntity;
+import com.ureca.gate.review.infrasturcture.jpaadapter.entity.ReviewEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name ="place")
@@ -47,6 +50,9 @@ public class PlaceEntity extends BaseTimeEntity {
     private String indoorAvailable; //실내이용여부
     private String outdoorAvailable; //실외이용여부
     private LocalDate lastUpdated; //데이터 마지막 수정일
+
+    @OneToMany(mappedBy = "placeEntity", cascade = CascadeType.ALL)
+    List<ReviewEntity> reviewEntityList = new ArrayList<>();
 
     public static PlaceEntity from(Place place){
         PlaceEntity placeEntity = new PlaceEntity();
