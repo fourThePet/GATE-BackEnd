@@ -9,4 +9,5 @@ import lombok.Getter;
 public class City {
     private Long id;
     private String name;
+    private String photoUrl;
 }
