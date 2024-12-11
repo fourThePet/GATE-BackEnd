@@ -26,18 +26,18 @@ public class FavoritesRepositoryCustomImpl implements FavoritesRepositoryCustom{
         return queryFactory
                 .select(new QPlaceReviewInfo(
                         placeEntity.id,
-                        placeEntity.name,                            // 장소명
+                        placeEntity.name,
                         placeEntity.addressEntity.locationPoint,
-                        placeEntity.addressEntity.roadAddress,               // 도로명
+                        placeEntity.addressEntity.roadAddress,
                         placeEntity.photoUrl,
-                        reviewEntity.id.count().intValue(),                        // 별점 수
+                        reviewEntity.id.count().intValue(),
                         Expressions.numberTemplate(Double.class, "COALESCE(ROUND({0}, 1), 0)", reviewEntity.starRate.avg())
                 ))
                 .from(favoritesEntity)
-                .join(favoritesEntity.placeEntity, placeEntity)         // PlaceEntity와 JOIN
-                .leftJoin(placeEntity.reviewEntityList, reviewEntity)   // ReviewEntity와 LEFT JOIN
+                .join(favoritesEntity.placeEntity, placeEntity)
+                .leftJoin(placeEntity.reviewEntityList, reviewEntity)
                 .where(favoritesEntity.memberEntity.id.eq(memberId)) // memberId로 필터링
-                .groupBy(placeEntity.id)                         // 장소별로 그룹화하여 평균 별점 계산
+                .groupBy(placeEntity.id)// 장소별로 그룹화하여 평균 별점 계산
                 .fetch();
     }
 }
