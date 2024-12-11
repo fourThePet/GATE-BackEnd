@@ -15,6 +15,13 @@ public class PlanDogRepositoryImpl implements PlanDogRepository {
     private final PlanDogJpaRepository planDogJpaRepository;
 
     @Override
+    public List<PlanDog> findAllByDogId(Long dogId) {
+        return planDogJpaRepository.findAllByDogId(dogId)
+                .stream().map(PlanDogEntity::toModel)
+                .toList();
+    }
+
+    @Override
     public void deleteAll(List<PlanDog> planPlaces) {
         List<PlanDogEntity> entities = planPlaces.stream().map(PlanDogEntity::from).toList();
         planDogJpaRepository.deleteAll(entities);
