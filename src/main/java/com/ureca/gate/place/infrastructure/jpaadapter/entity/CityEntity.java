@@ -17,10 +17,13 @@ public class CityEntity {
 
     private String name;
 
+    private String photoUrl;
+
     public static CityEntity from(City city){
         CityEntity cityEntity = new CityEntity();
         cityEntity.id = city.getId();
         cityEntity.name = city.getName();
+        cityEntity.photoUrl = city.getPhotoUrl();
         return cityEntity;
     }
 
@@ -28,6 +31,7 @@ public class CityEntity {
         return City.builder()
                 .id(id)
                 .name(name)
+                .photoUrl(photoUrl)
                 .build();
     }
 }

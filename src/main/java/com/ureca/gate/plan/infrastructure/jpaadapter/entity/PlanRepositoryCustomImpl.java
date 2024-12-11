@@ -31,6 +31,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                 .select(new QPlanCommand(
                         planEntity.id,
                         planEntity.city.name,
+                        planEntity.city.photoUrl,
                         planEntity.date,
                         planEntity.planDogs.size()))
                 .from(planEntity)
@@ -57,11 +58,11 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
         return new PageImpl<>(plans, pageable, Optional.ofNullable(total).orElse(0L));
     }
 
-    private static OrderSpecifier<Long> orderBySortOrder(SortOrder sortOrder) {
+    private static OrderSpecifier<LocalDate> orderBySortOrder(SortOrder sortOrder) {
         if (sortOrder.isDesc()) {
-            return planEntity.id.desc();
+            return planEntity.date.desc();
         }
-        return planEntity.id.asc();
+        return planEntity.date.asc();
     }
 
     private BooleanExpression dateThan(DateFilter dateFilter) {

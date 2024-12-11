@@ -61,6 +61,10 @@ public class PlaceDetailResponse {
     private YesNo favorites;
     @Schema(description = "데이터 마지막 수정일", example = "2022-02-10")
     private LocalDate lastUpdated; //데이터 마지막 수정일
+    @Schema(description = "위도", example = "37.7519573928855")
+    private double latitude;
+    @Schema(description = "경도", example = "127.049286104824")
+    private double longitude;
 
     public static PlaceDetailResponse from(Place place,YesNo isFavorite){
         return PlaceDetailResponse.builder()
@@ -89,6 +93,8 @@ public class PlaceDetailResponse {
                 .favorites(isFavorite)
                 .lastUpdated(place.getLastUpdated())
                 .lastUpdated(place.getLastUpdated())
+                .latitude(place.getAddress().getLocationPoint().getY())
+                .longitude(place.getAddress().getLocationPoint().getX())
                 .build();
     }
 
