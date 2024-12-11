@@ -32,7 +32,7 @@ public class PlaceController {
         return SuccessResponse.success(response);
     }
 
-    @Operation(summary = "시설 정보 조회 API", description = "해당 장소의 상세정보 조회 API")
+    @Operation(summary = "시설 정보 조회 API", description = "해당 장소의 상세정보 조회 API, 조회수 증가")
     @GetMapping("/{placeId}")
     public SuccessResponse<PlaceDetailResponse> getPlaceDetail(@AuthenticationPrincipal Long memberId,
                                                                @PathVariable("placeId")Long placeId) {
@@ -67,14 +67,6 @@ public class PlaceController {
 
         List<CityResponse> response = cityListService.getCityList();
         return SuccessResponse.success(response);
-    }
-
-    @Operation(summary = "조회수 증가 API", description = "사용자가 특정 장소의 상세 페이지를 조회했을 때, 해당 장소의 조회수를 증가")
-    @PostMapping("/{placeId}/views")
-    public SuccessResponse<Object> increaseViews(@AuthenticationPrincipal Long memberId,
-                                                 @PathVariable Long placeId) {
-        viewsService.increaseViews(memberId, placeId);
-        return SuccessResponse.successWithoutResult(null);
     }
 
     @Operation(summary = "인기 장소 리스트 API", description = "조회수 높은 장소 리스트 조회, 로그인 불필요")

@@ -1,10 +1,9 @@
 package com.ureca.gate.place.application;
 
-import com.ureca.gate.favorites.application.outputport.FavoritesRepository;
 import com.ureca.gate.favorites.controller.inputport.FavoritesService;
-import com.ureca.gate.favorites.domain.Favorites;
 import com.ureca.gate.global.exception.custom.BusinessException;
 import com.ureca.gate.place.application.outputport.PlaceRepository;
+import com.ureca.gate.place.application.outputport.ViewsRepository;
 import com.ureca.gate.place.controller.inputport.PlaceDetailService;
 import com.ureca.gate.place.controller.response.PlaceDetailResponse;
 import com.ureca.gate.place.domain.Place;
@@ -22,10 +21,13 @@ public class PlaceDetailServiceImpl implements PlaceDetailService {
 
     private final PlaceRepository placeRepository;
     private final FavoritesService favoritesService;
+    private final ViewsRepository viewsRepository;
+
     @Override
     public PlaceDetailResponse getPlaceDetail(Long memberId,Long placeId) {
         Place place = placeRepository.findById(placeId).orElseThrow(()-> new BusinessException(PLACE_NOT_FOUND));
         YesNo isFavorite = favoritesService.checkIfFavorite(memberId,placeId);
+        viewsRepository.increaseViews(memberId, place);
         return PlaceDetailResponse.from(place,isFavorite);
     }
 
