@@ -31,6 +31,7 @@ public class PlanRepositoryCustomImpl implements PlanRepositoryCustom {
                 .select(new QPlanCommand(
                         planEntity.id,
                         planEntity.city.name,
+                        planEntity.city.photoUrl,
                         planEntity.date,
                         planEntity.planDogs.size()))
                 .from(planEntity)
