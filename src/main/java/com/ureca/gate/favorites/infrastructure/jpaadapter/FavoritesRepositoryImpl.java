@@ -4,6 +4,7 @@ import com.ureca.gate.favorites.application.outputport.FavoritesRepository;
 import com.ureca.gate.favorites.domain.Favorites;
 import com.ureca.gate.favorites.infrastructure.command.PlaceReviewInfo;
 import com.ureca.gate.favorites.infrastructure.jpaadapter.entitiy.FavoritesEntity;
+import com.ureca.gate.place.infrastructure.command.FavoritesCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -33,8 +34,8 @@ public class FavoritesRepositoryImpl implements FavoritesRepository {
 
 
     @Override
-    public List<PlaceReviewInfo> getFavoritePlacesByMemberId(Long memberId) {
-        return favoritesJpaRepository.getAllFavorites(memberId);
+    public List<PlaceReviewInfo> searchFavoritePlaces(FavoritesCondition favoritesCondition) {
+        return favoritesJpaRepository.getAllFavorites(favoritesCondition);
     }
 
     @Override

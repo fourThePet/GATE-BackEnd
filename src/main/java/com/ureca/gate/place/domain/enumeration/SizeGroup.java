@@ -4,6 +4,7 @@ import com.ureca.gate.dog.domain.enumeration.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -18,6 +19,9 @@ public enum SizeGroup {
     private final List<String> allowSizeList;
 
     public static List<String> allowSizesBySize(Size size) {
+        if (size == null) {
+            return Collections.emptyList();
+        }
         return SizeGroup.valueOf(size.name()).getAllowSizeList();
     }
 }
