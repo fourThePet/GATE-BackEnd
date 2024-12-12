@@ -8,6 +8,8 @@ import com.ureca.gate.global.exception.custom.BusinessException;
 import com.ureca.gate.global.exception.errorcode.CommonErrorCode;
 import com.ureca.gate.global.util.file.FileStorageService;
 import com.ureca.gate.global.util.file.UploadFile;
+import com.ureca.gate.plan.application.outputport.PlanDogRepository;
+import com.ureca.gate.plan.domain.PlanDog;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     private final DogRepository dogRepository;
     private final FileStorageService fileStorageService;
+    private final PlanDogRepository planDogRepository;
 
     @Override
     public List<Dog> getAll(Long memberId) {
@@ -60,5 +63,7 @@ public class ProfileServiceImpl implements ProfileService {
     public void delete(Long dogId) {
         Dog dog = getById(dogId);
         dogRepository.delete(dog);
+        List<PlanDog> planDogs = planDogRepository.findAllByDogId(dogId);
+        planDogRepository.deleteAll(planDogs);
     }
 }

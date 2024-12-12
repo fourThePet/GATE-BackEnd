@@ -93,17 +93,16 @@ public class ReviewController {
   }
 
   @PostMapping(value = "/summary")
-  @Operation(summary = "리뷰 요약 API", description = "리뷰 요약")
   public SuccessResponse<ReviewSummaryResponse> createReviewSummary(@RequestBody ReviewSummaryRequest request){
     ReviewSummaryResponse response = reviewSummaryService.createReviewSummary(request.getDomain(),request.getReviews(),request.getPlaceId());
     return SuccessResponse.success(response);
   }
 
-  @GetMapping(value = "/summary")
-  @Operation(summary = "리뷰 요약 조회 API", description = "리뷰 요약 조회 ")
-  public SuccessResponse<ReviewSummaryResponse> getReviewSummary(@RequestParam("type") ReviewSummaryType type,
-                                                                 @RequestBody ReviewSummarySearchRequest request){
-    ReviewSummaryResponse response = reviewSummaryService.getReviewSummary(request.getPlaceId(),type);
+  @GetMapping(value = "/summary/place/{placeId}")
+  public SuccessResponse<ReviewSummaryResponse> getReviewSummary(@PathVariable("placeId") Long placeId
+                                                                 ,@RequestParam("type") ReviewSummaryType type){
+    System.out.println(placeId);
+    ReviewSummaryResponse response = reviewSummaryService.getReviewSummary(placeId,type);
     return SuccessResponse.success(response);
   }
 }

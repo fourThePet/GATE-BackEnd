@@ -12,12 +12,14 @@ import java.util.List;
 public class PlanInfo {
     private final Long id;
     private final String cityName;
+    private final String cityPhotoUrl;
     private final LocalDate date;
     private final Integer dogSize;
 
-    public PlanInfo(Long id, String cityName, LocalDate date, Integer dogSize) {
+    public PlanInfo(Long id, String cityName, String cityPhotoUrl, LocalDate date, Integer dogSize) {
         this.id = id;
         this.cityName = cityName;
+        this.cityPhotoUrl = cityPhotoUrl;
         this.date = date;
         this.dogSize = dogSize;
     }
@@ -32,6 +34,7 @@ public class PlanInfo {
         return PlanInfo.builder()
                 .id(planCommand.getId())
                 .cityName(planCommand.getCityName())
+                .cityPhotoUrl(planCommand.getCityPhotoUrl())
                 .date(planCommand.getDate())
                 .dogSize(planCommand.getDogSize())
                 .build();

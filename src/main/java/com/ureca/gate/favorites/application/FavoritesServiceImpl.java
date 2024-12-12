@@ -50,7 +50,7 @@ public class FavoritesServiceImpl implements FavoritesService {
 
     @Override
     public List<FavoritesResponse> getAll(Long memberId) {
-        return favoritesRepository.findByMemberIdWithPlace(memberId).stream()
+        return favoritesRepository.getFavoritePlacesByMemberId(memberId).stream()
                 .map(FavoritesResponse::from)
                 .collect(Collectors.toList());
     }

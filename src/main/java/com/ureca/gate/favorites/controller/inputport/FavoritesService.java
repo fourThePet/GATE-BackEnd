@@ -8,9 +8,7 @@ import java.util.List;
 
 public interface FavoritesService {
     FavoritesEnrollResponse create(Long memberId, Long placeId);
-
     void delete(Long memberId, Long placeId);
     List<FavoritesResponse> getAll(Long memberId);
-
     YesNo checkIfFavorite(Long memberId, Long placeId);
 }

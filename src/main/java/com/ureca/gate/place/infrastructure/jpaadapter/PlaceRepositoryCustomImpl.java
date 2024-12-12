@@ -5,8 +5,8 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ureca.gate.dog.domain.enumeration.Size;
-import com.ureca.gate.place.infrastructure.dto.PlaceResponse;
-import com.ureca.gate.place.infrastructure.dto.QPlaceResponse;
+import com.ureca.gate.place.infrastructure.command.PlaceCommand;
+import com.ureca.gate.place.infrastructure.command.QPlaceCommand;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Repository;
@@ -24,9 +24,9 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<PlaceResponse> findByQueryDsl(Point userLocation, String category, Size size, List<String> entryConditions, List<String> types) {
+    public List<PlaceCommand> findByQueryDsl(Point userLocation, String category, Size size, List<String> entryConditions, List<String> types) {
         return queryFactory
-                .select(new QPlaceResponse(
+                .select(new QPlaceCommand(
                         placeEntity.id,
                         placeEntity.name,
                         placeEntity.categoryEntity.name,
@@ -63,6 +63,44 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                 )
                 .fetch();
     }
+    @Override
+    public List<PlaceCommand> findByVectorSearchAndQueryDsl(
+            List<Long> placeIds,
+            Point userLocation,
+            String category,
+            Size size,
+            List<String> entryConditions,
+            List<String> types) {
+
+        return queryFactory
+                .select(new QPlaceCommand(
+                        placeEntity.id,
+                        placeEntity.name,
+                        placeEntity.categoryEntity.name,
+                        placeEntity.photoUrl,
+                        placeEntity.addressEntity.locationPoint,
+                        placeEntity.addressEntity.roadAddress,
+                        placeEntity.addressEntity.postalCode,
+                        Expressions.numberTemplate(
+                                Double.class,
+                                "function('ST_Distance', {0}, function('ST_SetSRID', function('ST_Point', {1}, {2}), 4326))",
+                                placeEntity.addressEntity.locationPoint,
+                                userLocation.getX(),
+                                userLocation.getY()
+                        )
+                ))
+                .from(placeEntity)
+                .leftJoin(placeEntity.categoryEntity, categoryEntity)
+                .where(
+                        placeEntity.id.in(placeIds),
+                        matchesCategory(category),
+                        matchesSize(size),
+                        matchesEntryConditionsAnd(entryConditions),
+                        matchesTypes(types)
+                )
+                .fetch();
+    }
+
 
     // 반경 조건 (ST_Buffer + ST_Contains 활용)
     private BooleanExpression isWithinBuffer(Point userLocation, double radiusMeters) {
@@ -74,9 +112,6 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                 radiusMeters // 반경
         );
     }
-
-
-
     // 카테고리 조건
     private BooleanExpression matchesCategory(String category) {
         if (category == null) {
@@ -153,3 +188,4 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
 
 
 }
+
