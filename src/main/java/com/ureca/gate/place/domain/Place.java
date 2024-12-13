@@ -2,6 +2,7 @@ package com.ureca.gate.place.domain;
 
 
 import com.ureca.gate.dog.domain.enumeration.Size;
+import com.ureca.gate.favorites.application.command.FavoritesCommand;
 import com.ureca.gate.place.domain.enumeration.YesNo;
 import com.ureca.gate.place.domain.vo.Address;
 import lombok.Builder;
@@ -39,4 +40,14 @@ public class Place {
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
 
+    public static Place from(FavoritesCommand favoritesCommand) {
+        return Place.builder()
+                .address(Address.builder()
+                        .city(City.builder()
+                                .id(favoritesCommand.getCityId())
+                                .build())
+                        .build())
+                .size(favoritesCommand.getSize())
+                .build();
+    }
 }
