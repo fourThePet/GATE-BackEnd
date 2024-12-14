@@ -2,6 +2,7 @@ package com.ureca.gate.plan.domain;
 
 import com.ureca.gate.place.domain.City;
 import com.ureca.gate.plan.application.command.PlanCreateCommand;
+import com.ureca.gate.plan.application.command.PlanUpdateCommand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +37,7 @@ class PlanTest {
     @Test
     @DisplayName("일정 수정")
     void update() {
-        assertThat(PLAN.update(OTHER_PLACES))
+        assertThat(PLAN.update(PlanUpdateCommand.builder().build(), OTHER_PLACES))
                 .isEqualTo(Plan.builder()
                         .memberId(MEMBER_ID)
                         .city(CITY)
