@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Objects;
 
-import static com.ureca.gate.place.domain.enumeration.SizeGroup.*;
+import static com.ureca.gate.dog.domain.enumeration.DogSizeGroup.*;
 import static com.ureca.gate.place.infrastructure.jpaadapter.entity.QCategoryEntity.categoryEntity;
 import static com.ureca.gate.place.infrastructure.jpaadapter.entity.QPlaceEntity.placeEntity;
 

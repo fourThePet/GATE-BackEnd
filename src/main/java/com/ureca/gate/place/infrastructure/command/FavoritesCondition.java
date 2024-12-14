@@ -1,7 +1,7 @@
 package com.ureca.gate.place.infrastructure.command;
 
 import com.ureca.gate.favorites.application.command.FavoritesCommand;
-import com.ureca.gate.place.domain.enumeration.SizeGroup;
+import com.ureca.gate.dog.domain.enumeration.DogSizeGroup;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -22,7 +22,7 @@ public class FavoritesCondition {
     }
 
     public static FavoritesCondition from(FavoritesCommand favoritesCommand) {
-        List<String> allowSizes = SizeGroup.allowSizesBySize(favoritesCommand.getSize());
+        List<String> allowSizes = DogSizeGroup.allowSizesBySize(favoritesCommand.getSize());
         return FavoritesCondition.builder()
                 .memberId(favoritesCommand.getMemberId())
                 .cityId(favoritesCommand.getCityId())

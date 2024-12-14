@@ -3,12 +3,14 @@ package com.ureca.gate.place.controller.response;
 
 import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.place.domain.Place;
+import com.ureca.gate.dog.domain.enumeration.DogSizeGroup;
 import com.ureca.gate.place.domain.enumeration.YesNo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Builder
@@ -43,6 +45,8 @@ public class PlaceDetailResponse {
     private String restriction; //제한사항
     @Schema(description = "입장가능 크기[SMALL/MEDIUM/LARGE]", example = "LARGE")
     private Size sizeAvailable; //입장가능 크기
+    @Schema(description = "입장허용 크기 리스트[SMALL/MEDIUM/LARGE]", example = "[\"SMALL\", \"MEDIUM\", \"LARGE\"")
+    private List<String> allowSizes; //허용크기 리스트
     @Schema(description = "목줄 필수여부[Y/N]", example = "Y")
     private YesNo isLeashRequired; // 목줄 필수 여부
     @Schema(description = "입마개 필수여부[Y/N]", example = "Y")
@@ -83,6 +87,7 @@ public class PlaceDetailResponse {
                 .admissionFee(place.getAdmissionFee())
                 .restriction(place.getRestriction())
                 .sizeAvailable(place.getSize())
+                .allowSizes(DogSizeGroup.allowSizesBySize(place.getSize()))
                 .isLeashRequired(place.getIsLeashRequired())
                 .isMuzzleRequired(place.getIsMuzzleRequired())
                 .isCageRequired(place.getIsCageRequired())

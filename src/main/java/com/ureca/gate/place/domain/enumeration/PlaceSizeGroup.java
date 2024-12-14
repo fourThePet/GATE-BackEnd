@@ -9,11 +9,11 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
-public enum SizeGroup {
+public enum PlaceSizeGroup {
 
-    SMALL(List.of("SMALL", "MEDIUM", "LARGE")),
-    MEDIUM(List.of("SMALL", "MEDIUM")),
-    LARGE(List.of("LARGE")),
+    SMALL(List.of("SMALL")),
+    MEDIUM(List.of("MEDIUM", "LARGE")),
+    LARGE(List.of("SMALL", "MEDIUM", "LARGE")),
     ;
 
     private final List<String> allowSizeList;
@@ -22,6 +22,6 @@ public enum SizeGroup {
         if (size == null) {
             return Collections.emptyList();
         }
-        return SizeGroup.valueOf(size.name()).getAllowSizeList();
+        return PlaceSizeGroup.valueOf(size.name()).getAllowSizeList();
     }
 }
