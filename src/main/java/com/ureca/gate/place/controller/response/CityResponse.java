@@ -14,12 +14,18 @@ public class CityResponse {
     private String cityName;
     @Schema(description = "사진 url", example = "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSqY5qzl_afPdIYFkXhZ8zU5nBSviNozTg_D4KyDdRyzO6ae345vCEiMnSEh9rM3DTsRErcpxwDNRxXbuw9B8Zeh3K9ZAPBGTNPzh2UpA")
     private String photoUrl;
+    @Schema(description = "위도", example = "37.7519573928855")
+    private double latitude;
+    @Schema(description = "경도", example = "127.049286104824")
+    private double longitude;
 
     public static CityResponse from(City city){
         return CityResponse.builder()
                 .id(city.getId())
                 .cityName(city.getName())
                 .photoUrl(city.getPhotoUrl())
+                .latitude(city.getLocationPoint().getY())
+                .longitude(city.getLocationPoint().getX())
                 .build();
     }
 
