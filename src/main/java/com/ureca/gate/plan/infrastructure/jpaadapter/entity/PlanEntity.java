@@ -11,9 +11,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.FetchType.LAZY;
@@ -43,10 +41,10 @@ public class PlanEntity extends BaseTimeEntity {
     private String deleteYn = "N";
 
     @OneToMany(mappedBy = "plan", cascade = ALL)
-    private List<PlanDogEntity> planDogs = new ArrayList<>();
+    private Set<PlanDogEntity> planDogs = new HashSet<>();
 
     @OneToMany(mappedBy = "plan", cascade = ALL)
-    private List<PlanPlaceEntity> planPlaces = new ArrayList<>();
+    private Set<PlanPlaceEntity> planPlaces = new HashSet<>();
 
     private void addPlanDog(PlanDogEntity planDogEntity) {
         planDogs.add(planDogEntity);
@@ -67,7 +65,7 @@ public class PlanEntity extends BaseTimeEntity {
                 .orElse(null);
         planEntity.date = plan.getDate();
         plan.getPlanDogs().forEach(planDog -> planEntity.addPlanDog(PlanDogEntity.from(planDog)));
-        plan.getPlanPlaces().forEach(planDog -> planEntity.addPlanPlace(PlanPlaceEntity.from(planDog)));
+        plan.getPlanPlaces().forEach(planPlace -> planEntity.addPlanPlace(PlanPlaceEntity.from(planPlace)));
         return planEntity;
     }
 
