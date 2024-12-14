@@ -42,6 +42,8 @@ public class SecurityConfig{
                         .requestMatchers("/api/v1/members/reissue").permitAll()
                         .requestMatchers("/api/v1/members/**").hasAnyRole("USER")
                         .requestMatchers("/api/v1/favorites/**").hasAnyRole("USER")
+                        .requestMatchers("/api/v1/dogs/**").hasAnyRole("USER")
+                        .requestMatchers("/api/v1/plans/**").hasAnyRole("USER")
                         .requestMatchers("**").permitAll()
                         .anyRequest().authenticated())
 
