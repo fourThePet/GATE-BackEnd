@@ -69,7 +69,7 @@ public class PlanServiceImpl implements PlanService {
                 .stream()
                 .map(placeRepository::getById)
                 .toList();
-        plan = plan.update(places);
+        plan = plan.update(planUpdateCommand, places);
         return planRepository.save(plan);
     }
 

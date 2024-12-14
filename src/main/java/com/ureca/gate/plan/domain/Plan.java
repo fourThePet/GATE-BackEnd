@@ -3,6 +3,7 @@ package com.ureca.gate.plan.domain;
 import com.ureca.gate.place.domain.City;
 import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.plan.application.command.PlanCreateCommand;
+import com.ureca.gate.plan.application.command.PlanUpdateCommand;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -50,13 +51,14 @@ public class Plan {
                 .build();
     }
 
-    public Plan update(List<Place> places) {
+    public Plan update(PlanUpdateCommand planUpdateCommand, List<Place> places) {
+        LocalDate date = planUpdateCommand.getDate();
         List<PlanPlace> planPlaces = PlanPlace.of(places);
         return Plan.builder()
                 .id(id)
                 .memberId(memberId)
                 .city(city)
-                .date(date)
+                .date(date == null ? this.date : date)
                 .planDogs(planDogs)
                 .planPlaces(planPlaces)
                 .build();
