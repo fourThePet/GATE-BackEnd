@@ -47,6 +47,8 @@ public class PlaceDetailResponse {
     private Size sizeAvailable; //입장가능 크기
     @Schema(description = "입장허용 크기 리스트[SMALL/MEDIUM/LARGE]", example = "[\"SMALL\", \"MEDIUM\", \"LARGE\"")
     private List<String> allowSizes; //허용크기 리스트
+    @Schema(description = "입장허용 상세", example = "8kg 미만")
+    private String allowedSize; //허용크기 리스트
     @Schema(description = "목줄 필수여부[Y/N]", example = "Y")
     private YesNo isLeashRequired; // 목줄 필수 여부
     @Schema(description = "입마개 필수여부[Y/N]", example = "Y")
@@ -87,6 +89,7 @@ public class PlaceDetailResponse {
                 .admissionFee(place.getAdmissionFee())
                 .restriction(place.getRestriction())
                 .sizeAvailable(place.getSize())
+                .allowedSize(place.getAllowedSize())
                 .allowSizes(DogSizeGroup.allowSizesBySize(place.getSize()))
                 .isLeashRequired(place.getIsLeashRequired())
                 .isMuzzleRequired(place.getIsMuzzleRequired())

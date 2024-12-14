@@ -50,6 +50,7 @@ public class PlaceEntity extends BaseTimeEntity {
     private String indoorAvailable; //실내이용여부
     private String outdoorAvailable; //실외이용여부
     private LocalDate lastUpdated; //데이터 마지막 수정일
+    private String allowedSize;
 
     @OneToMany(mappedBy = "placeEntity", cascade = CascadeType.ALL)
     List<ReviewEntity> reviewEntityList = new ArrayList<>();
@@ -78,6 +79,7 @@ public class PlaceEntity extends BaseTimeEntity {
         placeEntity.indoorAvailable= place.getIndoorAvailable().name();
         placeEntity.outdoorAvailable= place.getOutdoorAvailable().name();
         placeEntity.lastUpdated= place.getLastUpdated();
+        placeEntity.allowedSize = place.getAllowedSize();
         return placeEntity;
     }
 
@@ -104,6 +106,7 @@ public class PlaceEntity extends BaseTimeEntity {
                 .indoorAvailable(YesNo.from(indoorAvailable))  //실내이용여부
                 .outdoorAvailable(YesNo.from(outdoorAvailable))  //실외이용여부
                 .lastUpdated(lastUpdated)  //데이터 마지막 수정일
+                .allowedSize(allowedSize)
                 .createAt(getCreateAt())
                 .updateAt(getUpdateAt())
                 .build();

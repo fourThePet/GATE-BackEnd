@@ -39,6 +39,7 @@ public class Place {
     private LocalDate lastUpdated; //데이터 마지막 수정일
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
+    private String allowedSize;
 
     public static Place from(FavoritesCommand favoritesCommand) {
         return Place.builder()
