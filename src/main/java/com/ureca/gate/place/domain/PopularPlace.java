@@ -19,4 +19,14 @@ public class PopularPlace {
         this.cityName = cityName;
         this.photoUrl = photoUrl;
     }
+
+    public static PopularPlace from(Place place) {
+        return PopularPlace.builder()
+                .placeId(place.getId())
+                .placeName(place.getName())
+                .categoryName(place.getCategory().getName())
+                .cityName(place.getAddress().getCity().getName())
+                .photoUrl(place.getPhotoUrl())
+                .build();
+    }
 }

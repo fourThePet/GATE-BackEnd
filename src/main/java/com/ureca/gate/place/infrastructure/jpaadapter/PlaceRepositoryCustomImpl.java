@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Objects;
 
+import static com.ureca.gate.place.domain.enumeration.SizeGroup.*;
 import static com.ureca.gate.place.infrastructure.jpaadapter.entity.QCategoryEntity.categoryEntity;
 import static com.ureca.gate.place.infrastructure.jpaadapter.entity.QPlaceEntity.placeEntity;
 
@@ -131,7 +132,10 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
 
     // 사이즈 조건
     private BooleanExpression matchesSize(Size size) {
-        return size != null ? placeEntity.size.eq(size.name()) : null;
+        if (size == null) {
+            return null;
+        }
+        return placeEntity.size.in(allowSizesBySize(size));
     }
     //입장조건
     private BooleanExpression matchesEntryConditionsAnd(List<String> entryConditions) {

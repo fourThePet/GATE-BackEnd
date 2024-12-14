@@ -2,6 +2,7 @@ package com.ureca.gate.favorites.application.outputport;
 
 import com.ureca.gate.favorites.domain.Favorites;
 import com.ureca.gate.favorites.infrastructure.command.PlaceReviewInfo;
+import com.ureca.gate.place.infrastructure.command.FavoritesCondition;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,7 @@ public interface FavoritesRepository {
 
     void delete(Favorites favorites);
 
-    List<PlaceReviewInfo> getFavoritePlacesByMemberId(Long memberId);
+    List<PlaceReviewInfo> searchFavoritePlaces(FavoritesCondition favoritesCondition);
 
     boolean existsByMemberIdAndPlaceId(Long memberId, Long placeId);
 }

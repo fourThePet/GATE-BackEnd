@@ -1,5 +1,6 @@
 package com.ureca.gate.favorites.application;
 
+import com.ureca.gate.favorites.application.command.FavoritesCommand;
 import com.ureca.gate.favorites.application.outputport.FavoritesRepository;
 import com.ureca.gate.favorites.controller.inputport.FavoritesService;
 import com.ureca.gate.favorites.controller.response.FavoritesEnrollResponse;
@@ -11,6 +12,7 @@ import com.ureca.gate.member.domain.Member;
 import com.ureca.gate.place.application.outputport.PlaceRepository;
 import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.place.domain.enumeration.YesNo;
+import com.ureca.gate.place.infrastructure.command.FavoritesCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,8 +51,9 @@ public class FavoritesServiceImpl implements FavoritesService {
     }
 
     @Override
-    public List<FavoritesResponse> getAll(Long memberId) {
-        return favoritesRepository.getFavoritePlacesByMemberId(memberId).stream()
+    public List<FavoritesResponse> getAll(FavoritesCommand favoritesCommand) {
+        FavoritesCondition favoritesCondition = FavoritesCondition.from(favoritesCommand);
+        return favoritesRepository.searchFavoritePlaces(favoritesCondition).stream()
                 .map(FavoritesResponse::from)
                 .collect(Collectors.toList());
     }

@@ -1,14 +1,17 @@
 package com.ureca.gate.favorites.controller;
 
 
+import com.ureca.gate.favorites.application.command.FavoritesCommand;
 import com.ureca.gate.favorites.controller.inputport.FavoritesService;
 import com.ureca.gate.favorites.controller.request.FavoritesSaveRequest;
 import com.ureca.gate.favorites.controller.response.FavoritesEnrollResponse;
 import com.ureca.gate.favorites.controller.response.FavoritesResponse;
 import com.ureca.gate.global.dto.response.SuccessResponse;
+import com.ureca.gate.favorites.controller.request.FavoritesRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,8 +39,10 @@ public class FavoritesController {
 
     @GetMapping("")
     @Operation(summary = "즐겨찾기 리스트 조회 API", description = "나의 즐겨찾기 리스트 조회 API")
-    public SuccessResponse<List<FavoritesResponse>> search(@AuthenticationPrincipal Long memberId){
-        List<FavoritesResponse> responses = favoritesService.getAll(memberId);
+    public SuccessResponse<List<FavoritesResponse>> search(@AuthenticationPrincipal Long memberId,
+                                                           @ParameterObject FavoritesRequest favoritesRequest){
+        FavoritesCommand favoritesCommand = FavoritesCommand.from(memberId, favoritesRequest);
+        List<FavoritesResponse> responses = favoritesService.getAll(favoritesCommand);
         return SuccessResponse.success(responses);
     }
 }
