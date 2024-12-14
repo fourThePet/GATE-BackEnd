@@ -5,6 +5,7 @@ import com.ureca.gate.place.domain.City;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import org.locationtech.jts.geom.Point;
 
 @Entity
 @Table(name ="city")
@@ -19,11 +20,15 @@ public class CityEntity {
 
     private String photoUrl;
 
+    @Column(nullable = false, columnDefinition = "geography(Point, 4326)")
+    private Point locationPoint; // Point(경도, 위도)
+
     public static CityEntity from(City city){
         CityEntity cityEntity = new CityEntity();
         cityEntity.id = city.getId();
         cityEntity.name = city.getName();
         cityEntity.photoUrl = city.getPhotoUrl();
+        cityEntity.locationPoint = city.getLocationPoint();
         return cityEntity;
     }
 
@@ -32,6 +37,7 @@ public class CityEntity {
                 .id(id)
                 .name(name)
                 .photoUrl(photoUrl)
+                .locationPoint(locationPoint)
                 .build();
     }
 }

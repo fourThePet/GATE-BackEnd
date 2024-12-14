@@ -43,6 +43,7 @@ public class MemberController {
     public SuccessResponse<MemberSignInResponse> kakaoLogin(@RequestParam final String code, HttpServletResponse res)throws IOException {
         // Step 2: idToken으로 로그인 처리
         MemberSignInResponse response = authenticationService.login(code);
+        log.info("ACCESS_TOKEN :: {}", response.getAccessToken());
 
         String url = "https://www.gatepet.kro.kr/auth/kakao?"+
                 "accessToken="+response.getAccessToken()+
