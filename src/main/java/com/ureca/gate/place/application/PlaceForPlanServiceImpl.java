@@ -20,16 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class PlaceForPlanServiceImpl implements PlaceForPlanService {
     private final PlaceElasticRepository placeElasticRepository;
     @Override
-    public SliceResponse<PlaceForPlanResponse> getPlacesForPlan(String query, String city, String category, int page) {
+    public SliceResponse<PlaceForPlanResponse>  getPlacesForPlan(String query, String city, String category, int page) {
 
         log.info("Executing search for query: {}, city: {}, category: {}", query, city, category);
 
         Pageable pageable = PageRequest.of(page, 20,
                 Sort.by(Sort.Order.desc("_score"), Sort.Order.desc("starAvg"))); // _score(정확도)와 starAvg(평점) 기준 정렬
 
-        CustomSlice<SearchPlace> customSlice = (query != null && !query.isEmpty())
-                ? placeElasticRepository.findByQueryAndCategoryAndCity(query, category, city, pageable)
-                : placeElasticRepository.findByCategoryAndCity(category, city, pageable);
+        CustomSlice<SearchPlace> customSlice =placeElasticRepository.findByQueryAndCategoryAndCity(query, city, category,pageable);
 
         return SliceResponse.from(customSlice, PlaceForPlanResponse::from);
 

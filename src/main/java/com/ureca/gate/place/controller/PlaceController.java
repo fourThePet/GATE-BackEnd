@@ -3,6 +3,7 @@ package com.ureca.gate.place.controller;
 import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.global.dto.response.SliceResponse;
 import com.ureca.gate.global.dto.response.SuccessResponse;
+import com.ureca.gate.global.util.city.CityMapper;
 import com.ureca.gate.place.controller.inputport.*;
 import com.ureca.gate.place.controller.response.*;
 import com.ureca.gate.place.domain.PopularPlace;
@@ -73,15 +74,18 @@ public class PlaceController {
      */
     @Operation(summary = "일정(장소선택) 시설 리스트 조회 API", description = "일정(장소선택) 시설 리스트 조회 API - hasNext =true이면 다음페이자가 있다는 의미 (+더보기)")
     @GetMapping("/plan-search")
-    public SuccessResponse<SliceResponse<PlaceForPlanResponse>> getPlacesForPlan(@RequestParam(value = "query", required = false) String query,
-                                                                                 @Parameter(description = "지역", example = "부산")
-                                                                                 @RequestParam("city") String city,
+    public SuccessResponse<SliceResponse<PlaceForPlanResponse> > getPlacesForPlan(@RequestParam(value = "query", required = false) String query,
+                                                                                 @Parameter(description = "지역", example = "1")
+                                                                                 @RequestParam("cityId") Long cityId,
                                                                                  @Parameter(description = "카테고리. 가능한 값: [식당,카페,숙소,문화시설,여행지]",
                                                                                          example = "식당")
-                                                                                 @RequestParam("category") String category,
+                                                                                 @RequestParam(value = "category", required = false) String category,
                                                                                  @Parameter(description = "페이지 순서 0부터 시작 ")
                                                                                  @RequestParam(value = "page", defaultValue = "0") int page){
-        SliceResponse<PlaceForPlanResponse> response = placeForPlanService.getPlacesForPlan(query,city, category, page);
+
+        // cityId를 cityName으로 변환
+        String city = CityMapper.getCityName(cityId);
+        SliceResponse<PlaceForPlanResponse>  response = placeForPlanService.getPlacesForPlan(query,city, category, page);
         return SuccessResponse.success(response);
     }
 
