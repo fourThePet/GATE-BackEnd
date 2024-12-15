@@ -10,4 +10,6 @@ public interface PlanRouteService {
   KakaoMobilityResponseCommand getRouteResponse(Place origin, Place destination);
 
   Plan createRoute(PlanCreateCommand planCreateCommand);
+
+  Plan createGptRoute(PlanCreateCommand planCreateCommand);
 }
