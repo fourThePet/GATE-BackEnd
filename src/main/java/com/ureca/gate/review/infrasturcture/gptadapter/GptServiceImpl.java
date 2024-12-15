@@ -112,10 +112,10 @@ public class GptServiceImpl implements GptService {
 
     @Override
     public String makeReviewSummary(String answer) {
-        String atom = chatClient.prompt()
+        return chatClient.prompt()
                 .system("""
                 1. 너는 고객이 상품이나 서비스를 선택하는 데 도움을 주는 리뷰 평가 전문가이다.
-                2. '원자'는 리뷰를 나타내는 특징이다. '원자'로 불리는 것들을 입력으로 주겠다. 반드시 '원자'의 내용으로 리뷰를 판단하라. 
+                2. '원자'는 리뷰를 나타내는 특징이다. '원자'로 불리는 것들을 입력으로 주겠다. 반드시 '원자'의 내용으로 리뷰를 판단하라.
                 3. 리뷰를 판단할 때 장점,단점, 그리고 종합적인 의견으로 리뷰를 판단하여야한다.
                 4. 리뷰 판단은 사용자가 정보를 참고할 수 있는 형태로 작성하며, 점주 입장에서의 표현은 사용하지 마라.
                 5. 리뷰 요약의 내용은 자연스럽고 고객 지향적인 어투를 사용해야 하며, '~입니다'와 같은 문장을 사용하라. '~임', '~은' 등의 간략한 표현은 사용하지 마라.
@@ -145,7 +145,6 @@ public class GptServiceImpl implements GptService {
                 .user(answer)
                 .call()
                 .content();
-        return atom;
     }
 }
 

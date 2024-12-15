@@ -2,7 +2,6 @@ package com.ureca.gate.review.application;
 
 import static com.ureca.gate.global.exception.errorcode.CommonErrorCode.MEMBER_NOT_FOUND;
 import static com.ureca.gate.global.exception.errorcode.CommonErrorCode.PLACE_NOT_FOUND;
-import static com.ureca.gate.global.exception.errorcode.CommonErrorCode.REVIEW_ALREADY_EXISTS;
 
 import com.ureca.gate.global.exception.custom.BusinessException;
 import com.ureca.gate.global.exception.errorcode.CommonErrorCode;
@@ -11,6 +10,7 @@ import com.ureca.gate.global.util.file.UploadFile;
 import com.ureca.gate.member.application.outputport.MemberRepository;
 import com.ureca.gate.member.domain.Member;
 import com.ureca.gate.place.application.outputport.PlaceRepository;
+import com.ureca.gate.place.controller.inputport.PlaceService;
 import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.review.application.outputport.ReviewFileRepository;
 import com.ureca.gate.review.application.outputport.ReviewRepository;
@@ -51,7 +51,7 @@ public class ReviewServiceImpl implements ReviewService {
   private final ReviewRepository reviewRepository;
   private final ReviewFileRepository reviewFileRepository;
 
-
+  private final PlaceService placeService;
   @Transactional
   public Review getById(Long reviewId) {
     return reviewRepository.findById(reviewId).orElseThrow(() -> new BusinessException(
@@ -97,6 +97,8 @@ public class ReviewServiceImpl implements ReviewService {
     Member member = memberRepository.findById(memberId).orElseThrow(()->new BusinessException(MEMBER_NOT_FOUND));
     Place place = placeRepository.findById(request.getPlaceId()).orElseThrow(()->new BusinessException(PLACE_NOT_FOUND));
     Review savedReview = reviewRepository.save(Review.from(member, place, request));
+
+
     if(files != null) {
       for(MultipartFile file : files){
         UploadFile uploadFile = fileStorageService.storeFile(memberId, file, fileDir);
@@ -108,8 +110,12 @@ public class ReviewServiceImpl implements ReviewService {
       Keyword keyword = keywordService.getById(keywordId);
       ReviewKeyword reviewKeyword = reviewKeywordService.create(savedReview, keyword);
     }
+
     List<String> fileUrlList = getFileUrlList(memberId, savedReview.getReviewFiles());
     List<String> keywordList = reviewKeywordService.getReviewKeywordContents(savedReview);
+
+    placeService.addReviewAndUpdateAvgRating(savedReview);
+
     return ReviewResponse.from(savedReview, fileUrlList, keywordList);
   }
 
@@ -128,11 +134,17 @@ public class ReviewServiceImpl implements ReviewService {
       }
     }
     reviewKeywordService.deleteAll(review);
+
     for (Long keywordId : request.getKeywords()){
       Keyword keyword = keywordService.getById(keywordId);
       ReviewKeyword reviewKeyword = reviewKeywordService.create(review, keyword);
     }
-    return reviewRepository.save(review.update(request));
+
+    Review updateReview = review.update(request);
+
+    placeService.updateReviewAndRecalculateAvgRating(updateReview);
+
+    return reviewRepository.save(updateReview);
   }
 
   @Transactional
@@ -143,6 +155,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
     reviewKeywordService.deleteAll(review);
     reviewRepository.delete(review);
+
+    placeService.deleteReviewAndRecalculateAvgRating(review);
   }
 
   @Override

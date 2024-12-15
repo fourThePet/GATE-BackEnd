@@ -24,6 +24,7 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
+    //검색어 없을때, 반경기준
     @Override
     public List<PlaceCommand> findByQueryDsl(Point userLocation, String category, Size size, List<String> entryConditions, List<String> types) {
         return queryFactory
@@ -64,6 +65,7 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                 )
                 .fetch();
     }
+    //검색어가 있을 경우 조회
     @Override
     public List<PlaceCommand> findByVectorSearchAndQueryDsl(
             List<Long> placeIds,
@@ -101,8 +103,6 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                 )
                 .fetch();
     }
-
-
     // 반경 조건 (ST_Buffer + ST_Contains 활용)
     private BooleanExpression isWithinBuffer(Point userLocation, double radiusMeters) {
         return Expressions.booleanTemplate(
