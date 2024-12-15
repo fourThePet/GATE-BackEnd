@@ -71,11 +71,15 @@ public class PlaceController {
      * 1. Order 처리 (검색어와 score(유사도) 내림차순 -> 평점 내림차순) 형태인데 평점이 낮은데 검색어와 유사도가 높은 순으로 출력이됨.
      * 2. (리뷰작성시)Redis Stream 으로 리스너처리
      */
-    @Operation(summary = "일정(장소선택) 시설 리스트 조회 API", description = "일정(장소선택) 시설 리스트 조회 API")
+    @Operation(summary = "일정(장소선택) 시설 리스트 조회 API", description = "일정(장소선택) 시설 리스트 조회 API - hasNext =true이면 다음페이자가 있다는 의미 (+더보기)")
     @GetMapping("/plan-search")
     public SuccessResponse<SliceResponse<PlaceForPlanResponse>> getPlacesForPlan(@RequestParam(value = "query", required = false) String query,
+                                                                                 @Parameter(description = "지역", example = "부산")
                                                                                  @RequestParam("city") String city,
+                                                                                 @Parameter(description = "카테고리. 가능한 값: [식당,카페,숙소,문화시설,여행지]",
+                                                                                         example = "식당")
                                                                                  @RequestParam("category") String category,
+                                                                                 @Parameter(description = "페이지 순서 0부터 시작 ")
                                                                                  @RequestParam(value = "page", defaultValue = "0") int page){
         SliceResponse<PlaceForPlanResponse> response = placeForPlanService.getPlacesForPlan(query,city, category, page);
         return SuccessResponse.success(response);
