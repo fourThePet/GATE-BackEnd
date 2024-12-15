@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class PlaceResponse {
+public class PlaceForMapResponse {
     @Schema(description = "장소 아이디", example = "1")
     private Long id;
     @Schema(description = "장소 이름", example = "멍멍이카페")
@@ -30,14 +30,8 @@ public class PlaceResponse {
     @Schema(description = "즐겨찾기 여부[Y/N]", example = "N")
     private YesNo favorites;
 
-//    @Schema(description = "평균별", example = "4.5")
-//    private float star;
-//    @Schema(description = "리뷰수", example = "1")
-//    private Integer reviewNum;
-
-
-    public static PlaceResponse from(PlaceCommand place, YesNo favorites){
-        return PlaceResponse.builder()
+    public static PlaceForMapResponse from(PlaceCommand place, YesNo favorites){
+        return PlaceForMapResponse.builder()
                 .id(place.getId())
                 .name(place.getName())
                 .category(place.getCategory())

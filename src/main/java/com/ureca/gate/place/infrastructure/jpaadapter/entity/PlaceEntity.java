@@ -34,6 +34,7 @@ public class PlaceEntity extends BaseTimeEntity {
     @Embedded
     private AddressEntity addressEntity;
     private String phoneNumber;
+    @Column(length = 1000)
     private String photoUrl;
     private String website;
     private String holiday; //휴무일

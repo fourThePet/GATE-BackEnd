@@ -12,7 +12,13 @@ public interface PlaceRepository {
     Optional<Place> findById(Long placeId);
     Place getById(Long placeId);
 
-    List<PlaceCommand> findByQueryDsl(Point userLocation, String category, Size size, List<String> entryConditions, List<String> types);
+    List<PlaceCommand> findByQueryDsl(
+            Point userLocation,
+            String category,
+            Size size,
+            List<String> entryConditions,
+            List<String> types
+    );
 
     List<PlaceCommand> findByVectorSearchAndQueryDsl(
             List<Long> placeIds,

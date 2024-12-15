@@ -1,6 +1,6 @@
 package com.ureca.gate.place.infrastructure.geoembedadapter;
 
-import com.ureca.gate.place.application.outputport.GeoEmbedApi;
+import com.ureca.gate.place.application.outputport.GeoEmbedApiService;
 import com.ureca.gate.place.infrastructure.command.GeoEmbed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
-public class GeoEmbedApiImpl implements GeoEmbedApi {
+public class GeoEmbedApiServiceImpl implements GeoEmbedApiService {
     private final GeoEmbedClient geoEmbedClient;
 
     @Override

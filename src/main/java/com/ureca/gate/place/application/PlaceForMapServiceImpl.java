@@ -2,10 +2,10 @@ package com.ureca.gate.place.application;
 
 import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.favorites.controller.inputport.FavoritesService;
-import com.ureca.gate.place.application.outputport.GeoEmbedApi;
+import com.ureca.gate.place.application.outputport.GeoEmbedApiService;
 import com.ureca.gate.place.application.outputport.PlaceRepository;
-import com.ureca.gate.place.controller.inputport.PlaceListService;
-import com.ureca.gate.place.controller.response.PlaceResponse;
+import com.ureca.gate.place.controller.inputport.PlaceForMapService;
+import com.ureca.gate.place.controller.response.PlaceForMapResponse;
 import com.ureca.gate.place.domain.enumeration.YesNo;
 import com.ureca.gate.place.domain.vo.Address;
 import com.ureca.gate.place.infrastructure.command.GeoEmbed;
@@ -26,17 +26,17 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
-public class PlaceListServiceImpl implements PlaceListService {
+public class PlaceForMapServiceImpl implements PlaceForMapService {
     private final PlaceRepository placeRepository;
     private final FavoritesService favoritesService;
-    private final GeoEmbedApi geoEmbedApi;
+    private final GeoEmbedApiService geoEmbedApiService;
     private final PlaceSearchService placeService;
 
     private static final GeometryFactory geometryFactory =  new GeometryFactory(new PrecisionModel(), 4326);
 
 
     @Override
-    public List<PlaceResponse> getPlaceList(Long memberId, Double latitude, Double longitude, String query,String category, Size size, List<String> entryConditions, List<String> types) {
+    public List<PlaceForMapResponse> getPlacesForMap(Long memberId, Double latitude, Double longitude, String query, String category, Size size, List<String> entryConditions, List<String> types) {
 
         Point userLocation = geometryFactory.createPoint(new Coordinate(longitude, latitude));
         userLocation.setSRID(4326); // SRID 4326 (WGS 84 좌표계)로 설정
@@ -62,7 +62,7 @@ public class PlaceListServiceImpl implements PlaceListService {
     }
 
     private List<PlaceCommand> getPlacesByEmbedding(String query, Point userLocation, String category, Size size, List<String> entryConditions, List<String> types) {
-        GeoEmbed apiResponse = geoEmbedApi.extractEmbeddingAndRegion(query);  // GeoEmbed 호출
+        GeoEmbed apiResponse = geoEmbedApiService.extractEmbeddingAndRegion(query);  // GeoEmbed 호출
 
         Address address = (apiResponse.getRegions() == null || apiResponse.getRegions().isEmpty())
                 ? null
@@ -73,9 +73,9 @@ public class PlaceListServiceImpl implements PlaceListService {
     }
 
     // 즐겨찾기 상태 매핑 메서드
-    private PlaceResponse mapToPlaceResponseWithFavoriteStatus(PlaceCommand place, Long memberId) {
+    private PlaceForMapResponse mapToPlaceResponseWithFavoriteStatus(PlaceCommand place, Long memberId) {
         YesNo isFavorite = favoritesService.checkIfFavorite(memberId, place.getId());
-        return PlaceResponse.from(place, isFavorite);
+        return PlaceForMapResponse.from(place, isFavorite);
     }
 }
 

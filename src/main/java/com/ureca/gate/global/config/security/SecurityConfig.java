@@ -8,6 +8,7 @@ import com.ureca.gate.global.util.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -44,6 +45,13 @@ public class SecurityConfig{
                         .requestMatchers("/api/v1/favorites/**").hasAnyRole("USER")
                         .requestMatchers("/api/v1/dogs/**").hasAnyRole("USER")
                         .requestMatchers("/api/v1/plans/**").hasAnyRole("USER")
+                        .requestMatchers("/api/v1/reviews/my").hasAnyRole("USER")
+                        .requestMatchers(HttpMethod.POST,"/api/v1/reviews/**").hasAnyRole("USER")
+                        .requestMatchers(HttpMethod.PUT,"/api/v1/reviews/{reviewId}").hasAnyRole("USER")
+                        .requestMatchers(HttpMethod.DELETE,"/api/v1/reviews/{reviewId}").hasAnyRole("USER")
+
+
+
                         .requestMatchers("**").permitAll()
                         .anyRequest().authenticated())
 

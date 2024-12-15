@@ -62,9 +62,6 @@ public class PlanServiceImpl implements PlanService {
     @Transactional
     public Plan update(PlanUpdateCommand planUpdateCommand) {
         Plan plan = planRepository.getById(planUpdateCommand.getPlanId());
-
-        planPlaceRepository.deleteAll(plan.getPlanPlaces());
-
         List<Place> places = planUpdateCommand.getPlaceIds()
                 .stream()
                 .map(placeRepository::getById)

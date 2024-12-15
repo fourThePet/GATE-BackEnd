@@ -40,10 +40,10 @@ public class PlanEntity extends BaseTimeEntity {
 
     private String deleteYn = "N";
 
-    @OneToMany(mappedBy = "plan", cascade = ALL)
+    @OneToMany(mappedBy = "plan", cascade = ALL, orphanRemoval = true)
     private Set<PlanDogEntity> planDogs = new HashSet<>();
 
-    @OneToMany(mappedBy = "plan", cascade = ALL)
+    @OneToMany(mappedBy = "plan", cascade = ALL, orphanRemoval = true)
     private Set<PlanPlaceEntity> planPlaces = new HashSet<>();
 
     private void addPlanDog(PlanDogEntity planDogEntity) {
