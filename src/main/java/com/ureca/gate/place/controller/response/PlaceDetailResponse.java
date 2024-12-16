@@ -3,7 +3,7 @@ package com.ureca.gate.place.controller.response;
 
 import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.place.domain.Place;
-import com.ureca.gate.dog.domain.enumeration.DogSizeGroup;
+import com.ureca.gate.place.domain.enumeration.PlaceSizeGroup;
 import com.ureca.gate.place.domain.enumeration.YesNo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -92,7 +92,7 @@ public class PlaceDetailResponse {
                 .restriction(place.getRestriction())
                 .sizeAvailable(place.getSize())
                 .allowedSize(place.getAllowedSize())
-                .allowSizes(DogSizeGroup.allowSizesBySize(place.getSize()))
+                .allowSizes(PlaceSizeGroup.allowSizesBySize(place.getSize()))
                 .isLeashRequired(place.getIsLeashRequired())
                 .isMuzzleRequired(place.getIsMuzzleRequired())
                 .isCageRequired(place.getIsCageRequired())
