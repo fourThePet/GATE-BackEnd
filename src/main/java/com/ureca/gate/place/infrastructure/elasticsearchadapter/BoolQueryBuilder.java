@@ -30,6 +30,13 @@ public class BoolQueryBuilder {
             filterQueries.add(new TermQuery.Builder().field("city").value(city).build()._toQuery());
         }
 
+        // "must_not" 조건으로 제외할 카테고리 추가
+        List<Query> mustNotQueries = new ArrayList<>();
+        mustNotQueries.add(new TermQuery.Builder().field("category").value("의료").build()._toQuery());
+        mustNotQueries.add(new TermQuery.Builder().field("category").value("미용").build()._toQuery());
+        mustNotQueries.add(new TermQuery.Builder().field("category").value("반려동물용품").build()._toQuery());
+
+
         // BoolQuery 생성
         BoolQuery.Builder boolQueryBuilder = new BoolQuery.Builder();
 
@@ -42,6 +49,9 @@ public class BoolQueryBuilder {
         if (!filterQueries.isEmpty()) {
             boolQueryBuilder.filter(filterQueries);
         }
+        // "must_not" 조건 설정 (해당 카테고리 제외)
+        boolQueryBuilder.mustNot(mustNotQueries);
+
 
         return boolQueryBuilder.build()._toQuery();
     }
