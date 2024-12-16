@@ -57,10 +57,14 @@ public class BoolQueryBuilder {
         // BoolQuery 빌드
         BoolQuery boolQuery = boolQueryBuilder.build();
 
-        // function_score 쿼리로 min_score 추가 (점수가 0.1 미만인 문서 제외)
+        // FunctionScoreQuery 생성 (min_score 추가를 조건부로 설정)
         FunctionScoreQuery.Builder functionScoreQueryBuilder = new FunctionScoreQuery.Builder()
-                .query(boolQuery._toQuery())  // 기존 BoolQuery 설정
-                .minScore(0.1);  // min_score 설정
+                .query(boolQuery._toQuery());  // 기존 BoolQuery 설정
+
+        // query가 null이 아니면 minScore를 추가
+        if (query != null && !query.isEmpty()) {
+            functionScoreQueryBuilder.minScore(0.1);  // min_score 설정
+        }
 
         // SearchRequest 생성
         return new SearchRequest.Builder()
