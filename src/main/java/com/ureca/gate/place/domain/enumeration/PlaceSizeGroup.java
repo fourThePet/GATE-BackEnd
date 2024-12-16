@@ -12,7 +12,7 @@ import java.util.List;
 public enum PlaceSizeGroup {
 
     SMALL(List.of("SMALL")),
-    MEDIUM(List.of("MEDIUM", "LARGE")),
+    MEDIUM(List.of("SMALL", "MEDIUM")),
     LARGE(List.of("SMALL", "MEDIUM", "LARGE")),
     ;
 
