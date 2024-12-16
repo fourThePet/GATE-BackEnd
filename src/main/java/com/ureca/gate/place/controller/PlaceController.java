@@ -3,6 +3,7 @@ package com.ureca.gate.place.controller;
 import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.global.dto.response.SliceResponse;
 import com.ureca.gate.global.dto.response.SuccessResponse;
+import com.ureca.gate.global.util.city.CityMapper;
 import com.ureca.gate.place.controller.inputport.*;
 import com.ureca.gate.place.controller.response.*;
 import com.ureca.gate.place.domain.PopularPlace;
@@ -71,13 +72,20 @@ public class PlaceController {
      * 1. Order 처리 (검색어와 score(유사도) 내림차순 -> 평점 내림차순) 형태인데 평점이 낮은데 검색어와 유사도가 높은 순으로 출력이됨.
      * 2. (리뷰작성시)Redis Stream 으로 리스너처리
      */
-    @Operation(summary = "일정(장소선택) 시설 리스트 조회 API", description = "일정(장소선택) 시설 리스트 조회 API")
+    @Operation(summary = "일정(장소선택) 시설 리스트 조회 API", description = "일정(장소선택) 시설 리스트 조회 API - hasNext =true이면 다음페이자가 있다는 의미 (+더보기)")
     @GetMapping("/plan-search")
-    public SuccessResponse<SliceResponse<PlaceForPlanResponse>> getPlacesForPlan(@RequestParam(value = "query", required = false) String query,
-                                                                                 @RequestParam("city") String city,
-                                                                                 @RequestParam("category") String category,
+    public SuccessResponse<SliceResponse<PlaceForPlanResponse> > getPlacesForPlan(@RequestParam(value = "query", required = false) String query,
+                                                                                 @Parameter(description = "지역", example = "1")
+                                                                                 @RequestParam("cityId") Long cityId,
+                                                                                 @Parameter(description = "카테고리. 가능한 값: [식당,카페,숙소,문화시설,여행지]",
+                                                                                         example = "식당")
+                                                                                 @RequestParam(value = "category", required = false) String category,
+                                                                                 @Parameter(description = "페이지 순서 0부터 시작 ")
                                                                                  @RequestParam(value = "page", defaultValue = "0") int page){
-        SliceResponse<PlaceForPlanResponse> response = placeForPlanService.getPlacesForPlan(query,city, category, page);
+
+        // cityId를 cityName으로 변환
+        String city = CityMapper.getCityName(cityId);
+        SliceResponse<PlaceForPlanResponse>  response = placeForPlanService.getPlacesForPlan(query,city, category, page);
         return SuccessResponse.success(response);
     }
 

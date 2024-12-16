@@ -43,4 +43,9 @@ public class FavoritesRepositoryImpl implements FavoritesRepository {
         return favoritesJpaRepository.existsByMemberEntityIdAndPlaceEntityId(memberId,placeId);
     }
 
+    @Override
+    public Integer countByPlaceId(Long placeId) {
+        return favoritesJpaRepository.countByPlaceEntityId(placeId);
+    }
+
 }

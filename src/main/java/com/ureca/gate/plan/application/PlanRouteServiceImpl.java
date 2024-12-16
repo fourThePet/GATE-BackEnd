@@ -5,6 +5,7 @@ import com.ureca.gate.place.application.outputport.PlaceRepository;
 import com.ureca.gate.place.domain.City;
 import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.plan.application.command.PlanCreateCommand;
+import com.ureca.gate.plan.application.outputport.PlanGptService;
 import com.ureca.gate.plan.controller.inputport.PlanRouteService;
 import com.ureca.gate.plan.domain.Plan;
 import com.ureca.gate.plan.infrastructure.kakaoadapter.KakaoMobilityClient;
@@ -35,6 +36,7 @@ public class PlanRouteServiceImpl implements PlanRouteService {
   private final CityRepository cityRepository;
   private final PlaceRepository placeRepository;
   private final KakaoMobilityClient kakaoMobilityClient;
+  private final PlanGptService planGptService;
 
   @Transactional
   public Plan createRoute(PlanCreateCommand planCreateCommand) {
@@ -66,6 +68,25 @@ public class PlanRouteServiceImpl implements PlanRouteService {
     City city = cityRepository.getById(planCreateCommand.getCityId());
     Plan plan = Plan.from(planCreateCommand, city, places);
 
+    return plan;
+  }
+
+  @Transactional
+  public Plan createGptRoute(PlanCreateCommand planCreateCommand) {
+    List<Long> placeIds = planCreateCommand.getPlaceIds();
+    List<Place> places = new ArrayList<>();
+    for (Long placeId : placeIds){
+      Place place = placeRepository.getById(placeId);
+      places.add(place);
+    }
+    List<Long> GptRoute = planGptService.getRoute(places);
+    List<Place> GptRoutePlaces = new ArrayList<>();
+    for (Long placeId : GptRoute){
+      Place place = placeRepository.getById(placeId);
+      GptRoutePlaces.add(place);
+    }
+    City city = cityRepository.getById(planCreateCommand.getCityId());
+    Plan plan = Plan.from(planCreateCommand, city, GptRoutePlaces);
     return plan;
   }
 

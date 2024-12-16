@@ -16,9 +16,9 @@ class PlaceSizeGroupTest {
     }
 
     @Test
-    @DisplayName("중형 크기 허용 장소는 중/대형 반려견 입장 가능")
+    @DisplayName("중형 크기 허용 장소는 소/중형 반려견 입장 가능")
     void allowSizesBySize_medium() {
-        assertThat(PlaceSizeGroup.allowSizesBySize(MEDIUM)).isEqualTo(List.of("MEDIUM", "LARGE"));
+        assertThat(PlaceSizeGroup.allowSizesBySize(MEDIUM)).isEqualTo(List.of("SMALL", "MEDIUM"));
     }
 
     @Test

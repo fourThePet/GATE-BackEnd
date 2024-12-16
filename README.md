@@ -44,43 +44,32 @@
 - 일정 생성/조회/수정/삭제
 
 ## 개발환경
-![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=OpenJDK&logoColor=white) 
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=Spring&logoColor=white) 
-![Spring Data JPA](https://img.shields.io/badge/Spring%20Data%20JPA-6DB33F?style=for-the-badge&logo=Spring&logoColor=white) 
-![Lombok](https://img.shields.io/badge/Lombok-green?style=for-the-badge&logo=Awesomelists&logoColor=white) 
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white) 
-![JUnit 5](https://img.shields.io/badge/JUnit%205-25A162?style=for-the-badge&logo=JUnit5&logoColor=white)
+![Java](https://img.shields.io/badge/Java-17-007396?style=for-the-badge&logo=OpenJDK&logoColor=white)  
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.5-6DB33F?style=for-the-badge&logo=Spring&logoColor=white)  
+![Spring Data JPA](https://img.shields.io/badge/Spring%20Data%20JPA-6DB33F?style=for-the-badge&logo=Spring&logoColor=white)  
+![Lombok](https://img.shields.io/badge/Lombok-green?style=for-the-badge&logo=Awesomelists&logoColor=white)  
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=PostgreSQL&logoColor=white)  
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=Redis&logoColor=white)  
+![OpenFeign](https://img.shields.io/badge/OpenFeign-4.1.1-blue?style=for-the-badge)  
+![Spring AI](https://img.shields.io/badge/Spring%20AI-1.0.0--SNAPSHOT-orange?style=for-the-badge)  
+![Querydsl](https://img.shields.io/badge/Querydsl-5.0.0-jakarta?style=for-the-badge&logo=Hibernate&logoColor=white)  
+![JUnit 5](https://img.shields.io/badge/JUnit%205-25A162?style=for-the-badge&logo=JUnit5&logoColor=white)  
+![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=for-the-badge&logo=Elasticsearch&logoColor=white)  
 
 ## 디렉토리 구조
 ```
 src/main/java/com/ureca/gate
-├── member
-├── dog
-├── place
-├── favorite
-├── review
-└── schedule
-    ├── controller
-    │   ├── inputport
-    │   │   └── ScheduleService.java
-    │   ├── response
-    │   │   └── ScheduleReseponse.java
-    │   ├── request
-    │   │   └── ScheduleRequest.java
-    │   ├── ScheduleController.java
-    ├── domain
-    │   ├── Schedule.java
-    ├── infrastructure
-    │   ├── jpaAdapter
-    │   │   └── Entity
-    │   │   │   └── ScheduleEntity.java
-    │   │   └── ScheduleJpaRepository.java
-    │   │   └── ScheduleRepositoryImpl.java
-    │   │
-    └── service
-        ├── outputport
-        │   └── ScheduleRepository.java
-        └── ScheduleServiceImpl.java
+├── dog                # 반려견 관리 기능
+├── favorites          # 즐겨찾기 기능
+├── global             # 설정 및 공통 기능
+├── member             # 사용자 관리 기능
+├── place              # 장소 검색 및 추천
+├── plan               # 일정 관리 기능
+└── review             # 후기 관리 기능
+    ├── controller     # REST API 컨트롤러
+    ├── domain         # 도메인 객체 정의
+    ├── infrastructure # 어댑터 및 연동
+    └── service        # 서비스 로직 및 비즈니스 처리
  
 ```
 
@@ -98,5 +87,7 @@ github action으로 react 프로젝트를 S3에 저장한 후에 CloudFront를 �
 #### 전체 구조
 사용자는 웹서버로 접속하고 ALB를 통해서 spring boot가 올라가 있는 ec2와 통신합니다. 그리고 spring boot는 rds와 elasticache의 redis를 이용해 데이터를 저장하거나 가져옵니다.
 
-## 팀 규칙
+## 추가 자료 링크
 - [깃허브 컨벤션](https://grand-distance-643.notion.site/Github-13fb3dd3958f80419252c23f66430deb?pvs=4)
+- [ERD](https://drive.google.com/file/d/1JrQ-1bARXDlIoiiZa85IKoe68m3ZUgZf/view?usp=sharing)
+- [기획안](https://drive.google.com/file/d/1bFmoEa3N8Gt4Te9tDfZ9LUrhtVv30bPR/view?usp=sharing)

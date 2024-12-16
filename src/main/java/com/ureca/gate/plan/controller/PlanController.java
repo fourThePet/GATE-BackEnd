@@ -90,4 +90,13 @@ public class PlanController {
         PlanResponse planResponse = PlanResponse.from(plan);
         return SuccessResponse.success(planResponse);
     }
+
+    @Operation(summary = "GPT 일정 추천 경로 API")
+    @PostMapping("/gpt-route")
+    public SuccessResponse<PlanResponse> createGptRoute(@AuthenticationPrincipal Long memberId, @RequestBody PlanCreateRequest planCreateRequest) {
+        PlanCreateCommand planCreateCommand = PlanCreateCommand.from(memberId, planCreateRequest);
+        Plan plan = planRouteService.createGptRoute(planCreateCommand);
+        PlanResponse planResponse = PlanResponse.from(plan);
+        return SuccessResponse.success(planResponse);
+    }
 }

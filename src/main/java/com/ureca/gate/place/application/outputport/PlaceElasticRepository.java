@@ -16,8 +16,6 @@ public interface PlaceElasticRepository{
             Pageable pageable
     );
 
-    CustomSlice<SearchPlace> findByCategoryAndCity(String category, String city, Pageable pageable);
-
     Optional<SearchPlace> findById(Long placeElasticId);
 
     SearchPlace update(SearchPlace SearchPlace);

@@ -66,4 +66,9 @@ public class FavoritesServiceImpl implements FavoritesService {
         return YesNo.N;
     }
 
+    @Override
+    public Integer countByPlaceId(Long placeId) {
+        return favoritesRepository.countByPlaceId(placeId);
+    }
+
 }
