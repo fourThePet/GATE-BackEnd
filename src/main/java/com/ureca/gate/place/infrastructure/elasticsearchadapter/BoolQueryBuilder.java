@@ -1,6 +1,7 @@
 package com.ureca.gate.place.infrastructure.elasticsearchadapter;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Component
 public class BoolQueryBuilder {
-    public Query searchPlacesQuery(String query, String category, String city) {
+    public SearchRequest searchPlacesQuery(String query, String category, String city) {
         // "should" 조건을 추가할 리스트 생성
         List<Query> shouldQueries = new ArrayList<>();
 
@@ -53,7 +54,20 @@ public class BoolQueryBuilder {
         boolQueryBuilder.mustNot(mustNotQueries);
 
 
-        return boolQueryBuilder.build()._toQuery();
+        // BoolQuery 빌드
+        BoolQuery boolQuery = boolQueryBuilder.build();
+
+        // function_score 쿼리로 min_score 추가 (점수가 0.1 미만인 문서 제외)
+        FunctionScoreQuery.Builder functionScoreQueryBuilder = new FunctionScoreQuery.Builder()
+                .query(boolQuery._toQuery())  // 기존 BoolQuery 설정
+                .minScore(0.1);  // min_score 설정
+
+        // SearchRequest 생성
+        return new SearchRequest.Builder()
+                .query(functionScoreQueryBuilder.build()._toQuery())  // function_score 쿼리 설정
+                .build();
+
+
     }
 }
 
