@@ -89,3 +89,5 @@ github action으로 react 프로젝트를 S3에 저장한 후에 CloudFront를 �
 
 ## 추가 자료 링크
 - [깃허브 컨벤션](https://grand-distance-643.notion.site/Github-13fb3dd3958f80419252c23f66430deb?pvs=4)
+- [ERD](https://drive.google.com/file/d/1JrQ-1bARXDlIoiiZa85IKoe68m3ZUgZf/view?usp=sharing)
+- [기획안](https://drive.google.com/file/d/1bFmoEa3N8Gt4Te9tDfZ9LUrhtVv30bPR/view?usp=sharing)
