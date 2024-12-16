@@ -2,6 +2,7 @@ package com.ureca.gate.place.infrastructure.elasticsearchadapter;
 
 
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.elasticsearch.client.elc.*;
@@ -31,10 +32,10 @@ public class PlaceElasticRepositoryImpl implements PlaceElasticRepository {
     @Override
     public CustomSlice<SearchPlace> findByQueryAndCategoryAndCity(String query, String city, String category, Pageable pageable) {
 
-        Query elasticSearchQuery = boolQueryBuilder.searchPlacesQuery(query, category, city);
-        System.out.println("Generated Query: " + elasticSearchQuery.toString());  // 쿼리 확인
+        SearchRequest elasticSearchQuery = boolQueryBuilder.searchPlacesQuery(query, category, city);
+        System.out.println("Generated Query: " + elasticSearchQuery.query());  // 쿼리 확인
 
-        NativeQuery searchQuery = new NativeQuery(elasticSearchQuery);
+        NativeQuery searchQuery = new NativeQuery(elasticSearchQuery.query());
         searchQuery.setPageable(pageable);
         SearchHits<PlaceElastic> searchHits = elasticsearchTemplate.search(searchQuery, PlaceElastic.class);
 
@@ -63,6 +64,5 @@ public class PlaceElasticRepositoryImpl implements PlaceElasticRepository {
         placeElastic.update(searchPlace);
         return placeElasticSearchRepository.save(placeElastic).toModel();
     }
-
 
 }
