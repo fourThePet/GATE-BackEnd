@@ -27,8 +27,9 @@ public class PlaceDetailServiceImpl implements PlaceDetailService {
     public PlaceDetailResponse getPlaceDetail(Long memberId,Long placeId) {
         Place place = placeRepository.findById(placeId).orElseThrow(()-> new BusinessException(PLACE_NOT_FOUND));
         YesNo isFavorite = favoritesService.checkIfFavorite(memberId,placeId);
+        Integer favoritesNum = favoritesService.countByPlaceId(placeId);
         viewsRepository.increaseViews(memberId, place);
-        return PlaceDetailResponse.from(place,isFavorite);
+        return PlaceDetailResponse.from(place,favoritesNum,isFavorite);
     }
 
 }

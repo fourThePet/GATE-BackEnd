@@ -16,4 +16,7 @@ public interface FavoritesRepository {
     List<PlaceReviewInfo> searchFavoritePlaces(FavoritesCondition favoritesCondition);
 
     boolean existsByMemberIdAndPlaceId(Long memberId, Long placeId);
+
+    Integer countByPlaceId(Long placeId); // placeId로 즐겨찾기 개수 조회
+
 }

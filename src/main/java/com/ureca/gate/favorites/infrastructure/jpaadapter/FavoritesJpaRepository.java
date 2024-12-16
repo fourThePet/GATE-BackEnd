@@ -9,4 +9,7 @@ public interface FavoritesJpaRepository extends JpaRepository<FavoritesEntity,Lo
     Optional<FavoritesEntity> findByMemberEntityIdAndPlaceEntityId(Long memberId, Long placeId);
 
     Boolean existsByMemberEntityIdAndPlaceEntityId(Long memberId,Long placeId);
+
+    Integer countByPlaceEntityId(Long placeId); // placeId로 즐겨찾기 개수 조회
+
 }
