@@ -65,6 +65,8 @@ public class PlaceDetailResponse {
     private YesNo outdoorAvailable; //실외이용여부
     @Schema(description = "즐겨찾기 여부[Y/N]", example = "N")
     private YesNo favorites;
+    @Schema(description = "즐겨찾기 개수", example = "123")
+    private Integer favoritesNum;
     @Schema(description = "데이터 마지막 수정일", example = "2022-02-10")
     private LocalDate lastUpdated; //데이터 마지막 수정일
     @Schema(description = "위도", example = "37.7519573928855")
@@ -72,7 +74,7 @@ public class PlaceDetailResponse {
     @Schema(description = "경도", example = "127.049286104824")
     private double longitude;
 
-    public static PlaceDetailResponse from(Place place,YesNo isFavorite){
+    public static PlaceDetailResponse from(Place place,Integer favoritesNum,YesNo isFavorite){
         return PlaceDetailResponse.builder()
                 .id(place.getId())
                 .name(place.getName())
@@ -101,6 +103,7 @@ public class PlaceDetailResponse {
                 .favorites(isFavorite)
                 .lastUpdated(place.getLastUpdated())
                 .lastUpdated(place.getLastUpdated())
+                .favoritesNum(favoritesNum)
                 .latitude(place.getAddress().getLocationPoint().getY())
                 .longitude(place.getAddress().getLocationPoint().getX())
                 .build();

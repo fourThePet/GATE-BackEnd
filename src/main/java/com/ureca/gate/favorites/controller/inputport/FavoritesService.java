@@ -12,4 +12,5 @@ public interface FavoritesService {
     void delete(Long memberId, Long placeId);
     List<FavoritesResponse> getAll(FavoritesCommand favoritesCommand);
     YesNo checkIfFavorite(Long memberId, Long placeId);
+    Integer countByPlaceId(Long placeId);
 }
