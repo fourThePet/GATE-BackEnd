@@ -132,7 +132,7 @@ public class BoolQueryBuilders {
             DecayPlacement placement = new DecayPlacement.Builder()
                     .origin(JsonData.of(latitude + "," + longitude))
                     .scale(JsonData.of("10km"))
-                    .offset(JsonData.of("1km"))
+                    .offset(JsonData.of("0.5km"))
                     .decay(0.5)
                     .build();
 
