@@ -17,15 +17,16 @@ public class PlaceSearchCommand {
     private Double distance;
 
 
-    public static PlaceSearchCommand from(PlaceElastic placeElastic){
+    public static PlaceSearchCommand from(Long id,PlaceElastic placeElastic,Double distance){
         return PlaceSearchCommand.builder()
-                .id(placeElastic.getId())
+                .id(id)
                 .name(placeElastic.getName())
                 .category(placeElastic.getCategory())
                 .profileUrl(placeElastic.getProfileUrl())
                 .latitude(placeElastic.getLocation().getLat())
                 .longitude(placeElastic.getLocation().getLon())
                 .roadAddress(placeElastic.getRoadAddress())
+                .distance(Math.round((distance/ 1000.0) * 1000) / 1000.0)
                 .build();
     }
 }

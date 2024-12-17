@@ -3,6 +3,7 @@ package com.ureca.gate.place.application;
 import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.favorites.controller.inputport.FavoritesService;
 import com.ureca.gate.global.domain.CustomPage;
+import com.ureca.gate.global.dto.response.PageResponse;
 import com.ureca.gate.global.util.place.PlaceMapper;
 import com.ureca.gate.place.application.outputport.GeoEmbedApiService;
 import com.ureca.gate.place.application.outputport.PlaceElasticRepository;
@@ -14,7 +15,6 @@ import com.ureca.gate.place.domain.enumeration.YesNo;
 import com.ureca.gate.place.domain.vo.Address;
 import com.ureca.gate.place.infrastructure.command.GeoEmbed;
 import com.ureca.gate.place.infrastructure.command.PlaceCommand;
-import com.ureca.gate.place.infrastructure.command.PlaceDistanceDto;
 import com.ureca.gate.place.infrastructure.command.PlaceSearchCommand;
 import com.ureca.gate.review.application.outputport.GptService;
 import lombok.RequiredArgsConstructor;
@@ -70,11 +70,8 @@ public class PlaceForMapServiceImpl implements PlaceForMapService {
 
     //매우 안좋은 코드 - 전부다 바꿔야함.
     @Override
-    public CustomPage<PlaceSearchForMapResponse> getPlacesBySearch(Long memberId, Double latitude, Double longitude, String query, String category, Size size, List<String> entryConditions, List<String> types, int page) {
+    public PageResponse<PlaceSearchForMapResponse> getPlacesBySearch(Long memberId, Double latitude, Double longitude, String query, String category, Size size, List<String> entryConditions, List<String> types, int page) {
         Pageable pageable = PageRequest.of(page, 20);
-
-        Point userLocation = geometryFactory.createPoint(new Coordinate(longitude, latitude));
-        userLocation.setSRID(4326); // SRID 4326 (WGS 84 좌표계)로 설정
 
         String answer = gptService.getRegion(query);
 
@@ -85,37 +82,20 @@ public class PlaceForMapServiceImpl implements PlaceForMapService {
         String town = regionAndQuery.getOrDefault("동/리", null);
         String searchQuery = regionAndQuery.getOrDefault("검색어", "");
 
-
         System.out.println(city);
         System.out.println(district);
         System.out.println(town);
         System.out.println(searchQuery);
 
-        CustomPage<PlaceSearchCommand> customPage =placeElasticRepository.findSimilarPlacesByLocation(latitude, longitude, searchQuery, category,city,district,town,size,entryConditions,types,pageable);
+        CustomPage<PlaceSearchCommand> customPage = placeElasticRepository.findSimilarPlacesByLocation(latitude, longitude, searchQuery, category,city,district,town,size,entryConditions,types,pageable);
 
-        List<Long> placeIdList = customPage.getContent().stream()
-                .map(PlaceSearchCommand::getId)
-                .toList();
-
-        List<PlaceDistanceDto> placeDistanceDtos = placeRepository.calculrateDistance(userLocation,placeIdList);
-
-        Map<Long, Double> distanceMap = placeDistanceDtos.stream()
-                .collect(Collectors.toMap(PlaceDistanceDto::getPlaceId, PlaceDistanceDto::getDistance));
-
-        List<PlaceSearchCommand> updatedContent = customPage.getContent().stream()
-                .map(command -> {
-                    Double distance = distanceMap.get(command.getId());
-                        return command.toBuilder().distance(distance).build();
-                })
-                .toList();
-
-        List<PlaceSearchForMapResponse> responses = updatedContent.stream()
+        List<PlaceSearchForMapResponse> responses = customPage.getContent().stream()
                 .map(p -> mapToPlaceSearchResponseWithFavoriteStatus(p, memberId))
                 .toList();
 
-        Page<PlaceSearchForMapResponse> pages = new PageImpl<>(responses, pageable, customPage.getTotalPages());
+        Page<PlaceSearchForMapResponse> pages = new PageImpl<>(responses, pageable, customPage.getTotalElements());
 
-        return CustomPage.from(pages);
+        return PageResponse.from(pages);
     }
 
     private boolean isQueryEmpty(String query) {
@@ -143,7 +123,6 @@ public class PlaceForMapServiceImpl implements PlaceForMapService {
         YesNo isFavorite = favoritesService.checkIfFavorite(memberId, place.getId());
         return PlaceSearchForMapResponse.from(place, isFavorite);
     }
-
 
 }
 

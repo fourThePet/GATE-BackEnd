@@ -29,8 +29,6 @@ public interface PlaceRepository {
             List<String> entryConditions,
             List<String> types);
 
-    List<PlaceDistanceDto> calculrateDistance(Point userLocation, List<Long> placeIdList);
-
     Double calculrateDistance(Double longitude, Double latitude, Long placeId);
 
 }

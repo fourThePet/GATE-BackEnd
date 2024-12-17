@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class BoolQueryBuilders {
@@ -24,10 +26,28 @@ public class BoolQueryBuilders {
 
         FunctionScoreQuery.Builder functionScoreQueryBuilder = buildFunctionScoreQuery(latitude, longitude, boolQueryBuilder, city, district, town);
 
+        // script_fields로 거리 계산 추가
+        ScriptField distanceScriptField = new ScriptField.Builder()
+                .script(new Script.Builder()
+                        .inline(s -> s
+                                .source("doc['location'].arcDistance(params.lat, params.lon)")
+                                .params(Map.of(
+                                        "lat", JsonData.of(latitude),
+                                        "lon", JsonData.of(longitude)
+                                ))) // Map에 파라미터 추가
+                        .build())
+                .ignoreFailure(false) // 실패 시 무시하지 않음
+                .build();
+
+        // script_fields에 name과 ScriptField를 매핑합니다.
+        Map<String, ScriptField> scriptFields = new HashMap<>();
+        scriptFields.put("distance", distanceScriptField);
+
         // 지역명이 없는 경우: 스코어 정렬
         if (isNullOrEmpty(city) && isNullOrEmpty(district) && isNullOrEmpty(town)) {
             return new SearchRequest.Builder()
                     .query(functionScoreQueryBuilder.build()._toQuery()) // 가우스 함수 적용
+                    .scriptFields(scriptFields) // script_fields로 거리 추가
                     .sort(SortOptions.of(s -> s.score(ScoreSort.of(ss -> ss.order(SortOrder.Desc))))) // 스코어 정렬
                     .build();
         }
@@ -35,6 +55,7 @@ public class BoolQueryBuilders {
         // 지역명이 있는 경우: 거리 정렬 추가
         return new SearchRequest.Builder()
                 .query(functionScoreQueryBuilder.build()._toQuery()) // FunctionScoreQuery 적용
+                .scriptFields(scriptFields) // script_fields로 거리 추가
                 .sort(buildSortOptions(latitude, longitude)) // 거리 정렬
                 .build();
     }

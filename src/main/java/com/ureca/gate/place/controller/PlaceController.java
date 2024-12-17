@@ -1,14 +1,13 @@
 package com.ureca.gate.place.controller;
 
 import com.ureca.gate.dog.domain.enumeration.Size;
-import com.ureca.gate.global.domain.CustomPage;
+import com.ureca.gate.global.dto.response.PageResponse;
 import com.ureca.gate.global.dto.response.SliceResponse;
 import com.ureca.gate.global.dto.response.SuccessResponse;
 import com.ureca.gate.global.util.city.CityMapper;
 import com.ureca.gate.place.controller.inputport.*;
 import com.ureca.gate.place.controller.response.*;
 import com.ureca.gate.place.domain.PopularPlace;
-import com.ureca.gate.place.infrastructure.command.PlaceSearchCommand;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -73,13 +72,12 @@ public class PlaceController {
 
     /**
      * TODO
-     * 1. ElsasticSearch에서 거리가 측저이 안됨 spring data에서 일단 이에 적용되게끔 수정할 예정
-     * 2. 시간 상 빠르게 하느라 코드가 엉망이라 리펫토링 예정.
-     * 3. Gpt를 통해서 지역명 추출받는데, 모델 써서 하도록 수정
+     * 1. 필요없는 나머지 코드 삭제 할 예정 및 폴더 명 리펙토링 예정
+     * 2. Gpt를 통해서 지역명 추출받는데, 모델 써서 하도록 수정
      */
     @Operation(summary = "시설 리스트 조회 API - 검색전용", description = "시설(장소) 리스트 조회 API - 검색전용")
     @GetMapping("/search")
-    public SuccessResponse<CustomPage<PlaceSearchForMapResponse> > getPlacesBySearch(@AuthenticationPrincipal Long memberId,
+    public SuccessResponse<PageResponse<PlaceSearchForMapResponse> > getPlacesBySearch(@AuthenticationPrincipal Long memberId,
                                                                        @RequestParam(value = "query", required = false) String query,
                                                                        @RequestParam("latitude") Double latitude,
                                                                        @RequestParam("longitude") Double longitude,
@@ -97,7 +95,7 @@ public class PlaceController {
                                                                        @RequestParam(value = "types", required = false) List<String> types,
                                                                         @RequestParam(value = "page", defaultValue = "0") int page) {
 
-        CustomPage<PlaceSearchForMapResponse>  response = placeForMapService.getPlacesBySearch(memberId, latitude, longitude, query, category, size, entryConditions, types, page);
+        PageResponse<PlaceSearchForMapResponse> response = placeForMapService.getPlacesBySearch(memberId, latitude, longitude, query, category, size, entryConditions, types, page);
         return SuccessResponse.success(response);
     }
     /**
