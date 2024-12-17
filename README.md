@@ -1,4 +1,3 @@
-# GATE - BackEnd
 <div align="center">
 <h2>GATE : 강아지와의 데이트, 행복의 문을 여는 순간</h2>
 
@@ -73,8 +72,9 @@ src/main/java/com/ureca/gate
  
 ```
 
-## 인프라 구조
-![인프라 구조](https://github.com/user-attachments/assets/de9e851a-ddc3-4faa-af26-7a63fd33848e)
+## 인프라 아키텍처
+![인프라 아키텍처](https://github.com/user-attachments/assets/e7aa1882-a494-4349-9c93-f9636cf1ee73)
+
 
 #### 백엔드 파이프라인
 github action - S3 - CodeDeploy - ec2
