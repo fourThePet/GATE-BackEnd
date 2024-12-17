@@ -86,7 +86,7 @@ public class PlaceController {
                                                                        @RequestParam(value = "category", required = false) String category,
                                                                        @Parameter(description = "사이즈. 가능한 값: [LARGE,MEDIUM,SMALL]",
                                                                                example = "LARGE")
-                                                                       @RequestParam(value = "size", required = false) Size size,
+                                                                       @RequestParam(value = "size", defaultValue = "LARGE") Size size,
                                                                        @Parameter(description = "입장 제한 조건. 가능한 값: [isLeashRequired(목줄), isMuzzleRequired(입마개), isCageRequired(케이지), isVaccinationComplete(접종여부)]",
                                                                                example = "isLeashRequired,isMuzzleRequired")
                                                                        @RequestParam(value = "entryConditions", required = false) List<String> entryConditions,
