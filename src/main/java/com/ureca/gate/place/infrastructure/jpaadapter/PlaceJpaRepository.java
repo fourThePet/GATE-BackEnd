@@ -22,5 +22,13 @@ public interface PlaceJpaRepository extends JpaRepository<PlaceEntity,Long>,Plac
     List<Object[]> calculateDistances(@Param("longitude") double longitude,
                                       @Param("latitude") double latitude,
                                       @Param("placeIds") List<Long> placeIds);
+
+    @Query(value = "SELECT ST_Distance(p.location_point, ST_SetSRID(ST_Point(:longitude, :latitude), 4326)) AS distance " +
+            "FROM place p " +
+            "WHERE p.place_id = :placeId",
+            nativeQuery = true)
+    Double calculateDistances(@Param("longitude") double longitude,
+                                      @Param("latitude") double latitude,
+                                      @Param("placeId") Long placeId);
 }
 

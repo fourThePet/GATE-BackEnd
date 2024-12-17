@@ -58,5 +58,10 @@ public class PlaceRepositoryImpl implements PlaceRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Double calculrateDistance(Double longitude, Double latitude, Long placeId) {
+        return placeJpaRepository.calculateDistances(longitude,latitude,placeId);
+    }
+
 
 }
