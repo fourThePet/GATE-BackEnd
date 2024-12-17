@@ -1,4 +1,3 @@
-![스크린샷 2024-12-17 15 15 04](https://github.com/user-attachments/assets/e62c372e-1f22-49ac-add6-6c1c8c1f3d13)# GATE - BackEnd
 <div align="center">
 <h2>GATE : 강아지와의 데이트, 행복의 문을 여는 순간</h2>
 
