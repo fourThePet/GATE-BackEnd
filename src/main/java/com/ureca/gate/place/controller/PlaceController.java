@@ -39,8 +39,10 @@ public class PlaceController {
     @Operation(summary = "시설 정보 조회 API", description = "해당 장소의 상세정보 조회 API, 조회수 증가")
     @GetMapping("/{placeId}")
     public SuccessResponse<PlaceDetailResponse> getPlaceDetail(@AuthenticationPrincipal Long memberId,
-                                                               @PathVariable("placeId")Long placeId) {
-        PlaceDetailResponse response = placeDetailService.getPlaceDetail(memberId,placeId);
+                                                               @PathVariable("placeId")Long placeId,
+                                                               @RequestParam("latitude") Double latitude,
+                                                               @RequestParam("longitude") Double longitude) {
+        PlaceDetailResponse response = placeDetailService.getPlaceDetail(memberId,placeId,latitude,longitude);
         return SuccessResponse.success(response);
     }
     @Operation(summary = "시설 리스트 조회 API - 반경 클릭", description = "시설(장소) 리스트 조회 API - 반경 클릭")
