@@ -7,6 +7,7 @@ import com.ureca.gate.place.domain.PopularPlace;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +42,7 @@ public class ViewsRepositoryImpl implements ViewsRepository {
         // 조회수 증가 (ZSET)
         Long zsetTtl = redisTemplate.getExpire(zsetKey);
         if (zsetTtl == null || zsetTtl < 0) {
-            redisTemplate.expire(zsetKey, Duration.ofHours(1));
+            redisTemplate.expire(zsetKey, Duration.ofHours(2));
         }
         redisTemplate.opsForZSet().incrementScore(zsetKey, placeId, 1);
     }
@@ -70,5 +71,33 @@ public class ViewsRepositoryImpl implements ViewsRepository {
         return placeRepository.findById(placeId)
                 .map(PopularPlace::from)
                 .orElse(null);
+    }
+
+    /**
+     * 매 정시마다 이전 시간대의 데이터를 현 시간대에 복사 (최대 10개).
+     */
+    @Scheduled(cron = "0 0 * * * *") // 매 정시 실행
+    public void copyPreviousHourData() {
+        String currentTimestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern(YYYY_MM_DD_HH));
+        String previousTimestamp = LocalDateTime.now().minusHours(1).format(DateTimeFormatter.ofPattern(YYYY_MM_DD_HH));
+
+        String currentZSetKey = ZSET_KEY_PREFIX + currentTimestamp;
+        String previousZSetKey = ZSET_KEY_PREFIX + previousTimestamp;
+
+        // 이전 시간대의 상위 10개 데이터를 가져오기
+        Set<ZSetOperations.TypedTuple<Object>> previousTopPlaces = redisTemplate.opsForZSet()
+                .reverseRangeWithScores(previousZSetKey, 0, 9);
+
+        if (previousTopPlaces == null || previousTopPlaces.isEmpty()) {
+            return; // 이전 시간대 데이터가 없으면 종료
+        }
+
+        // 이전 데이터에서 가져온 항목을 현재 시간대에 추가 (score=0으로 설정)
+        for (ZSetOperations.TypedTuple<Object> tuple : previousTopPlaces) {
+            redisTemplate.opsForZSet().add(currentZSetKey, Objects.requireNonNull(tuple.getValue()), 0);
+        }
+
+        // Redis TTL 설정 (2시간)
+        redisTemplate.expire(currentZSetKey, Duration.ofHours(2));
     }
 }
