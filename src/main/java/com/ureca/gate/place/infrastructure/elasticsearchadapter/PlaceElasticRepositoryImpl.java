@@ -1,17 +1,17 @@
 package com.ureca.gate.place.infrastructure.elasticsearchadapter;
 
 
-import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
+import com.ureca.gate.dog.domain.enumeration.Size;
+import com.ureca.gate.global.domain.CustomPage;
+import com.ureca.gate.place.infrastructure.command.PlaceSearchCommand;
+import org.springframework.data.domain.*;
 import org.springframework.data.elasticsearch.client.elc.*;
 import com.ureca.gate.global.domain.CustomSlice;
 import com.ureca.gate.place.application.outputport.PlaceElasticRepository;
 import com.ureca.gate.place.domain.SearchPlace;
 import com.ureca.gate.place.infrastructure.elasticsearchadapter.Document.PlaceElastic;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 
@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PlaceElasticRepositoryImpl implements PlaceElasticRepository {
     private final PlaceElasticSearchRepository placeElasticSearchRepository;
+    private final BoolQueryBuilders boolQueryBuilders;
     private final BoolQueryBuilder boolQueryBuilder;
     private final ElasticsearchTemplate elasticsearchTemplate;
 
@@ -51,6 +52,35 @@ public class PlaceElasticRepositoryImpl implements PlaceElasticRepository {
         CustomSlice<PlaceElastic> placeElasticCustomSlice = CustomSlice.from(slice);
 
         return CustomSlice.convert(placeElasticCustomSlice,PlaceElastic::toModel);
+    }
+
+    @Override
+    public CustomPage<PlaceSearchCommand> findSimilarPlacesByLocation(Double latitude, Double longitude, String query, String category, String city, String district, String town, Size size, List<String> entryConditions, List<String> types, Pageable pageable) {
+
+        SearchRequest elasticSearchQuery = boolQueryBuilders.searchPlacesQuery(latitude, longitude, query, category, city, district, town, size.name(), entryConditions, types) ;
+        System.out.println("Generated Query: " + elasticSearchQuery.query());  // 쿼리 확인
+        System.out.println("sort:" + elasticSearchQuery.sort());
+
+        NativeQuery searchQuery = new NativeQuery(elasticSearchQuery.query());
+        searchQuery.setPageable(pageable);
+
+        SearchHits<PlaceElastic> searchHits = elasticsearchTemplate.search(searchQuery, PlaceElastic.class);
+
+        System.out.println("response: " + searchHits.getSearchHits());  // 쿼리 확인
+
+        // SearchHit에서 PlaceElastic 및 sort 값을 추출
+        List<PlaceSearchCommand> placeResponses = searchHits.getSearchHits().stream()
+                .map(hit -> {
+                    PlaceElastic place = hit.getContent();
+                    return PlaceSearchCommand.from(place);
+                })
+                .toList();
+
+        long totalHits = searchHits.getTotalHits();
+
+        Page<PlaceSearchCommand> page = new PageImpl<>(placeResponses, pageable, totalHits);
+
+        return CustomPage.from(page);
     }
 
     @Override

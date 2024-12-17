@@ -18,9 +18,9 @@ public class PlaceForMapResponse {
     @Schema(description = "장소 이미지", example = "url")
     private String profileUrl;
     @Schema(description = "위도", example = "위도")
-    private double latitude;
+    private Double latitude;
     @Schema(description = "경도", example = "경도")
-    private double longitude;
+    private Double longitude;
     @Schema(description = "도로명주소", example = "경기도 고양시 덕양구 동세로 19")
     private String roadAddress; //도로명 주소
     @Schema(description = "우편주소", example = "12465")
