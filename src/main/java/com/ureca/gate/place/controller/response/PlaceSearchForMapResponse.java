@@ -30,6 +30,7 @@ public class PlaceSearchForMapResponse {
                 .profileUrl(placeSearchCommand.getProfileUrl())
                 .latitude(placeSearchCommand.getLatitude())
                 .longitude(placeSearchCommand.getLongitude())
+                .distance(placeSearchCommand.getDistance())
                 .roadAddress(placeSearchCommand.getRoadAddress())
                 .favorites(favorites)
                 .build();
