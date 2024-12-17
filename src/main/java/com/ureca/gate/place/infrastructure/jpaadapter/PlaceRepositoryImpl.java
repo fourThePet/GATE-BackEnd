@@ -46,17 +46,6 @@ public class PlaceRepositoryImpl implements PlaceRepository {
                 .orElseThrow(() -> new BusinessException(PLACE_NOT_FOUND));
     }
 
-    @Override
-    public List<PlaceDistanceDto> calculrateDistance(Point userLocation, List<Long> placeIdList){
-        List<Object[]> results = placeJpaRepository.calculateDistances(userLocation.getX(), userLocation.getY(), placeIdList);
-
-        return results.stream()
-                .map(result -> PlaceDistanceDto.from(
-                        ((Number) result[0]).longValue(),
-                        ((Number) result[1]).doubleValue()
-                ))
-                .collect(Collectors.toList());
-    }
 
     @Override
     public Double calculrateDistance(Double longitude, Double latitude, Long placeId) {

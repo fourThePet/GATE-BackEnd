@@ -1,7 +1,11 @@
 package com.ureca.gate.place.infrastructure.elasticsearchadapter;
 
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.json.JsonData;
 import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.global.domain.CustomPage;
 import com.ureca.gate.place.infrastructure.command.PlaceSearchCommand;
@@ -17,7 +21,10 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 
 import org.springframework.stereotype.Repository;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,8 +35,7 @@ public class PlaceElasticRepositoryImpl implements PlaceElasticRepository {
     private final BoolQueryBuilders boolQueryBuilders;
     private final BoolQueryBuilder boolQueryBuilder;
     private final ElasticsearchTemplate elasticsearchTemplate;
-
-
+    private final ElasticsearchClient elasticsearchClient;
     @Override
     public CustomSlice<SearchPlace> findByQueryAndCategoryAndCity(String query, String city, String category, Pageable pageable) {
 
@@ -61,26 +67,49 @@ public class PlaceElasticRepositoryImpl implements PlaceElasticRepository {
         System.out.println("Generated Query: " + elasticSearchQuery.query());  // 쿼리 확인
         System.out.println("sort:" + elasticSearchQuery.sort());
 
-        NativeQuery searchQuery = new NativeQuery(elasticSearchQuery.query());
-        searchQuery.setPageable(pageable);
+        List<PlaceSearchCommand> placeResponses = new ArrayList<>();
 
-        SearchHits<PlaceElastic> searchHits = elasticsearchTemplate.search(searchQuery, PlaceElastic.class);
+        try {
+            // Elasticsearch 검색 실행
+            SearchResponse<JsonData> response = elasticsearchClient.search(s -> s
+                            .index("placesss")  // 인덱스명 설정
+                            .query(elasticSearchQuery.query())
+                            .scriptFields(elasticSearchQuery.scriptFields())
+                            .source(source -> source.fetch(true)) // _source 반환 활성화
+                            .sort(elasticSearchQuery.sort())
+                            .from(0).size(20), // 페이징 처리
+                    JsonData.class);
 
-        System.out.println("response: " + searchHits.getSearchHits());  // 쿼리 확인
+            /// 결과 처리
+            for (Hit<JsonData> hit : response.hits().hits()) {
+                Map<String, JsonData> fields = hit.fields();
+                Double distance = null;
 
-        // SearchHit에서 PlaceElastic 및 sort 값을 추출
-        List<PlaceSearchCommand> placeResponses = searchHits.getSearchHits().stream()
-                .map(hit -> {
-                    PlaceElastic place = hit.getContent();
-                    return PlaceSearchCommand.from(place);
-                })
-                .toList();
+                // distance 값 추출
+                if (fields.containsKey("distance")) {
+                    List<Object> distanceValues = fields.get("distance").to(List.class);
+                    if (!distanceValues.isEmpty()) {
+                        distance = ((Number) distanceValues.get(0)).doubleValue();
+                    }
+                }
 
-        long totalHits = searchHits.getTotalHits();
+                // Source 변환
+                JsonData source = hit.source();
+                if (source != null) {
+                    PlaceElastic place = source.to(PlaceElastic.class); // PlaceElastic로 변환
+                    PlaceSearchCommand command = PlaceSearchCommand.from(Long.valueOf(hit.id()),place, distance); // distance 포함
+                    placeResponses.add(command);
+                }
+            }
+            long totalHits = response.hits().total().value();
 
-        Page<PlaceSearchCommand> page = new PageImpl<>(placeResponses, pageable, totalHits);
+            // 페이지 객체 생성
+            Page<PlaceSearchCommand> page = new PageImpl<>(placeResponses, pageable, totalHits);
+            return CustomPage.from(page);
 
-        return CustomPage.from(page);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
