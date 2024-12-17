@@ -3,6 +3,7 @@ package com.ureca.gate.place.application.outputport;
 import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.place.infrastructure.command.PlaceCommand;
+import com.ureca.gate.place.infrastructure.command.PlaceDistanceDto;
 import org.locationtech.jts.geom.Point;
 
 import java.util.List;
@@ -27,5 +28,7 @@ public interface PlaceRepository {
             Size size,
             List<String> entryConditions,
             List<String> types);
+
+    List<PlaceDistanceDto> calculrateDistance(Point userLocation, List<Long> placeIdList);
 
 }

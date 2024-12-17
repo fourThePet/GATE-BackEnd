@@ -4,4 +4,6 @@ public interface GptService {
     String getGptSummary(String domain, String reviews);
 
     String makeReviewSummary(String answer);
+
+    String getRegion(String query);
 }
