@@ -37,9 +37,12 @@ public class PlaceDetailServiceImpl implements PlaceDetailService {
         Integer favoritesNum = favoritesService.countByPlaceId(placeId);
 
         viewsRepository.increaseViews(memberId, place);
+        Double distance = null;
 
-        Double distance = placeRepository.calculrateDistance(longitude,latitude,placeId);
+        if(latitude !=null&&longitude!=null) {
+            distance = placeRepository.calculrateDistance(longitude, latitude, placeId);
 
+        }
         return PlaceDetailResponse.from(place,favoritesNum,isFavorite,reviewNum,starAvg,distance);
     }
 

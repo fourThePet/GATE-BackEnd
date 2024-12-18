@@ -39,8 +39,8 @@ public class PlaceController {
     @GetMapping("/{placeId}")
     public SuccessResponse<PlaceDetailResponse> getPlaceDetail(@AuthenticationPrincipal Long memberId,
                                                                @PathVariable("placeId")Long placeId,
-                                                               @RequestParam("latitude") Double latitude,
-                                                               @RequestParam("longitude") Double longitude) {
+                                                               @RequestParam(value = "latitude", required = false) Double latitude,
+                                                               @RequestParam(value = "longitude", required = false) Double longitude) {
         PlaceDetailResponse response = placeDetailService.getPlaceDetail(memberId,placeId,latitude,longitude);
         return SuccessResponse.success(response);
     }
@@ -77,7 +77,7 @@ public class PlaceController {
      */
     @Operation(summary = "시설 리스트 조회 API - 검색전용", description = "시설(장소) 리스트 조회 API - 검색전용")
     @GetMapping("/search")
-    public SuccessResponse<PageResponse<PlaceSearchForMapResponse> > getPlacesBySearch(@AuthenticationPrincipal Long memberId,
+    public SuccessResponse<List<PlaceSearchForMapResponse> > getPlacesBySearch(@AuthenticationPrincipal Long memberId,
                                                                        @RequestParam(value = "query", required = false) String query,
                                                                        @RequestParam("latitude") Double latitude,
                                                                        @RequestParam("longitude") Double longitude,
@@ -95,7 +95,7 @@ public class PlaceController {
                                                                        @RequestParam(value = "types", required = false) List<String> types,
                                                                         @RequestParam(value = "page", defaultValue = "0") int page) {
 
-        PageResponse<PlaceSearchForMapResponse> response = placeForMapService.getPlacesBySearch(memberId, latitude, longitude, query, category, size, entryConditions, types, page);
+        List<PlaceSearchForMapResponse> response = placeForMapService.getPlacesBySearch(memberId, latitude, longitude, query, category, size, entryConditions, types, page);
         return SuccessResponse.success(response);
     }
     /**

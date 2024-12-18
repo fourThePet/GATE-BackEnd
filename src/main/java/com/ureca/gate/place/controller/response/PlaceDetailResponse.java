@@ -114,7 +114,7 @@ public class PlaceDetailResponse {
                 .longitude(place.getAddress().getLocationPoint().getX())
                 .reviewNum(reviewNum)
                 .starAvg(starAvg)
-                .distance(Math.round((distance/ 1000.0) * 1000) / 1000.0)
+                .distance(distance != null ? Math.round((distance / 1000.0) * 1000) / 1000.0 : null)
                 .build();
     }
 

@@ -70,7 +70,7 @@ public class PlaceForMapServiceImpl implements PlaceForMapService {
 
     //매우 안좋은 코드 - 전부다 바꿔야함.
     @Override
-    public PageResponse<PlaceSearchForMapResponse> getPlacesBySearch(Long memberId, Double latitude, Double longitude, String query, String category, Size size, List<String> entryConditions, List<String> types, int page) {
+    public List<PlaceSearchForMapResponse>getPlacesBySearch(Long memberId, Double latitude, Double longitude, String query, String category, Size size, List<String> entryConditions, List<String> types, int page) {
         Pageable pageable = PageRequest.of(page, 20);
 
         String answer = gptService.getRegion(query);
@@ -93,9 +93,7 @@ public class PlaceForMapServiceImpl implements PlaceForMapService {
                 .map(p -> mapToPlaceSearchResponseWithFavoriteStatus(p, memberId))
                 .toList();
 
-        Page<PlaceSearchForMapResponse> pages = new PageImpl<>(responses, pageable, customPage.getTotalElements());
-
-        return PageResponse.from(pages);
+        return responses;
     }
 
     private boolean isQueryEmpty(String query) {
