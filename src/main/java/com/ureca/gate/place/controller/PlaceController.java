@@ -28,6 +28,7 @@ public class PlaceController {
     private final PlaceForPlanService placeForPlanService;
     private final CityListService cityListService;
     private final ViewsService viewsService;
+    private final PersonalizeService personalizeService;
 
     @Operation(summary = "카테고리 리스트 조회 API", description = "장소 카테고리 리스트 조회 API")
     @GetMapping("/categories")
@@ -106,7 +107,8 @@ public class PlaceController {
      */
     @Operation(summary = "일정(장소선택) 시설 리스트 조회 API", description = "일정(장소선택) 시설 리스트 조회 API - hasNext =true이면 다음페이자가 있다는 의미 (+더보기)")
     @GetMapping("/plan-search")
-    public SuccessResponse<SliceResponse<PlaceForPlanResponse> > getPlacesForPlan(@RequestParam(value = "query", required = false) String query,
+    public SuccessResponse<SliceResponse<PlaceForPlanResponse> > getPlacesForPlan(@AuthenticationPrincipal Long memberId,
+                                                                                  @RequestParam(value = "query", required = false) String query,
                                                                                  @Parameter(description = "지역", example = "1")
                                                                                  @RequestParam("cityId") Long cityId,
                                                                                  @Parameter(description = "카테고리. 가능한 값: [식당,카페,숙소,문화시설,여행지]",
@@ -114,6 +116,10 @@ public class PlaceController {
                                                                                  @RequestParam(value = "category", required = false) String category,
                                                                                  @Parameter(description = "페이지 순서 0부터 시작 ")
                                                                                  @RequestParam(value = "page", defaultValue = "0") int page){
+        if (category != null && category.equalsIgnoreCase("추천")) {
+            SliceResponse<PlaceForPlanResponse>  response = personalizeService.getRecommendations(memberId, cityId, page);
+            return SuccessResponse.success(response);
+        }
         // cityId를 cityName으로 변환
         String city = CityMapper.getCityName(cityId);
         SliceResponse<PlaceForPlanResponse>  response = placeForPlanService.getPlacesForPlan(query,city, category, page);
@@ -134,5 +140,14 @@ public class PlaceController {
         List<PopularPlaceResponse> response = PopularPlaceResponse.from(popularPlaces);
         return SuccessResponse.success(response);
 
+    }
+
+    @GetMapping("/personalize")
+    public SuccessResponse<List<String>> getPersonalize(@RequestParam(value = "city", required = false) String city
+                                                        ) {
+        Long memberId = 2L; // 이 부분은 실제 로그인한 사용자의 id를 받아오는 걸로 변경 필요
+
+        List<String> response = personalizeService.getRecommendations(memberId, city);
+        return SuccessResponse.success(response);
     }
 }

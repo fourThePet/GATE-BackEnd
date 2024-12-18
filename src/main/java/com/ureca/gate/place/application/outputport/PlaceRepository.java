@@ -4,6 +4,7 @@ import com.ureca.gate.dog.domain.enumeration.Size;
 import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.place.infrastructure.command.PlaceCommand;
 import com.ureca.gate.place.infrastructure.command.PlaceDistanceDto;
+import com.ureca.gate.place.infrastructure.command.PlaceForPlanCommand;
 import org.locationtech.jts.geom.Point;
 
 import java.util.List;
@@ -33,4 +34,5 @@ public interface PlaceRepository {
 
     Double calculrateDistance(Double longitude, Double latitude, Long placeId);
 
+    List<PlaceForPlanCommand> findPlaceForPlanResponseByIdIn(List<Long> placeIds);
 }

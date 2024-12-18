@@ -1,6 +1,7 @@
 package com.ureca.gate.place.controller.response;
 
 import com.ureca.gate.place.domain.SearchPlace;
+import com.ureca.gate.place.infrastructure.command.PlaceForPlanCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,4 +37,17 @@ public class PlaceForPlanResponse {
                 .reviewNum(searchPlace.getReviews() != null ? searchPlace.getReviews().size() : 0)
                 .starAvg(searchPlace.getStarAvg())
                 .build();}
+
+    public static PlaceForPlanResponse from(PlaceForPlanCommand placeForPlanCommand) {
+        return PlaceForPlanResponse.builder()
+                .placeId(placeForPlanCommand.getPlaceId())
+                .placeName(placeForPlanCommand.getPlaceName())
+                .latitude(placeForPlanCommand.getLocationPoint().getY())
+                .longitude(placeForPlanCommand.getLocationPoint().getX())
+                .roadAddress(placeForPlanCommand.getRoadAddress())
+                .photoUrl(placeForPlanCommand.getPhotoUrl())
+                .reviewNum(Math.toIntExact(placeForPlanCommand.getReviewNum()))
+                .starAvg(placeForPlanCommand.getStarAvg())
+                .build();
+    }
 }

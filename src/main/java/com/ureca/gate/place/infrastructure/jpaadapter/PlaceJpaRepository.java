@@ -1,5 +1,6 @@
 package com.ureca.gate.place.infrastructure.jpaadapter;
 
+import com.ureca.gate.place.infrastructure.command.PlaceForPlanCommand;
 import com.ureca.gate.place.infrastructure.jpaadapter.entity.PlaceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,5 +23,13 @@ public interface PlaceJpaRepository extends JpaRepository<PlaceEntity,Long>,Plac
     Double calculateDistances(@Param("longitude") double longitude,
                                       @Param("latitude") double latitude,
                                       @Param("placeId") Long placeId);
+
+    @Query("SELECT new com.ureca.gate.place.infrastructure.command.PlaceForPlanCommand(" +
+            "p.id, p.name, p.addressEntity.locationPoint, p.addressEntity.roadAddress, p.photoUrl, COUNT(r.id), COALESCE(AVG(r.starRate), 0)) " +
+            "FROM PlaceEntity p " +
+            "LEFT JOIN ReviewEntity r ON r.placeEntity.id = p.id " +
+            "WHERE p.id in :ids " +
+            "GROUP BY p.id ")
+    List<PlaceForPlanCommand> findPlaceForPlanResponseByIdIn(List<Long> ids);
 }
 
