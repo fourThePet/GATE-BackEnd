@@ -77,7 +77,7 @@ public class PlaceElasticRepositoryImpl implements PlaceElasticRepository {
                             .scriptFields(elasticSearchQuery.scriptFields())
                             .source(source -> source.fetch(true)) // _source 반환 활성화
                             .sort(elasticSearchQuery.sort())
-                            .from(0).size(20), // 페이징 처리
+                            .from(0).size(30), // 페이징 처리
                     JsonData.class);
 
             /// 결과 처리

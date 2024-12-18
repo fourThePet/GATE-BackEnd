@@ -11,7 +11,7 @@ public interface PlaceForMapService {
 
     List<PlaceForMapResponse> getPlacesForMap(Long memberId, Double latitude, Double longitude, String query, String category, Size size, List<String> entryConditions, List<String> types);
 
-    PageResponse<PlaceSearchForMapResponse> getPlacesBySearch(Long memberId, Double latitude, Double longitude,
+    List<PlaceSearchForMapResponse> getPlacesBySearch(Long memberId, Double latitude, Double longitude,
                                                               String query, String category, Size size,
                                                               List<String> entryConditions, List<String> types, int page);
 }
