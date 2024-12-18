@@ -29,8 +29,10 @@ public class PlaceRepositoryImpl implements PlaceRepository {
     }
 
     @Override
-    public List<PlaceCommand> findByQueryDsl(Point userLocation, String category, Size size, List<String> entryConditions, List<String> types){
-        return placeJpaRepository.findByQueryDsl(userLocation,category,size,entryConditions,types);
+    public List<PlaceCommand> findByQueryDsl(Point userLocation,
+                                             Double myLatitude,
+                                             Double myLongitude, String category, Size size, List<String> entryConditions, List<String> types){
+        return placeJpaRepository.findByQueryDsl(userLocation, myLatitude, myLongitude,category,size,entryConditions,types);
 
     }
 

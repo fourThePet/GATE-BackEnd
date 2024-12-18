@@ -50,6 +50,8 @@ public class PlaceController {
                                                                       @RequestParam(value = "query", required = false) String query,
                                                                       @RequestParam("latitude") Double latitude,
                                                                       @RequestParam("longitude") Double longitude,
+                                                                      @RequestParam("myLatitude") Double myLatitude,
+                                                                      @RequestParam("myLongitude") Double myLongitude,
                                                                       @Parameter(description = "카테고리. 가능한 값: [의료,미용,반려동물용품,식당,카페,숙소,문화시설,여행지]",
                                                                            example = "의료")
                                                                    @RequestParam(value = "category", required = false) String category,
@@ -66,7 +68,7 @@ public class PlaceController {
                                                                            example = "parkingAvailable,indoorAvailable")
                                                                    @RequestParam(value = "types", required = false) List<String> types) {
 
-        List<PlaceForMapResponse> response = placeForMapService.getPlacesForMap(memberId,latitude, longitude, query, category, size, entryConditions, types);
+        List<PlaceForMapResponse> response = placeForMapService.getPlacesForMap(memberId,latitude, longitude,myLatitude,myLongitude, query, category, size, entryConditions, types);
         return SuccessResponse.success(response);
     }
 
