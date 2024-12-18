@@ -26,11 +26,10 @@ public class PersonalizeRequestBuilder {
 
     public GetRecommendationsRequest buildRecommendationsRequest(
             String campaignArn, String filterArn,
-            String userId, String city, String category, String gender, String size) {
+            String userId, String city, String gender, String size) {
 
         Map<String, String> filterValues = new HashMap<>();
         if (city != null) filterValues.put("CITY", String.format("\"%s\"", city));
-        if (category != null) filterValues.put("CATEGORY", String.format("\"%s\"", category));
 
         Map<String, String> context = new HashMap<>();
         if(gender != null) context.put("gender", String.format("\"%s\"", gender));
@@ -46,10 +45,10 @@ public class PersonalizeRequestBuilder {
     }
 
     public List<String> getRecommendations(
-            String userId, String city, String category, String gender, String size) {
+            String userId, String city, String gender, String size) {
 
         GetRecommendationsRequest request = buildRecommendationsRequest(
-                campaignArn, filterArn, userId, city, category, gender, size);
+                campaignArn, filterArn, userId, city, gender, size);
 
         GetRecommendationsResponse response = personalizeClient.getRecommendations(request);
 

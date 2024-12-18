@@ -107,12 +107,11 @@ public class PlaceController {
     }
 
     @GetMapping("/personalize")
-    public SuccessResponse<List<String>> getPersonalize(@RequestParam(value = "city", required = false) String city,
-                                                        @RequestParam(value = "category", required = false) String category
+    public SuccessResponse<List<String>> getPersonalize(@RequestParam(value = "city", required = false) String city
                                                         ) {
         Long memberId = 2L; // 이 부분은 실제 로그인한 사용자의 id를 받아오는 걸로 변경 필요
 
-        List<String> response = personalizeService.getRecommendations(memberId, city, category);
+        List<String> response = personalizeService.getRecommendations(memberId, city);
         return SuccessResponse.success(response);
     }
 }

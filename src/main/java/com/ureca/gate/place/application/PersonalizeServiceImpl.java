@@ -22,7 +22,7 @@ public class PersonalizeServiceImpl implements PersonalizeService {
     private final MemberRepository memberRepository;
 
     @Override
-    public List<String> getRecommendations(Long memberId, String city, String category) {
+    public List<String> getRecommendations(Long memberId, String city) {
 
         String userId = Long.toString(memberId); // long값인 id를 sring으로 변환해야 함
 
@@ -31,6 +31,6 @@ public class PersonalizeServiceImpl implements PersonalizeService {
         String size = dogRepository.findByMemberId(memberId).get(0).getSize().toString().toLowerCase();
 
         // 해당 코드로 List<String>을 받아옴.
-        return personalizeRequestBuilder.getRecommendations(userId, city, category,gender,size);
+        return personalizeRequestBuilder.getRecommendations(userId, city,gender,size);
     }
 }
