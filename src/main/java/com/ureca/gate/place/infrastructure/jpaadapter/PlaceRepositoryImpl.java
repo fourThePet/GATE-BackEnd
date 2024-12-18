@@ -5,6 +5,7 @@ import com.ureca.gate.global.exception.custom.BusinessException;
 import com.ureca.gate.place.application.outputport.PlaceRepository;
 import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.place.infrastructure.command.PlaceCommand;
+import com.ureca.gate.place.infrastructure.command.PlaceForPlanCommand;
 import com.ureca.gate.place.infrastructure.jpaadapter.entity.PlaceEntity;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
@@ -35,6 +36,11 @@ public class PlaceRepositoryImpl implements PlaceRepository {
     @Override
     public List<PlaceCommand> findByVectorSearchAndQueryDsl(List<Long> placeIds, Point userLocation, String category, Size size, List<String> entryConditions, List<String> types) {
         return placeJpaRepository.findByVectorSearchAndQueryDsl(placeIds,userLocation,category,size,entryConditions,types);
+    }
+
+    @Override
+    public List<PlaceForPlanCommand> findPlaceForPlanResponseByIdIn(List<Long> placeIds) {
+        return placeJpaRepository.findPlaceForPlanResponseByIdIn(placeIds);
     }
 
     @Override
