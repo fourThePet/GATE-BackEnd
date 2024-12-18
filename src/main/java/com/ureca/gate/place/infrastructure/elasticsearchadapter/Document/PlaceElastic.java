@@ -1,5 +1,6 @@
 package com.ureca.gate.place.infrastructure.elasticsearchadapter.Document;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ureca.gate.place.domain.SearchPlace;
 import com.ureca.gate.review.domain.SearchReview;
 import com.ureca.gate.review.infrasturcture.elasticsearchadapter.Document.ReviewElastic;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Document(indexName = "placesss")
+@JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
 @Getter
 public class PlaceElastic {
