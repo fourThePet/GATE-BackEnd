@@ -8,8 +8,15 @@ import java.util.List;
 
 
 public interface PlaceRepositoryCustom {
-    List<PlaceCommand> findByQueryDsl(Point userLocation, Double myLatitude, Double myLongitude,String category, Size size, List<String> entryConditions, List<String> types);
-
+    List<PlaceCommand> findByQueryDsl(
+            Point userLocation,
+            Double latitude,
+            Double longitude,
+            String category,
+            Size size,
+            List<String> entryConditions,
+            List<String> types
+    );
     List<PlaceCommand> findByVectorSearchAndQueryDsl(
             List<Long> placeIds,
             Point userLocation,
