@@ -2,6 +2,7 @@ package com.ureca.gate.place.controller.response;
 
 import com.ureca.gate.place.domain.enumeration.YesNo;
 import com.ureca.gate.place.infrastructure.command.PlaceCommand;
+import com.ureca.gate.place.infrastructure.command.PlaceSearchCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,8 +24,6 @@ public class PlaceForMapResponse {
     private Double longitude;
     @Schema(description = "도로명주소", example = "경기도 고양시 덕양구 동세로 19")
     private String roadAddress; //도로명 주소
-    @Schema(description = "우편주소", example = "12465")
-    private String postalCode; //우편주소
     @Schema(description = "거리(Km)", example = "0.24")
     private Double distance;
     @Schema(description = "즐겨찾기 여부[Y/N]", example = "N")
@@ -39,8 +38,20 @@ public class PlaceForMapResponse {
                 .latitude(place.getLocationPoint().getY())
                 .longitude(place.getLocationPoint().getX())
                 .roadAddress(place.getRoadAddress())
-                .postalCode(place.getPostalCode())
                 .distance(Math.round((place.getDistance() / 1000.0) * 1000) / 1000.0)
+                .favorites(favorites)
+                .build();
+    }
+    public static PlaceForMapResponse from(PlaceSearchCommand placeSearchCommand, YesNo favorites){
+        return PlaceForMapResponse.builder()
+                .id(placeSearchCommand.getId())
+                .name(placeSearchCommand.getName())
+                .category(placeSearchCommand.getCategory())
+                .profileUrl(placeSearchCommand.getProfileUrl())
+                .latitude(placeSearchCommand.getLatitude())
+                .longitude(placeSearchCommand.getLongitude())
+                .distance(placeSearchCommand.getDistance())
+                .roadAddress(placeSearchCommand.getRoadAddress())
                 .favorites(favorites)
                 .build();
     }

@@ -50,11 +50,11 @@ public class PlaceController {
                                                                       @RequestParam(value = "query", required = false) String query,
                                                                       @RequestParam("latitude") Double latitude,
                                                                       @RequestParam("longitude") Double longitude,
-                                                                      @RequestParam("myLatitude") Double myLatitude,
-                                                                      @RequestParam("myLongitude") Double myLongitude,
+                                                                      @RequestParam(value = "curLatitude", required = false) Double curLatitude,
+                                                                      @RequestParam(value = "curLongitude", required = false) Double curLongitude,
                                                                       @Parameter(description = "카테고리. 가능한 값: [의료,미용,반려동물용품,식당,카페,숙소,문화시설,여행지]",
                                                                            example = "의료")
-                                                                   @RequestParam(value = "category", required = false) String category,
+                                                                      @RequestParam(value = "category", required = false) String category,
 
                                                                       @Parameter(description = "사이즈. 가능한 값: [LARGE,MEDIUM,SMALL]",
                                                                            example = "LARGE")
@@ -68,38 +68,38 @@ public class PlaceController {
                                                                            example = "parkingAvailable,indoorAvailable")
                                                                    @RequestParam(value = "types", required = false) List<String> types) {
 
-        List<PlaceForMapResponse> response = placeForMapService.getPlacesForMap(memberId,latitude, longitude,myLatitude,myLongitude, query, category, size, entryConditions, types);
+        List<PlaceForMapResponse> response = placeForMapService.getPlacesForMap(memberId,latitude, longitude,curLatitude,curLongitude, query, category, size, entryConditions, types);
         return SuccessResponse.success(response);
     }
-
-    /**
-     * TODO
-     * 1. 필요없는 나머지 코드 삭제 할 예정 및 폴더 명 리펙토링 예정
-     * 2. Gpt를 통해서 지역명 추출받는데, 모델 써서 하도록 수정
-     */
-    @Operation(summary = "시설 리스트 조회 API - 검색전용", description = "시설(장소) 리스트 조회 API - 검색전용")
-    @GetMapping("/search")
-    public SuccessResponse<List<PlaceSearchForMapResponse> > getPlacesBySearch(@AuthenticationPrincipal Long memberId,
-                                                                       @RequestParam(value = "query", required = false) String query,
-                                                                       @RequestParam("latitude") Double latitude,
-                                                                       @RequestParam("longitude") Double longitude,
-                                                                       @Parameter(description = "카테고리. 가능한 값: [의료,미용,반려동물용품,식당,카페,숙소,문화시설,여행지]",
-                                                                               example = "의료")
-                                                                       @RequestParam(value = "category", required = false) String category,
-                                                                       @Parameter(description = "사이즈. 가능한 값: [LARGE,MEDIUM,SMALL]",
-                                                                               example = "LARGE")
-                                                                       @RequestParam(value = "size", defaultValue = "LARGE") Size size,
-                                                                       @Parameter(description = "입장 제한 조건. 가능한 값: [isLeashRequired(목줄), isMuzzleRequired(입마개), isCageRequired(케이지), isVaccinationComplete(접종여부)]",
-                                                                               example = "isLeashRequired,isMuzzleRequired")
-                                                                       @RequestParam(value = "entryConditions", required = false) List<String> entryConditions,
-                                                                       @Parameter(description = "타입 조건. 가능한 값: [parkingAvailable(주차 가능여부), indoorAvailable(실내 가능여부), outdoorAvailable(실외 가능여부)]",
-                                                                               example = "parkingAvailable,indoorAvailable")
-                                                                       @RequestParam(value = "types", required = false) List<String> types,
-                                                                        @RequestParam(value = "page", defaultValue = "0") int page) {
-
-        List<PlaceSearchForMapResponse> response = placeForMapService.getPlacesBySearch(memberId, latitude, longitude, query, category, size, entryConditions, types, page);
-        return SuccessResponse.success(response);
-    }
+//
+//    /**
+//     * TODO
+//     * 1. 필요없는 나머지 코드 삭제 할 예정 및 폴더 명 리펙토링 예정
+//     * 2. Gpt를 통해서 지역명 추출받는데, 모델 써서 하도록 수정
+//     */
+//    @Operation(summary = "시설 리스트 조회 API - 검색전용", description = "시설(장소) 리스트 조회 API - 검색전용")
+//    @GetMapping("/search")
+//    public SuccessResponse<List<PlaceSearchForMapResponse> > getPlacesBySearch(@AuthenticationPrincipal Long memberId,
+//                                                                       @RequestParam(value = "query", required = false) String query,
+//                                                                       @RequestParam("latitude") Double latitude,
+//                                                                       @RequestParam("longitude") Double longitude,
+//                                                                       @Parameter(description = "카테고리. 가능한 값: [의료,미용,반려동물용품,식당,카페,숙소,문화시설,여행지]",
+//                                                                               example = "의료")
+//                                                                       @RequestParam(value = "category", required = false) String category,
+//                                                                       @Parameter(description = "사이즈. 가능한 값: [LARGE,MEDIUM,SMALL]",
+//                                                                               example = "LARGE")
+//                                                                       @RequestParam(value = "size", defaultValue = "LARGE") Size size,
+//                                                                       @Parameter(description = "입장 제한 조건. 가능한 값: [isLeashRequired(목줄), isMuzzleRequired(입마개), isCageRequired(케이지), isVaccinationComplete(접종여부)]",
+//                                                                               example = "isLeashRequired,isMuzzleRequired")
+//                                                                       @RequestParam(value = "entryConditions", required = false) List<String> entryConditions,
+//                                                                       @Parameter(description = "타입 조건. 가능한 값: [parkingAvailable(주차 가능여부), indoorAvailable(실내 가능여부), outdoorAvailable(실외 가능여부)]",
+//                                                                               example = "parkingAvailable,indoorAvailable")
+//                                                                       @RequestParam(value = "types", required = false) List<String> types,
+//                                                                        @RequestParam(value = "page", defaultValue = "0") int page) {
+//
+//        List<PlaceSearchForMapResponse> response = placeForMapService.getPlacesBySearch(memberId, latitude, longitude, query, category, size, entryConditions, types, page);
+//        return SuccessResponse.success(response);
+//    }
     /**
      * TODO
      * 1. (리뷰작성시)Redis Stream 으로 리스너처리

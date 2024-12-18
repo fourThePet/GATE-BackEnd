@@ -26,7 +26,12 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
 
     //검색어 없을때, 반경기준
     @Override
-    public List<PlaceCommand> findByQueryDsl(Point userLocation, Double myLatitude, Double myLongitude, String category, Size size, List<String> entryConditions, List<String> types) {
+    public List<PlaceCommand> findByQueryDsl(Point userLocation, Double latitude, Double longitude,String category, Size size, List<String> entryConditions, List<String> types) {
+
+        System.out.println(userLocation.getY());
+        System.out.println(userLocation.getX());
+        System.out.println(longitude);
+        System.out.println((latitude));
         return queryFactory
                 .select(new QPlaceCommand(
                         placeEntity.id,
@@ -40,8 +45,8 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                                         Double.class,
                                 "function('ST_Distance', {0}, function('ST_SetSRID', function('ST_Point', {1}, {2}), 4326))",
                                         placeEntity.addressEntity.locationPoint,
-                                myLongitude,
-                                myLatitude
+                                longitude,
+                                latitude
                                 )
                         )// 거리 계산 추가)
                 )
@@ -59,8 +64,8 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                                 Double.class,
                                 "function('ST_Distance', {0}, function('ST_SetSRID', function('ST_Point', {1}, {2}), 4326))",
                                 placeEntity.addressEntity.locationPoint,
-                                myLongitude,
-                                myLatitude
+                                longitude,
+                                latitude
                         ).asc() // 거리 기준 오름차순 정렬
                 )
                 .fetch();
@@ -88,8 +93,8 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                                 Double.class,
                                 "function('ST_Distance', {0}, function('ST_SetSRID', function('ST_Point', {1}, {2}), 4326))",
                                 placeEntity.addressEntity.locationPoint,
-                                userLocation.getX(),
-                                userLocation.getY()
+                                userLocation.getY(),
+                                userLocation.getX()
                         )
                 ))
                 .from(placeEntity)
@@ -108,8 +113,8 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
         return Expressions.booleanTemplate(
                 "function('ST_DWithin', {0}, function('ST_SetSRID', function('ST_Point', {1}, {2}), 4326), {3}) = true",
                 placeEntity.addressEntity.locationPoint, // 장소 위치
-                userLocation.getX(), // 경도
-                userLocation.getY(), // 위도
+                userLocation.getY(), // 경도
+                userLocation.getX(), // 위도
                 radiusMeters // 반경
         );
     }

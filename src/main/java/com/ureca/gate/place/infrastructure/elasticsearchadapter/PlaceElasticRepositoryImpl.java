@@ -60,9 +60,64 @@ public class PlaceElasticRepositoryImpl implements PlaceElasticRepository {
         return CustomSlice.convert(placeElasticCustomSlice,PlaceElastic::toModel);
     }
 
-    @Override
-    public CustomPage<PlaceSearchCommand> findSimilarPlacesByLocation(Double latitude, Double longitude, String query, String category, String city, String district, String town, Size size, List<String> entryConditions, List<String> types, Pageable pageable) {
+//    @Override
+//    public CustomPage<PlaceSearchCommand> findSimilarPlacesByLocation(Double latitude, Double longitude, String query, String category, String city, String district, String town, Size size, List<String> entryConditions, List<String> types, Pageable pageable) {
+//
+//        SearchRequest elasticSearchQuery = boolQueryBuilders.searchPlacesQuery(latitude, longitude, query, category, city, district, town, size.name(), entryConditions, types) ;
+//        System.out.println("Generated Query: " + elasticSearchQuery.query());  // 쿼리 확인
+//        System.out.println("sort:" + elasticSearchQuery.sort());
+//
+//        List<PlaceSearchCommand> placeResponses = new ArrayList<>();
+//
+//        try {
+//            // Elasticsearch 검색 실행
+//            SearchResponse<JsonData> response = elasticsearchClient.search(s -> s
+//                            .index("placesss")  // 인덱스명 설정
+//                            .query(elasticSearchQuery.query())
+//                            .scriptFields(elasticSearchQuery.scriptFields())
+//                            .source(source -> source.fetch(true)) // _source 반환 활성화
+//                            .sort(elasticSearchQuery.sort())
+//                            .from(0).size(30), // 페이징 처리
+//                    JsonData.class);
+//
+//            /// 결과 처리
+//            for (Hit<JsonData> hit : response.hits().hits()) {
+//                Map<String, JsonData> fields = hit.fields();
+//                Double distance = null;
+//
+//                // distance 값 추출
+//                if (fields.containsKey("distance")) {
+//                    List<Object> distanceValues = fields.get("distance").to(List.class);
+//                    if (!distanceValues.isEmpty()) {
+//                        distance = ((Number) distanceValues.get(0)).doubleValue();
+//                    }
+//                }
+//
+//                // Source 변환
+//                JsonData source = hit.source();
+//                if (source != null) {
+//                    PlaceElastic place = source.to(PlaceElastic.class); // PlaceElastic로 변환
+//                    PlaceSearchCommand command = PlaceSearchCommand.from(Long.valueOf(hit.id()),place, distance); // distance 포함
+//                    placeResponses.add(command);
+//                }
+//            }
+//            long totalHits = response.hits().total().value();
+//
+//            // 페이지 객체 생성
+//            Page<PlaceSearchCommand> page = new PageImpl<>(placeResponses, pageable, totalHits);
+//            return CustomPage.from(page);
+//
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
+    //프론트가 분리하기 힘들어 합친 코드
+    @Override
+    public List<PlaceSearchCommand> findSimilarPlacesByLocation(Double latitude, Double longitude, String query, String category, String city, String district, String town, Size size, List<String> entryConditions, List<String> types) {
+        if(size == null){
+            size = Size.LARGE;
+        }
         SearchRequest elasticSearchQuery = boolQueryBuilders.searchPlacesQuery(latitude, longitude, query, category, city, district, town, size.name(), entryConditions, types) ;
         System.out.println("Generated Query: " + elasticSearchQuery.query());  // 쿼리 확인
         System.out.println("sort:" + elasticSearchQuery.sort());
@@ -101,11 +156,9 @@ public class PlaceElasticRepositoryImpl implements PlaceElasticRepository {
                     placeResponses.add(command);
                 }
             }
-            long totalHits = response.hits().total().value();
 
             // 페이지 객체 생성
-            Page<PlaceSearchCommand> page = new PageImpl<>(placeResponses, pageable, totalHits);
-            return CustomPage.from(page);
+            return placeResponses;
 
         } catch (IOException e) {
             throw new RuntimeException(e);
