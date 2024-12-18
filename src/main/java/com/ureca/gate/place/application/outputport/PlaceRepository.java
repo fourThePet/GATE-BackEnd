@@ -15,6 +15,8 @@ public interface PlaceRepository {
 
     List<PlaceCommand> findByQueryDsl(
             Point userLocation,
+            Double myLatitude,
+            Double myLongitude,
             String category,
             Size size,
             List<String> entryConditions,

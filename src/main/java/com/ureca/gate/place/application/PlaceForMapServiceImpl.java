@@ -47,7 +47,7 @@ public class PlaceForMapServiceImpl implements PlaceForMapService {
 
 
     @Override
-    public List<PlaceForMapResponse> getPlacesForMap(Long memberId, Double latitude, Double longitude, String query, String category, Size size, List<String> entryConditions, List<String> types) {
+    public List<PlaceForMapResponse> getPlacesForMap(Long memberId, Double latitude, Double longitude,Double myLatitude, Double myLongitude, String query, String category, Size size, List<String> entryConditions, List<String> types) {
 
         Point userLocation = geometryFactory.createPoint(new Coordinate(longitude, latitude));
         userLocation.setSRID(4326); // SRID 4326 (WGS 84 좌표계)로 설정
@@ -56,7 +56,7 @@ public class PlaceForMapServiceImpl implements PlaceForMapService {
 
         if (isQueryEmpty(query)) {
             // query가 없으면 기존 방식으로 장소를 가져옵니다.
-            places = placeRepository.findByQueryDsl(userLocation, category, size, entryConditions, types);
+            places = placeRepository.findByQueryDsl(userLocation, myLatitude, myLongitude, category, size, entryConditions, types);
         } else {
             // query 값이 있으면 벡터 DB에서 유사한 장소들을 검색합니다.
             places = getPlacesByEmbedding(query, userLocation, category, size, entryConditions, types);

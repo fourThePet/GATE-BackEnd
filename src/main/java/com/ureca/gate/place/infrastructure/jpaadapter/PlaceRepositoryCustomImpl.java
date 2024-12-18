@@ -26,7 +26,7 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
 
     //검색어 없을때, 반경기준
     @Override
-    public List<PlaceCommand> findByQueryDsl(Point userLocation, String category, Size size, List<String> entryConditions, List<String> types) {
+    public List<PlaceCommand> findByQueryDsl(Point userLocation, Double myLatitude, Double myLongitude, String category, Size size, List<String> entryConditions, List<String> types) {
         return queryFactory
                 .select(new QPlaceCommand(
                         placeEntity.id,
@@ -40,8 +40,8 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                                         Double.class,
                                 "function('ST_Distance', {0}, function('ST_SetSRID', function('ST_Point', {1}, {2}), 4326))",
                                         placeEntity.addressEntity.locationPoint,
-                                        userLocation.getX(),
-                                        userLocation.getY()
+                                myLongitude,
+                                myLatitude
                                 )
                         )// 거리 계산 추가)
                 )
@@ -59,8 +59,8 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                                 Double.class,
                                 "function('ST_Distance', {0}, function('ST_SetSRID', function('ST_Point', {1}, {2}), 4326))",
                                 placeEntity.addressEntity.locationPoint,
-                                userLocation.getX(),
-                                userLocation.getY()
+                                myLongitude,
+                                myLatitude
                         ).asc() // 거리 기준 오름차순 정렬
                 )
                 .fetch();
