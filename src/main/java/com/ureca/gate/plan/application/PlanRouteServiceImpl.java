@@ -1,5 +1,6 @@
 package com.ureca.gate.plan.application;
 
+import com.ureca.gate.global.exception.custom.RouteNotFoundException;
 import com.ureca.gate.place.application.outputport.CityRepository;
 import com.ureca.gate.place.application.outputport.PlaceRepository;
 import com.ureca.gate.place.domain.City;
@@ -118,6 +119,9 @@ public class PlanRouteServiceImpl implements PlanRouteService {
         }else{
           Place destination = placeRepository.getById(placeIds.get(j));
           KakaoMobilityResponseCommand responseCommand = getRouteResponse(origin, destination);
+          if(responseCommand.getRoutes().get(0).getResultCode() != 0){
+            throw new RouteNotFoundException(destination.getName() + " 장소로 인해 일정을 생성할 수 없습니다.");
+          }
           Integer distance = responseCommand.getRoutes().get(0).getSummary().getDistance();
           graph[i][j] = distance;
           graph[j][i] = distance;

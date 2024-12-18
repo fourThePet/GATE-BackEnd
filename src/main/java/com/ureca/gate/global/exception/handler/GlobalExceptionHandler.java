@@ -2,12 +2,16 @@ package com.ureca.gate.global.exception.handler;
 
 
 import com.ureca.gate.global.exception.custom.BusinessException;
+import com.ureca.gate.global.exception.custom.RouteNotFoundException;
 import com.ureca.gate.global.exception.errorcode.CommonErrorCode;
 import com.ureca.gate.global.exception.errorcode.ErrorCode;
 import com.ureca.gate.global.dto.response.ErrorResponse;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -93,5 +97,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .forEach(ve -> errorResponse.getErrors().add(ve));
 
         return errorResponse;
+    }
+
+    @ExceptionHandler(RouteNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleResourceNotFound(RouteNotFoundException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("isSuccess", false);
+        response.put("code", "5000");
+        response.put("message", ex.getMessage());// 엔티티의 PK 포함
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 }
