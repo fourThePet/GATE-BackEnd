@@ -23,7 +23,7 @@ public class BoolQueryBuilder {
 
         // category가 null이 아니면 필터 조건에 추가
         if (category != null) {
-            filterQueries.add(new TermQuery.Builder().field("category").value(category).build()._toQuery());
+            filterQueries.add(new TermQuery.Builder().field("planCategory").value(category).build()._toQuery());
         }
 
         // city가 null이 아니면 필터 조건에 추가
@@ -33,9 +33,9 @@ public class BoolQueryBuilder {
 
         // "must_not" 조건으로 제외할 카테고리 추가
         List<Query> mustNotQueries = new ArrayList<>();
-        mustNotQueries.add(new TermQuery.Builder().field("category").value("의료").build()._toQuery());
-        mustNotQueries.add(new TermQuery.Builder().field("category").value("미용").build()._toQuery());
-        mustNotQueries.add(new TermQuery.Builder().field("category").value("반려동물용품").build()._toQuery());
+        mustNotQueries.add(new TermQuery.Builder().field("planCategory").value("의료").build()._toQuery());
+        mustNotQueries.add(new TermQuery.Builder().field("planCategory").value("미용").build()._toQuery());
+        mustNotQueries.add(new TermQuery.Builder().field("planCategory").value("반려동물용품").build()._toQuery());
 
 
         // BoolQuery 생성
