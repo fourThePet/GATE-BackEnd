@@ -127,7 +127,7 @@ public class PlaceElasticRepositoryImpl implements PlaceElasticRepository {
         try {
             // Elasticsearch 검색 실행
             SearchResponse<JsonData> response = elasticsearchClient.search(s -> s
-                            .index("placesss")  // 인덱스명 설정
+                            .index("placessss")  // 인덱스명 설정
                             .query(elasticSearchQuery.query())
                             .scriptFields(elasticSearchQuery.scriptFields())
                             .source(source -> source.fetch(true)) // _source 반환 활성화
