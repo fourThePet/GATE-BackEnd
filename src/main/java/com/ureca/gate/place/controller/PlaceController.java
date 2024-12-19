@@ -1,6 +1,7 @@
 package com.ureca.gate.place.controller;
 
 import com.ureca.gate.dog.domain.enumeration.Size;
+import com.ureca.gate.global.dto.response.PageResponse;
 import com.ureca.gate.global.dto.response.SliceResponse;
 import com.ureca.gate.global.dto.response.SuccessResponse;
 import com.ureca.gate.global.util.city.CityMapper;
@@ -38,19 +39,23 @@ public class PlaceController {
     @Operation(summary = "시설 정보 조회 API", description = "해당 장소의 상세정보 조회 API, 조회수 증가")
     @GetMapping("/{placeId}")
     public SuccessResponse<PlaceDetailResponse> getPlaceDetail(@AuthenticationPrincipal Long memberId,
-                                                               @PathVariable("placeId")Long placeId) {
-        PlaceDetailResponse response = placeDetailService.getPlaceDetail(memberId,placeId);
+                                                               @PathVariable("placeId")Long placeId,
+                                                               @RequestParam(value = "latitude", required = false) Double latitude,
+                                                               @RequestParam(value = "longitude", required = false) Double longitude) {
+        PlaceDetailResponse response = placeDetailService.getPlaceDetail(memberId,placeId,latitude,longitude);
         return SuccessResponse.success(response);
     }
-    @Operation(summary = "시설 리스트 조회 API", description = "시설(장소) 리스트 조회 API")
+    @Operation(summary = "시설 리스트 조회 API - 반경 클릭", description = "시설(장소) 리스트 조회 API - 반경 클릭")
     @GetMapping("")
     public SuccessResponse<List<PlaceForMapResponse>> getPlacesForMap(@AuthenticationPrincipal Long memberId,
                                                                       @RequestParam(value = "query", required = false) String query,
                                                                       @RequestParam("latitude") Double latitude,
                                                                       @RequestParam("longitude") Double longitude,
+                                                                      @RequestParam(value = "curLatitude", required = false) Double curLatitude,
+                                                                      @RequestParam(value = "curLongitude", required = false) Double curLongitude,
                                                                       @Parameter(description = "카테고리. 가능한 값: [의료,미용,반려동물용품,식당,카페,숙소,문화시설,여행지]",
                                                                            example = "의료")
-                                                                   @RequestParam(value = "category", required = false) String category,
+                                                                      @RequestParam(value = "category", required = false) String category,
 
                                                                       @Parameter(description = "사이즈. 가능한 값: [LARGE,MEDIUM,SMALL]",
                                                                            example = "LARGE")
@@ -64,14 +69,41 @@ public class PlaceController {
                                                                            example = "parkingAvailable,indoorAvailable")
                                                                    @RequestParam(value = "types", required = false) List<String> types) {
 
-        List<PlaceForMapResponse> response = placeForMapService.getPlacesForMap(memberId,latitude, longitude, query, category, size, entryConditions, types);
+        List<PlaceForMapResponse> response = placeForMapService.getPlacesForMap(memberId,latitude, longitude,curLatitude,curLongitude, query, category, size, entryConditions, types);
         return SuccessResponse.success(response);
     }
-
+//
+//    /**
+//     * TODO
+//     * 1. 필요없는 나머지 코드 삭제 할 예정 및 폴더 명 리펙토링 예정
+//     * 2. Gpt를 통해서 지역명 추출받는데, 모델 써서 하도록 수정
+//     */
+//    @Operation(summary = "시설 리스트 조회 API - 검색전용", description = "시설(장소) 리스트 조회 API - 검색전용")
+//    @GetMapping("/search")
+//    public SuccessResponse<List<PlaceSearchForMapResponse> > getPlacesBySearch(@AuthenticationPrincipal Long memberId,
+//                                                                       @RequestParam(value = "query", required = false) String query,
+//                                                                       @RequestParam("latitude") Double latitude,
+//                                                                       @RequestParam("longitude") Double longitude,
+//                                                                       @Parameter(description = "카테고리. 가능한 값: [의료,미용,반려동물용품,식당,카페,숙소,문화시설,여행지]",
+//                                                                               example = "의료")
+//                                                                       @RequestParam(value = "category", required = false) String category,
+//                                                                       @Parameter(description = "사이즈. 가능한 값: [LARGE,MEDIUM,SMALL]",
+//                                                                               example = "LARGE")
+//                                                                       @RequestParam(value = "size", defaultValue = "LARGE") Size size,
+//                                                                       @Parameter(description = "입장 제한 조건. 가능한 값: [isLeashRequired(목줄), isMuzzleRequired(입마개), isCageRequired(케이지), isVaccinationComplete(접종여부)]",
+//                                                                               example = "isLeashRequired,isMuzzleRequired")
+//                                                                       @RequestParam(value = "entryConditions", required = false) List<String> entryConditions,
+//                                                                       @Parameter(description = "타입 조건. 가능한 값: [parkingAvailable(주차 가능여부), indoorAvailable(실내 가능여부), outdoorAvailable(실외 가능여부)]",
+//                                                                               example = "parkingAvailable,indoorAvailable")
+//                                                                       @RequestParam(value = "types", required = false) List<String> types,
+//                                                                        @RequestParam(value = "page", defaultValue = "0") int page) {
+//
+//        List<PlaceSearchForMapResponse> response = placeForMapService.getPlacesBySearch(memberId, latitude, longitude, query, category, size, entryConditions, types, page);
+//        return SuccessResponse.success(response);
+//    }
     /**
      * TODO
-     * 1. Order 처리 (검색어와 score(유사도) 내림차순 -> 평점 내림차순) 형태인데 평점이 낮은데 검색어와 유사도가 높은 순으로 출력이됨.
-     * 2. (리뷰작성시)Redis Stream 으로 리스너처리
+     * 1. (리뷰작성시)Redis Stream 으로 리스너처리
      */
     @Operation(summary = "일정(장소선택) 시설 리스트 조회 API", description = "일정(장소선택) 시설 리스트 조회 API - hasNext =true이면 다음페이자가 있다는 의미 (+더보기)")
     @GetMapping("/plan-search")
@@ -94,7 +126,6 @@ public class PlaceController {
         return SuccessResponse.success(response);
     }
 
-    @Operation(summary = "지역 리스트 조회 API", description = "지역 리스트 조회 API")
     @GetMapping("/cities")
     public SuccessResponse<List<CityResponse>> getCities() {
         List<CityResponse> response = cityListService.getCityList();
@@ -108,6 +139,7 @@ public class PlaceController {
         List<PopularPlace> popularPlaces = viewsService.getPopularPlaces(limit);
         List<PopularPlaceResponse> response = PopularPlaceResponse.from(popularPlaces);
         return SuccessResponse.success(response);
+
     }
 
     @GetMapping("/personalize")

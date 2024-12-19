@@ -73,8 +73,14 @@ public class PlaceDetailResponse {
     private double latitude;
     @Schema(description = "경도", example = "127.049286104824")
     private double longitude;
+    @Schema(description = "리뷰 갯수", example = "5")
+    private Integer reviewNum;
+    @Schema(description = "리뷰 평균 평점", example = "4.3")
+    private Double starAvg;
+    @Schema(description = "현위치와의 거리(km)", example = "1,412")
+    private Double distance;
 
-    public static PlaceDetailResponse from(Place place,Integer favoritesNum,YesNo isFavorite){
+    public static PlaceDetailResponse from(Place place,Integer favoritesNum,YesNo isFavorite, Integer reviewNum, Double starAvg,Double distance){
         return PlaceDetailResponse.builder()
                 .id(place.getId())
                 .name(place.getName())
@@ -106,6 +112,9 @@ public class PlaceDetailResponse {
                 .favoritesNum(favoritesNum)
                 .latitude(place.getAddress().getLocationPoint().getY())
                 .longitude(place.getAddress().getLocationPoint().getX())
+                .reviewNum(reviewNum)
+                .starAvg(starAvg)
+                .distance(distance != null ? Math.round((distance / 1000.0) * 1000) / 1000.0 : null)
                 .build();
     }
 

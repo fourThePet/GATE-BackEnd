@@ -4,6 +4,7 @@ import com.ureca.gate.global.domain.CustomPage;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.function.Function;
@@ -48,4 +49,16 @@ public class PageResponse<T> {
                 .totalPages(customPage.getTotalPages())
                 .build();
     }
+    // 새로운 from 메서드: Page를 직접 처리
+    public static <T> PageResponse<T> from(Page<T> page) {
+        return PageResponse.<T>builder()
+                .content(page.getContent())
+                .page(page.getNumber())
+                .size(page.getSize())
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .build();
+    }
+    // Page<T> 타입을 받는 오버로딩된 from 메서드 추가
+
 }

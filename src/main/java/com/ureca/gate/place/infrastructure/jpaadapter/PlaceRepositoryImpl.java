@@ -5,6 +5,7 @@ import com.ureca.gate.global.exception.custom.BusinessException;
 import com.ureca.gate.place.application.outputport.PlaceRepository;
 import com.ureca.gate.place.domain.Place;
 import com.ureca.gate.place.infrastructure.command.PlaceCommand;
+import com.ureca.gate.place.infrastructure.command.PlaceDistanceDto;
 import com.ureca.gate.place.infrastructure.command.PlaceForPlanCommand;
 import com.ureca.gate.place.infrastructure.jpaadapter.entity.PlaceEntity;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.ureca.gate.global.exception.errorcode.CommonErrorCode.PLACE_NOT_FOUND;
 
@@ -28,8 +30,8 @@ public class PlaceRepositoryImpl implements PlaceRepository {
     }
 
     @Override
-    public List<PlaceCommand> findByQueryDsl(Point userLocation, String category, Size size, List<String> entryConditions, List<String> types){
-        return placeJpaRepository.findByQueryDsl(userLocation,category,size,entryConditions,types);
+    public List<PlaceCommand> findByQueryDsl(Point userLocation, Double latitude, Double longitude, String category, Size size, List<String> entryConditions, List<String> types){
+        return placeJpaRepository.findByQueryDsl(userLocation, latitude, longitude,category,size,entryConditions,types);
 
     }
 
@@ -48,6 +50,12 @@ public class PlaceRepositoryImpl implements PlaceRepository {
         return placeJpaRepository.findById(placeId)
                 .map(PlaceEntity::toModel)
                 .orElseThrow(() -> new BusinessException(PLACE_NOT_FOUND));
+    }
+
+
+    @Override
+    public Double calculrateDistance(Double longitude, Double latitude, Long placeId) {
+        return placeJpaRepository.calculateDistances(longitude,latitude,placeId);
     }
 
 
