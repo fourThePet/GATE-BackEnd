@@ -14,7 +14,7 @@ import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Document(indexName = "placesss")
+@Document(indexName = "placessss")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
 @Getter
@@ -33,6 +33,9 @@ public class PlaceElastic {
 
     @Field(type = FieldType.Keyword)
     private String categoryKeyword;
+
+    @Field(type = FieldType.Keyword)
+    private String planCategory;
 
     @Field(type = FieldType.Keyword)
     private String city;  // 도시

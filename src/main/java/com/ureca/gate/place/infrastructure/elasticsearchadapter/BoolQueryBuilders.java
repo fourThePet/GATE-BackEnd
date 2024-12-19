@@ -73,7 +73,7 @@ public class BoolQueryBuilders {
         if (isNotEmpty(query)) {
             shouldQueries.add(buildTermQuery("nameKeyword", query, 3.0f));
             shouldQueries.add(buildMatchQuery("name", query, 1.0f));
-            shouldQueries.add(buildMatchQuery("category", query, 1.0f));
+            shouldQueries.add(buildMatchQuery("categoryKeyword", query, 1.0f));
         }
 
         // Filter 추가
