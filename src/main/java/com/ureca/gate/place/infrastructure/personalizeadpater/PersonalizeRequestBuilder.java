@@ -29,7 +29,17 @@ public class PersonalizeRequestBuilder {
             String userId, String city, String gender, String size) {
 
         Map<String, String> filterValues = new HashMap<>();
-        if (city != null) filterValues.put("CITY", String.format("\"%s\"", city));
+        if (city != null) filterValues.put("CITY1", String.format("\"%s\"", city));
+        if (city != null) filterValues.put("CITY2", String.format("\"%s\"", city));
+        if (city != null) filterValues.put("CITY3", String.format("\"%s\"", city));
+        if (city != null) filterValues.put("CITY4", String.format("\"%s\"", city));
+        if (city != null) filterValues.put("CITY5", String.format("\"%s\"", city));
+
+        filterValues.put("CATEGORY1", "\"카페\"");
+        filterValues.put("CATEGORY2", "\"식당\"");
+        filterValues.put("CATEGORY3", "\"문화시설\"");
+        filterValues.put("CATEGORY4", "\"숙소\"");
+        filterValues.put("CATEGORY5", "\"여행지\"");
 
         Map<String, String> context = new HashMap<>();
         if(gender != null) context.put("gender", String.format("\"%s\"", gender));
