@@ -66,7 +66,6 @@ public class PlaceForMapServiceImpl implements PlaceForMapService {
                         .map(place -> mapToPlaceResponseWithFavoriteStatus(place, memberId))
                         .collect(Collectors.toList());
             } else {
-                // query 값이 있으면 벡터 DB에서 유사한 장소들을 검색합니다.
                 placeSearchCommands = getPlacesBySearch(memberId, latitude,longitude,query, category, size, entryConditions, types);
 
             return placeSearchCommands.stream()
@@ -88,7 +87,17 @@ public class PlaceForMapServiceImpl implements PlaceForMapService {
         String city = regionAndQuery.getOrDefault("시", null);
         String district = regionAndQuery.getOrDefault("군/구", null);
         String town = regionAndQuery.getOrDefault("동/리", null);
-        String searchQuery = regionAndQuery.getOrDefault("검색어", "");
+        String searchQuery = regionAndQuery.getOrDefault("검색어", city);
+
+        //해당 값 추후 수정 예정
+        if(searchQuery.isEmpty()){
+            StringBuilder searchQueryBuilder = new StringBuilder();
+            if (city != null) searchQueryBuilder.append(city).append(" ");
+            if (district != null) searchQueryBuilder.append(district).append(" ");
+            if (town != null) searchQueryBuilder.append(town);
+
+            searchQuery = searchQueryBuilder.toString().trim();
+        }
 
         System.out.println(city);
         System.out.println(district);
@@ -96,6 +105,7 @@ public class PlaceForMapServiceImpl implements PlaceForMapService {
         System.out.println(searchQuery);
 
         List<PlaceSearchCommand> placeSearchCommandList = placeElasticRepository.findSimilarPlacesByLocation(latitude, longitude, searchQuery, category,city,district,town,size,entryConditions,types);
+
 
         return placeSearchCommandList;
     }
