@@ -73,7 +73,7 @@ src/main/java/com/ureca/gate
 ```
 
 ## 인프라 아키텍처
-![인프라 아키텍처](https://github.com/user-attachments/assets/e7aa1882-a494-4349-9c93-f9636cf1ee73)
+![인프라 아키텍처](https://github.com/user-attachments/assets/c3d9c1b5-ea03-4444-a644-33f714ec2d1c)
 
 
 #### 백엔드 파이프라인
