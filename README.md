@@ -87,6 +87,13 @@ github action으로 react 프로젝트를 S3에 저장한 후에 CloudFront를 �
 #### 전체 구조
 사용자는 웹서버로 접속하고 ALB를 통해서 spring boot가 올라가 있는 ec2와 통신합니다. 그리고 spring boot는 rds와 elasticache의 redis를 이용해 데이터를 저장하거나 가져옵니다.
 
+## url
+#### swagger url
+http://gate-ttest-alb-2010650530.ap-northeast-2.elb.amazonaws.com/swagger-ui/index.html#/Place%20API/searchCities_1
+
+#### 사이트 도매인
+https://www.gatepet.kro.kr/
+
 ## 추가 자료 링크
 - [깃허브 컨벤션](https://grand-distance-643.notion.site/Github-13fb3dd3958f80419252c23f66430deb?pvs=4)
 - [ERD](https://drive.google.com/file/d/1JrQ-1bARXDlIoiiZa85IKoe68m3ZUgZf/view?usp=sharing)
