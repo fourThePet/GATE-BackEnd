@@ -24,14 +24,6 @@ public interface PlaceRepository {
             List<String> types
     );
 
-    List<PlaceCommand> findByVectorSearchAndQueryDsl(
-            List<Long> placeIds,
-            Point userLocation,
-            String category,
-            Size size,
-            List<String> entryConditions,
-            List<String> types);
-
     Double calculrateDistance(Double longitude, Double latitude, Long placeId);
 
     List<PlaceForPlanCommand> findPlaceForPlanResponseByIdIn(List<Long> placeIds);

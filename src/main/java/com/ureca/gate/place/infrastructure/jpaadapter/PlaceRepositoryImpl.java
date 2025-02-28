@@ -36,11 +36,6 @@ public class PlaceRepositoryImpl implements PlaceRepository {
     }
 
     @Override
-    public List<PlaceCommand> findByVectorSearchAndQueryDsl(List<Long> placeIds, Point userLocation, String category, Size size, List<String> entryConditions, List<String> types) {
-        return placeJpaRepository.findByVectorSearchAndQueryDsl(placeIds,userLocation,category,size,entryConditions,types);
-    }
-
-    @Override
     public List<PlaceForPlanCommand> findPlaceForPlanResponseByIdIn(List<Long> placeIds) {
         return placeJpaRepository.findPlaceForPlanResponseByIdIn(placeIds);
     }

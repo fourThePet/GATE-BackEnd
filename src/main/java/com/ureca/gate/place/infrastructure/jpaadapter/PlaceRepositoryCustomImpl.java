@@ -70,44 +70,7 @@ public class PlaceRepositoryCustomImpl implements PlaceRepositoryCustom {
                 )
                 .fetch();
     }
-    //검색어가 있을 경우 조회
-    @Override
-    public List<PlaceCommand> findByVectorSearchAndQueryDsl(
-            List<Long> placeIds,
-            Point userLocation,
-            String category,
-            Size size,
-            List<String> entryConditions,
-            List<String> types) {
 
-        return queryFactory
-                .select(new QPlaceCommand(
-                        placeEntity.id,
-                        placeEntity.name,
-                        placeEntity.categoryEntity.name,
-                        placeEntity.photoUrl,
-                        placeEntity.addressEntity.locationPoint,
-                        placeEntity.addressEntity.roadAddress,
-                        placeEntity.addressEntity.postalCode,
-                        Expressions.numberTemplate(
-                                Double.class,
-                                "function('ST_Distance', {0}, function('ST_SetSRID', function('ST_Point', {1}, {2}), 4326))",
-                                placeEntity.addressEntity.locationPoint,
-                                userLocation.getY(),
-                                userLocation.getX()
-                        )
-                ))
-                .from(placeEntity)
-                .leftJoin(placeEntity.categoryEntity, categoryEntity)
-                .where(
-                        placeEntity.id.in(placeIds),
-                        matchesCategory(category),
-                        matchesSize(size),
-                        matchesEntryConditionsAnd(entryConditions),
-                        matchesTypes(types)
-                )
-                .fetch();
-    }
     // 반경 조건 (ST_Buffer + ST_Contains 활용)
     private BooleanExpression isWithinBuffer(Point userLocation, double radiusMeters) {
         return Expressions.booleanTemplate(
