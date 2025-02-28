@@ -9,11 +9,11 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @Configuration
 @EnableElasticsearchRepositories
 public class RestClientConfig extends ElasticsearchConfiguration {
-
-    @Value("${spring.elasticsearch.username}")
-    private String username;
-    @Value("${spring.elasticsearch.password}")
-    private String password;
+//
+//    @Value("${spring.elasticsearch.username}")
+//    private String username;
+//    @Value("${spring.elasticsearch.password}")
+//    private String password;
     @Value("${spring.elasticsearch.host}")
     private String host;
 
@@ -21,8 +21,8 @@ public class RestClientConfig extends ElasticsearchConfiguration {
     public ClientConfiguration clientConfiguration() {
         return ClientConfiguration.builder() //
                 .connectedTo(host) //
-                .usingSsl()
-                .withBasicAuth(username,password)
+//                .usingSsl()
+//                .withBasicAuth(username,password)
                 .build();
     }
 

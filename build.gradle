@@ -21,8 +21,8 @@ configurations {
 
 repositories {
 	mavenCentral()
-	maven { url 'https://repo.spring.io/milestone' }
-	maven { url 'https://repo.spring.io/snapshot' }
+	maven { url 'https://repo.spring.io/milestone' } // 최신 안정 버전 저장소
+	maven { url 'https://repo.spring.io/snapshot' }  // 최신 스냅샷 버전 저장소 (SNAPSHOT 버전 사용할 경우)
 
 }
 
@@ -43,7 +43,6 @@ dependencies {
 //	runtimeOnly 'com.mysql:mysql-connector-j'
 	runtimeOnly 'org.postgresql:postgresql'
 
-
 	//oauth2.0
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'com.auth0:java-jwt:4.4.0'
@@ -62,12 +61,10 @@ dependencies {
 
 	//공간 인덱스 사용
 	implementation 'org.hibernate.orm:hibernate-spatial:6.5.3.Final'
-	//vector
-	implementation 'org.hibernate:hibernate-vector:6.4.0.Final'
 
-	//spring AI
-	implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter:1.0.0-SNAPSHOT'
-	implementation 'org.springframework.ai:spring-ai-vertex-ai-gemini-spring-boot-starter:1.0.0-SNAPSHOT'
+//spring AI
+	implementation platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT")
+	implementation 'org.springframework.ai:spring-ai-openai'
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 

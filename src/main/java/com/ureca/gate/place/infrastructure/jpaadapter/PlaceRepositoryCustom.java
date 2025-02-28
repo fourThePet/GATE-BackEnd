@@ -17,11 +17,4 @@ public interface PlaceRepositoryCustom {
             List<String> entryConditions,
             List<String> types
     );
-    List<PlaceCommand> findByVectorSearchAndQueryDsl(
-            List<Long> placeIds,
-            Point userLocation,
-            String category,
-            Size size,
-            List<String> entryConditions,
-            List<String> types);
 }
